@@ -12,6 +12,8 @@ BLACK='b'
 HOSHI='h'
 KO='k'
 
+
+
 class term(object):
     WHITE=u'\x1B[1;37;46m'
     WHITE_HILITE=u'\x1B[1;37;42m'
@@ -24,20 +26,27 @@ class term(object):
     RED=u'\x1B[1;36;44m'
 
 
-def do_for_neighbours(i, cb):
-    ret = set()
-    for n in i.neighbours:
-        tmp = cb(n)
-        if tmp is None:
-            continue
-        elif type(tmp) is set:
-            ret.update(tmp)
-        else:
-            ret.add(tmp)
-    return len(ret)>0 and ret or None
+class cached(object):
+    def __init__(self, P):
+        self.P = P
+        self.position = None
+        self.value = None
+    def __call__(self, target):
+        if target.grid is None:
+            return self.P(target)
+        if target.grid.current.data != self.position:
+            self.position = target.grid.current.data
+            self.value = self.P(target)
+        return self.value
 
 
-class intersection(object):
+
+class grid_item(object):
+    def __init__(self, grid):
+        self.grid = grid
+
+
+class intersection(grid_item):
     rep = {
         None:u'⋅',
         BLACK:u'@',
@@ -46,18 +55,18 @@ class intersection(object):
         KO:term.RED+u'⋅'
     }
     def __init__(self, grid, c, heightx, heighty, is_hoshi) :
+        grid_item.__init__(self, grid)
         self.c = c
-        self.grid = grid
         self.heightx = heightx
         self.heighty = heighty
-        self.neighbours = []
+        self.neighbours = group()
         #self.color = None
         self._group = None
         #self.active_ko = False
         self.is_hoshi = is_hoshi
     height = property(lambda self: (self.heightx, self.heighty))
     min_height = property(lambda self: self.heightx<self.heighty and self.heightx or self.heighty)
-    liberties = property(lambda self: [ i for i in self.neighbours if i.color is None ])
+    liberties = property(lambda self: group([ i for i in self.neighbours if i.color is None ]))
     __colifnko = staticmethod(lambda c: c!=KO and c or None)
     color = property(
         lambda self: intersection.__colifnko(self.grid.current.xy2c(self.c.x, self.c.y)),
@@ -99,7 +108,6 @@ class intersection(object):
             greedy_group(self)
             #self._group = group()
             #self._group.add(self)
-            #do_for_neighbours(self, greedy_group)
         return self._group
     group = property(__group)
 
@@ -153,29 +161,30 @@ class coord(object):
 
 
 
-class group(set):
-    def __init__(self, *_set):
-        #self.g_group = type(goban) is group and goban.g_group or goban.group
-        #self.g_libs = type(goban) is group and goban.g_libs or goban.liberties
-        _set and set.__init__(self, *_set) or set.__init__(self)
-        self.group = self
+class group(set, grid_item):
+    def __init__(self, _set=None):
+        if _set is not None:
+            set.__init__(self, _set)
+        else:
+            set.__init__(self)
+        self.grid = len(self) and min(self).grid or None
     def merge(self, g):
         for i in g:
             i._group = self
             self.add(i)
+    def add(self, x):
+        set.add(self, x)
+        if self.grid is None:
+            self.grid = len(self) and min(self).grid or None
+    def update(self, iterable):
+        set.update(self, iterable)
+        if self.grid is None:
+            self.grid = len(self) and min(self).grid or None
     color = property(lambda self: min(self).color)
-    neighbours = property(lambda self:
-                          reduce(lambda a, b: a.add(b) or a,
-                                 reduce(lambda a, b: a+b,
-                                        map(lambda i: i.neighbours, self),
-                                       []),
-                                 group())-self)
-    liberties = property(lambda self:
-                         reduce(lambda a, b: a.add(b) or a,
-                                reduce(lambda a, b: a.update(b) or a,
-                                       map(lambda i: i.liberties, self), group()), group()))
-    g_liberties = property(lambda self: group(self.g_libs(self)))
+    neighbours = property(lambda self: reduce(lambda a, b: a.update(b.neighbours-self) or a, self, group()))
+    liberties = property(lambda self: reduce(lambda a, b: b.color is None and a.add(b) or a, self.neighbours, group()))
     surrounding_groups = property(lambda self: set(filter(lambda x: x and x is not self, [x.group for x in self.neighbours if x.color is not None]))-self)
+    group = property(lambda self: self)
 
     def nth_neighbours(self, n):
         if n==0:
@@ -297,6 +306,7 @@ class grid_system(object):
     def __init__(self, size=None):
         if size is not None:
             self.init(size)
+        self.grid = self
     def init(self, size):
         self.intersections = {}
         ctr = (size)/2
@@ -310,13 +320,13 @@ class grid_system(object):
         for (x, y) in iterate_coords(size):
             i = self.intersections[x,y]
             if x>0:
-                i.neighbours += [ self.intersections[x-1, y] ]
+                i.neighbours.add(self.intersections[x-1, y])
             if x<(size-1):
-                i.neighbours += [ self.intersections[x+1, y] ]
+                i.neighbours.add(self.intersections[x+1, y])
             if y>0:
-                i.neighbours += [ self.intersections[x, y-1] ]
+                i.neighbours.add(self.intersections[x, y-1])
             if y<(size-1):
-                i.neighbours += [ self.intersections[x, y+1] ]
+                i.neighbours.add(self.intersections[x, y+1])
         self.tree = position(self.size, position(0))
         self.current = self.tree
     def __getitem__(self, *xy):
@@ -334,12 +344,12 @@ class grid_system(object):
     def previous_variation(self):
         c = self.current
         p = c.parent
-        self.current = p[ (c.varnum+len(p)-1) % len(p) ]
+        self.current = p[ (p.index(c)+len(p)-1) % len(p) ]
         return self.current
     def next_variation(self):
         c = self.current
         p = c.parent
-        self.current = p[ (c.varnum+len(p)+1) % len(p) ]
+        self.current = p[ (p.index(c)+len(p)+1) % len(p) ]
         return self.current
     def go_back(self):
         if self.current.parent.data != 0:
@@ -502,18 +512,31 @@ class goban(grid_system):
         return (term.NORMAL+u'\n').join(rows)
 
     def dump(self, hilite=[]):
-        print unicode(self.hilite(hilite))
+        print unicode(self.hilite(hilite or []))
 
 
     def add_pass(self):
         pass    # haha
 
     feed = feed         # explicit is better they say, this way of embedding out-of-class definitions is dirty at the very least.
-    black = property(lambda self: reduce(lambda a, b: b.color is BLACK and a.update(b) or a, self.groups, group()))
-    white = property(lambda self: reduce(lambda a, b: b.color is WHITE and a.update(b) or a, self.groups, group()))
+    black = property(lambda self: group((b for b in self.intersections.values() if b.color is BLACK)))
+    white = property(lambda self: group((w for w in self.intersections.values() if w.color is WHITE)))
+    def fuzzy_groups(self):
+        stones = { BLACK:self.black, WHITE:self.white }
+        ret = { WHITE: set(), BLACK: set() }
+        for c in (WHITE, BLACK):
+            S = stones[c].copy() # set of stones
+            while len(S)>0:
+                s = S.pop()
+                sg = fuzzy_group(s.group)
+                ret[c].add(sg)
+                S.difference_update(sg)
+        return ret
+    
 
 
 
+neighbours_in_set = lambda i, s: group(set((n for n in i.neighbours if n not in i)).intersection(s))
 
 
 
@@ -550,56 +573,58 @@ def remove_dead_groups(g):
 
 def fuzzy_group(a):
     ga = group()
+    if a.color is None:
+        return ga
     count = -1
+    cur = a
+#    print ">>>>>>>>>", a
     while count!=len(ga):
+#        print len(ga), count
         count=len(ga)
-        n2n3 = a.liberties.neighbours.union(a.liberties.liberties.neighbours)
+        al = cur.liberties
+        n2n3 = al.neighbours.union(al.liberties.neighbours)
         n = reduce(lambda a, b: a.update(b) or a,
                    (x.group for x in n2n3 if x not in a and x.color is a.color), group())
         ga.update(n)
-        a = n
+        cur = n
+#    print ">>>>>>>>>", a, ga
     return ga
 
 
 
-def find_territory_seeds(g, seeds=None):
-    if seeds is None:
-        gbl = g.black.liberties
-        gwl = g.white.liberties
-        print 'gbl', gbl
-        print 'gwl', gwl
-        bseeds = group(filter(lambda x: reduce(lambda a, b: a and b.color in (None, BLACK), x.neighbours, True), gbl))
-        wseeds = group(filter(lambda x: reduce(lambda a, b: a and b.color in (None, WHITE), x.neighbours, True), gwl))
-        print 'seeds', bseeds, wseeds
-        bterr = group(bseeds)
-        wterr = group(wseeds)
-        while bseeds or wseeds:
-            blibs = reduce(lambda a, b: a.update(b) or a, filter(lambda i: i not in bterr and i not in wterr, bseeds.liberties), group())
-            wlibs = reduce(lambda a, b: a.update(b) or a, filter(lambda i: i not in wterr and i not in wterr, wseeds.liberties), group())
-            print 'seedlibs', blibs, wlibs
-            bseeds = group(blibs and set(filter(lambda x: x not in bterr, (x.neighbours for x in blibs))))
-            wseeds = group(wlibs and set(filter(lambda x: x not in wterr, (x.neighbours for x in wlibs))))
-            print 'seeds', bseeds, wseeds
-            bterr.update(bseeds)
-            wterr.update(wseeds)
+def find_territory_seeds(g):
+    b = g.black
+    w = g.white
+    s = b.union(w)
+    gbl = b.liberties
+    gwl = w.liberties
+    bseeds = group(filter(lambda x: reduce(lambda a, b: a and b.color in (None, BLACK), x.neighbours, True), gbl))
+    wseeds = group(filter(lambda x: reduce(lambda a, b: a and b.color in (None, WHITE), x.neighbours, True), gwl))
+    bterr = group(bseeds)
+    wterr = group(wseeds)
+    while bseeds or wseeds:
+        bseeds = group((n for x in bseeds for n in x.neighbours if n not in bterr and n not in wterr and n not in s))
+        wseeds = group((n for x in wseeds for n in x.neighbours if n not in wterr and n not in bterr and n not in s))
+        bterr.update(bseeds)
+        wterr.update(wseeds)
 
-        print "black has", bterr
-        print "white has", bterr
-        # remove all seeds with ONE good neighbour
-        #bterr = filter(lambda x : 2>reduce(lambda a, b: (b.color is BLACK or b in bterr) and (a+1) or (a), x.neighbours, 0), bterr)
-        #wterr = filter(lambda x : 2>reduce(lambda a, b: (b.color is WHITE or b in wterr) and (a+1) or (a), x.neighbours, 0), wterr)
-        #print sorted(wterr)
-        return { WHITE: wterr.update(g.white) or wterr, BLACK: bterr.update(g.black) or bterr }
-    else:
-        blibs = reduce(lambda a, b: a.update(b) or a, (grp.liberties for grp in seeds[BLACK]), group())
-        wlibs = reduce(lambda a, b: a.update(b) or a, (grp.liberties for grp in seeds[WHITE]), group())
-        bseeds = blibs and filter(lambda x: reduce(lambda a, b: a and a.color==b.color and a or None, (xn for xn in x.neighbours if xn.color is not None)), blibs)
-        wseeds = wlibs and filter(lambda x: reduce(lambda a, b: a and a.color==b.color and a or None, (xn for xn in x.neighbours if xn.color is not None)), wlibs)
+    wterr.update(g.white)
+    bterr.update(g.black)
+    bfrontier = group(( x for x in bterr if x not in b and filter(lambda n: n in wterr, x.neighbours) ))
+    wfrontier = group(( x for x in wterr if x not in w and filter(lambda n: n in bterr, x.neighbours) ))
+    bterr.difference_update(bfrontier)
+    wterr.difference_update(wfrontier)
 
-    return { WHITE: wseeds, BLACK:bseeds }
+    #print "black has", bterr
+    #print "white has", bterr
+    # remove all seeds with ONE good neighbour
+    #bterr = filter(lambda x : 2>reduce(lambda a, b: (b.color is BLACK or b in bterr) and (a+1) or (a), x.neighbours, 0), bterr)
+    #wterr = filter(lambda x : 2>reduce(lambda a, b: (b.color is WHITE or b in wterr) and (a+1) or (a), x.neighbours, 0), wterr)
+    #print sorted(wterr)
+    return { WHITE:  wterr, BLACK: bterr }
         
 
-def estimate_score(g):
+def estimate_score(g, do_dump=False):
     # implements chinese counting
     #p = g.fork()
     p = position(g.size)
@@ -608,31 +633,46 @@ def estimate_score(g):
     g.current = p
     # the dead groups are meaningless (they count as "less alive stones on the board")
     remove_dead_groups(g)
+    all_groups = g.fuzzy_groups()
     # floodfill by looping over "territory seeds", ie liberties that are not shared with an enemy group
-    seeds = find_territory_seeds(g)
-    limit = 0
-    while len(seeds[WHITE])>0 or len(seeds[BLACK])>0:
-        limit -= 1
-        if limit<=0:
-            break
-        for color in (WHITE, BLACK):
-            for s in seeds[color]:
-                s.color = color
+    terr = find_territory_seeds(g)
 
-        seeds = find_territory_seeds(g, seeds)
+    dead_black = [ dead for dead in all_groups[BLACK] if 5>len(neighbours_in_set(dead, terr[BLACK])) ]
+    dead_white = [ dead for dead in all_groups[WHITE] if 5>len(neighbours_in_set(dead, terr[WHITE])) ]
+
+    if len(dead_black)>0 or len(dead_white)>0:
+        for d in dead_black:
+            for s in d:
+                s.color = None
+        for d in dead_white:
+            for s in d:
+                s.color = None
+        all_groups = g.fuzzy_groups()
+        # floodfill by looping over "territory seeds", ie liberties that are not shared with an enemy group
+        terr = find_territory_seeds(g)
+
+        dead_black = [ dead for dead in all_groups[BLACK] if 5>len(neighbours_in_set(dead, terr[BLACK])) ]
+        dead_white = [ dead for dead in all_groups[WHITE] if 5>len(neighbours_in_set(dead, terr[WHITE])) ]
+
 
     for color in (WHITE, BLACK):
-        for s in seeds[color]:
+        for s in terr[color]:
             s.color = color
-    # now count
-    score = { WHITE: g.prisoners[WHITE]+g.komi, BLACK: g.prisoners[BLACK] }
-    for i in g.intersections.values():
-        if i.color in (WHITE, BLACK):
-            score[i.color]+=1
 
-    g.dump()
+
+    # now count
+    score = { WHITE: len(terr[WHITE])+g.komi, BLACK: len(terr[BLACK]) }
+#    for i in g.intersections.values():
+#        if i.color in (WHITE, BLACK):
+#            score[i.color]+=1
+
+    #print "White has :"
+    #g.dump(terr[WHITE])
+    #print "Black has :"
+    #g.dump(terr[BLACK])
+    do_dump and g.dump()
     g.current = backup
-    return score
+    return score, terr
 
 
 def aftermove(c) :
