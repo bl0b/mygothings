@@ -235,28 +235,6 @@ def remove_dead_groups(g):
 		g.remove_stone(s)
 
 
-def fuzzy_group(a):
-	ga = group(a.grid)
-	if a.color is None:
-		return ga
-	count = -1
-	cur = a
-	#print ">>>>>>>>>", a
-	while count!=len(ga):
-		#print len(ga), count
-		count=len(ga)
-		al = cur.liberties
-		#print "new liberties", al
-		n2n3 = al.neighbours.union(al.liberties.neighbours)
-		#print "neighbours[2,3]", n2n3
-		n = reduce(lambda a, b: a.update(b) or a,
-				   (x.group for x in n2n3 if x not in a and x.color is a.color), group(a.grid))
-		#print "discovered", n
-		ga.update(n)
-		cur = n
-	#print ">>>>>>>>>", a, ga
-	return ga
-
 
 
 def find_territory_seeds(g):
@@ -322,6 +300,8 @@ def estimate_score(g, do_dump=False):
 
 		dead_black = [ dead for dead in all_groups[BLACK] if 5>len(neighbours_in_set(dead, terr[BLACK])) ]
 		dead_white = [ dead for dead in all_groups[WHITE] if 5>len(neighbours_in_set(dead, terr[WHITE])) ]
+        do_dump and g.dump(reduce(lambda a, b: a.update(b) or a, dead_black, group(g)))
+        do_dump and g.dump(reduce(lambda a, b: a.update(b) or a, dead_white, group(g)))
 
 
 	for color in (WHITE, BLACK):
