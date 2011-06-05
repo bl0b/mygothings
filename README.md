@@ -1,5 +1,5 @@
 My Go Things
 ============
 
-In this project I focus on trying to express some properties of a given position that are typically used by a go player to evaluate score, strength of groups etc.
-The actual aim is to estimate score and compute possible moves with their reasons, as well as determining if a group is alive or dead (or if its life depends on the death of another group for instance), _without using monte-carlo evaluation or any other statistical stuff.
+In this project I focus on trying to express some properties of a given position that are typically used by a go player to evaluate the situation, in terms of score, local strength, global balance, and so on.
+I aim at providing a static analysis, not based on statistical outcomes (as it is with the monte-carlo evaluation performed in most of the move generators).
