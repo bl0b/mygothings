@@ -157,6 +157,8 @@
 -'  67  0  ~/bl0b_dev/mygothings/py/sandbox.py
 -'  13  0  ~/bl0b_dev/mygothings/py/startup.py
 -'  26  0  ~/bl0b_dev/mygothings/py/startup.py
+-'  13  0  ~/bl0b_dev/mygothings/py/startup.py
+-'  26  0  ~/bl0b_dev/mygothings/py/startup.py
 
 # Historique des marques dans les fichiers (les plus récentes en premier) :
 
@@ -175,6 +177,7 @@
 > ~/bl0b_dev/mygothings/py/NERD_tree_1
 	"	4	0
 	.	1	0
+	+	1	0
 	+	1	0
 	+	1	0
 	+	1	0
