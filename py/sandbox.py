@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import startup # enables history persistance
 import sys
 sys.ps1='> '
 sys.ps2=''
@@ -83,21 +84,21 @@ def try_move(g, m, c):
 def compute_vs(g):
     vs = g.vspace()
     sqrtsz = (g.size**.5)-1
-    polynom = lambda x: x<=sqrtsz and 1./(1.+2*(sqrtsz-x)) or 1./(1.+.5*(x-sqrtsz))
+    polynom = lambda x: x<=sqrtsz and .1**(sqrtsz-x) or 1./(1.+(x-sqrtsz))
     ll=[(l, direction(s.n2o(l), grp.color)) for grp in g.groups for s in grp for l in s.liberties]
-    for x in xrange(1):
+    for x in xrange(2):
         #print ll
         for i, d in ll:
-            h = i.heightx+i.heighty-i.min_height
+            h = (i.heightx+i.heighty)*.5
             vs[i] = vs[i]+d*polynom(h)
-            ll = [ (n, d) for i, d in ll for n in i.o2n(d.value) if n.color is None ]
+        ll = [ (n, d) for i, d in ll for n in i.o2n(d.value) if n.color is None ]
     return vs
 
 
 def clean_vs(g):
     vs = g.vspace()
     v2 = compute_vs(g)
-    for k in xrange(4):
+    for k in xrange(2):
         for i in vs:
             vs[i]=v2[i]
         for i in v2:
