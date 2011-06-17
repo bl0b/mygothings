@@ -1,0 +1,677 @@
+f = influence_field(g)
+f
+g = goban('../sgf/blob-gnugo.sgf')
+f = influence_field(g)
+1==2==3
+1==2==2
+2==2==2
+a=2
+2==a==2
+f = influence(g)
+f
+g = goban('../sgf/blob-gnugo.sgf')
+f = influence(g)
+f
+g = goban('../sgf/blob-gnugo.sgf')
+f = influence(g)
+f
+g = goban('../sgf/blob-gnugo.sgf'); f = influence(g)
+f
+[ g.dump(f[k]) for k in f ]
+area(g.b5)
+g.dump(area(g.b5))
+g = goban('../sgf/blob-gnugo.sgf'); f = influence(g)
+g.dump(area(g.b5))
+g = goban('../sgf/blob-gnugo.sgf'); f = influence(g)
+g.dump(area(g.b5))
+g = goban('../sgf/blob-gnugo.sgf'); f = influence(g)
+g.dump(area(g.b5))
+g = goban('../sgf/blob-gnugo.sgf'); f = influence(g)
+g.dump(area(g.b5))
+g = goban('../sgf/blob-gnugo.sgf'); f = influence(g)
+g.dump(area(g.b5))
+g = goban('../sgf/blob-gnugo.sgf'); f = influence(g)
+g.dump(area(g.b5))
+g = goban('../sgf/blob-gnugo.sgf'); f = influence(g)
+g.dump(area(g.b5))
+g = goban('../sgf/blob-gnugo.sgf'); f = influence(g)
+g.dump(area(g.b5))
+for k in f:
+	print k
+	g.dump(f[k])
+score
+score = lambda d: d[WHITE]>d[BLACK] and -d[WHITE]/(1+d[BLACK] or d[WHITE]<d[BLACK] and d[BLACK]/(1+d[WHITE]) or 0
+score = lambda d: d[WHITE]>d[BLACK] and -d[WHITE]/(1+d[BLACK]) or d[WHITE]<d[BLACK] and d[BLACK]/(1+d[WHITE]) or 0
+reduce(float.__add__, map(score, f.values()))
+reduce(float.__add__, map(score, influence_field(g).values()))
+score = lambda d: d[WHITE]>d[BLACK] and -float(d[WHITE])/(1+d[BLACK]) or d[WHITE]<d[BLACK] and float(d[BLACK])/(1+d[WHITE]) or 0.
+reduce(float.__add__, map(score, influence_field(g).values()))
+g=goban('../sgf/test.sgf')
+g.dump()
+g.dump(area(g.b3)
+)
+g.dump(area(g.b3))
+g=goban('../sgf/test.sgf')
+g.dump(area(g.b3))
+g=goban('../sgf/test.sgf')
+g.dump(area(g.b3))
+area(g.b6)
+g.dump(area(g.b6))
+show_dead_groups(g)
+remove_dead_groups(g)
+g.dump()
+scoreB = len(g.black)+area(g.b6))
+scoreB = len(g.black)+area(g.b6)
+scoreB = len(g.black)+len(area(g.b6))
+scoreW = len(g.white)+len(area(g.b6))
+scoreB = len(g.black)+len(area(g.b3))
+scoreB
+scoreW
+scoreW+=g.komi
+scoreW
+scoreB
+scoreW
+g
+g.dump()
+g = goban('../sgf/blob-gnugo.sgf')
+g.dump()
+area(g.b6)
+g.dump(area(g.b6))
+g = goban('../sgf/blob-gnugo.sgf')
+g.dump(area(g.b6))
+g = goban('../sgf/blob-gnugo.sgf')
+g.dump(area(g.b6))
+g = goban('../sgf/blob-gnugo.sgf')
+g.dump(area(g.b6))
+g=goban('../sgf/test.sgf')
+g.dump(area(g.b5))
+g.dump(area(g.e2))
+[ area(grp) for grp in g.groups ]
+area(g.a7)
+g.dump(area(g.a7))
+g.dump(area(g.c7))
+g = goban('../sgf/blob-gnugo.sgf')
+a = [ area(grp) for grp in g.groups ]
+a
+A
+A = []
+while len(a)>0:
+[ x for x in a if reduce(lambda a, b: a and b.color in (None, BLACK), x.neighbours, True) ]
+aB = [ x for x in a if reduce(lambda a, b: a and b.color in (None, BLACK), x.neighbours, True) ]
+g.dump(aB)
+g.dump()
+g.dump(aB)
+aB
+g.dump(aB[0])
+aW = [ x for x in a if reduce(lambda a, b: a and b.color in (None, WHITE), x.neighbours, True) ]
+aW
+g.dump(reduce(lambda a, b: a.update(b) or a, aB, group(g)))
+g.dump(reduce(lambda a, b: a.update(b) or a, aW, group(g)))
+g.dump(area(g.c5.group))
+[ x for x in a if reduce(lambda a, b: a and b.color in (None, BLACK), x.neighbours, True) ]
+g=goban('../sgf/test.sgf')
+a = [ area(grp) for grp in g.groups ]
+A = reduce(lambda a,b:a.update(b) or a, a, group(g))
+A
+g.dump(A)
+set
+set.pop
+def connex(S):
+	ret = []
+	if len(s)==0:
+		return ret
+	s = S.pop()
+g.dump(aB[0])
+g=goban('../sgf/test.sgf')
+a = [ area(grp) for grp in g.groups ]
+A = reduce(lambda a,b:a.update(b) or a, a, group(g))
+A
+connex(A)
+g=goban('../sgf/test.sgf')
+a = [ area(grp) for grp in g.groups ]
+A = reduce(lambda a,b:a.update(b) or a, a, group(g))
+connex(A)
+g=goban('../sgf/test.sgf')
+a = [ area(grp) for grp in g.groups ]
+A = reduce(lambda a,b:a.update(b) or a, a, group(g))
+connex(A)
+A
+g=goban('../sgf/test.sgf');a = [ area(grp) for grp in g.groups ]
+g=goban('../sgf/test.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));g.dump(A);connex(A)
+g=goban('../sgf/test.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));g.dump(A);C = connex(A)
+C
+len(C)
+sorted(C)
+for c in sorted(C): g.dump(c)
+A
+g=goban('../sgf/test.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));g.dump(A)
+g.a1.group
+g.dump(g.a1.group)
+g.dump(g.a1.group).intersection(A)
+A
+g.dump(g.a1.group.intersection(A))
+g=goban('../sgf/test.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));g.dump(A)
+connex(A)
+for c in connex(A):
+	g.dump(c)
+for c in connex(A):
+	g.dump(c)
+A
+g=goban('../sgf/test.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));g.dump(A)
+A
+g=goban('../sgf/test.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A)
+for c in connex(A):
+	g.dump(c)
+B=A
+B=A.difference([g.a1, g.c8, g.e8, g.h3, g.f2])
+B
+for c in connex():
+	g.dump(c)
+B=connex(A)
+B
+B=list(connex(A))
+B
+b=B[0]
+b
+b.neighbours
+g=goban('../sgf/test.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A)
+B=list(connex(A))
+b=B[0]
+b.neighbours
+v
+b
+B=list(connex(A))
+B
+b=B[1]
+b
+b.neighbours
+set((n.group for n in b.neighbours))
+g=goban('../sgf/test.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));b=max(B);fg = group(g, (n.group for n in b.neighbours))
+fg
+g.dump(fg)
+g=goban('../sgf/test.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));b=max(B);fg = union(n.group for n in b.neighbours)))
+g=goban('../sgf/test.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));b=max(B);fg = union(n.group for n in b.neighbours))
+g=goban('../sgf/test.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));b=max(B);fg = union((n.group for n in b.neighbours))
+g=goban('../sgf/test.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));b=max(B);fg = union(g, (n.group for n in b.neighbours))
+fg
+g=goban('../sgf/test.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));b=max(B);fg = group_union(g, (n.group for n in b.neighbours))
+fg
+b
+g=goban('../sgf/test.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));b=min(B);fg = group_union(g, (n.group for n in b.neighbours))
+fg
+g=goban('../sgf/test.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));b=min(B);fg = group_union(g, [n.group for n in b.neighbours])
+fg
+g=goban('../sgf/test.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));b=min(B);fg = group_union(g, (n.group for n in b.neighbours))
+fg
+g=goban('../sgf/test.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));b=B[1];fg = group_union(g, (n.group for n in b.neighbours))
+b
+fg
+g=goban('../sgf/test.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));b=B[1];fg = group_union(g, (n.group for n in b.neighbours))
+fg
+g.dump(fg)
+g=goban('../sgf/test.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));b=B[1];fg = group_union(g, (n.group for n in b.neighbours));g.dump(fg)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));b=B[1];fg = group_union(g, (n.group for n in b.neighbours))
+g.dump(fg)
+B[1]
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+fg
+for x in fg: g.dump(x)
+da = lambda x: dump_area(x)
+dau = lambda x: dump_area(group_union(x))
+da = lambda x: g.dump(area(x))
+dau = lambda x: g.dump(area(group_union(x)))
+da(g.c4)
+da(g.g5)
+da(g.i8)
+da(g.i9)
+import shape
+1+j < 2+2j
+1+1j < 2+2j
+import shape
+del shape
+import shape
+encode_shape([g.a1, g.b1, g.b2, g.c2])
+encode_shape(g, [g.a1, g.b1, g.b2, g.c2])
+s1=encode_shape(g, [g.a1, g.b1, g.b2, g.c2])
+s2=encode_shape(g, [g.a10, g.b10, g.b9, g.c9, g.a9, g.b8])
+s2=encode_shape(g, [])
+s2=encode_shape(g, [g.a5, g.b5, g.b4, g.c4, g.a4, g.b3])
+s2
+s1
+s1=encode_shape(g, [g.a1, g.b1, g.b2, g.c2])
+s2=encode_shape(g, [g.a5, g.b5, g.b4, g.c4, g.a4, g.b3])
+s2
+map(hex, s2)
+s1=encode_shape(g, [g.a1, g.b1, g.b2, g.c2])
+s2=encode_shape(g, [g.a5, g.b5, g.b4, g.c4, g.a4, g.b3])
+a_in_b(s1, s2)
+i=iter([1,2,3])
+i
+i.next()
+i=iter((1,2,3))
+i
+i=iter((1,2,3))
+i=iter((i for i in 1,2,3))
+i=iter((i for i in (1,2,3)))
+i
+i.next()
+zip
+s1=encode_shape(g, [g.a1, g.b1, g.b2, g.c2])
+s2=encode_shape(g, [g.a5, g.b5, g.b4, g.c4, g.a4, g.b3])
+a_in_b(s1, s2)
+s1
+s2
+s1=encode_shape(g, [g.a1, g.b1, g.b2, g.c2])
+s2=encode_shape(g, [g.a5, g.b5, g.b4, g.c4, g.a4, g.b3])
+a_in_b(s1, s2)
+s1=encode_shape(g, [g.a1, g.b1, g.b2, g.c2])
+s2=encode_shape(g, [g.a5, g.b5, g.b4, g.c4, g.a4, g.b3])
+a_in_b(s1, s2)
+s1=encode_shape(g, [g.a1, g.b1, g.b1, g.c1])
+s1
+a_in_b(s1, s2)
+s2
+a_in_b(shape_L, shape_I)
+a_in_b([shape_L], [shape_I])
+a_in_b([shape_I], [shape_L])
+dir(iter)
+dir(iter([]))
+s1=encode_shape(g, [g.a1, g.b1, g.b1, g.c1])
+s2=encode_shape(g, [g.a5, g.b5, g.b4, g.c4, g.a4, g.b3])
+a_in_b([shape_I], [shape_L])
+s1=encode_shape(g, [g.a1, g.b1, g.b1, g.c1])
+s2=encode_shape(g, [g.a5, g.b5, g.b4, g.c4, g.a4, g.b3])
+a_in_b([shape_I], [shape_L])
+s1=encode_shape(g, [g.a1, g.b1, g.b1, g.c1])
+s2=encode_shape(g, [g.a5, g.b5, g.b4, g.c4, g.a4, g.b3])
+a_in_b([shape_I], [shape_L])
+a_in_b(s1, s2)
+s1=encode_shape(g, [g.a1, g.b1, g.b1, g.c1])
+s2=encode_shape(g, [g.a5, g.b5, g.b4, g.c4, g.a4, g.b3])
+a_in_b(s1, s2)
+s1=encode_shape(g, [g.a1, g.b1, g.b1, g.c1])
+s2=encode_shape(g, [g.a5, g.b5, g.b4, g.c4, g.a4, g.b3])
+a_in_b(s1, s2)
+s1=encode_shape(g, [g.a1, g.b1, g.b1, g.c1])
+s2=encode_shape(g, [g.a5, g.b5, g.b4, g.c4, g.a4, g.b3])
+a_in_b(s1, s2)
+s1=encode_shape(g, [g.a1, g.b1, g.c1, g.c2])
+a_in_b(s1, s2)
+s1=encode_shape(g, [g.a1, g.b1, g.b2, g.c2])
+a_in_b(s1, s2)
+s1=encode_shape(g, [g.a1, g.b1, g.c1, g.d1])
+a_in_b(s1, s2)
+s2
+s1=encode_shape(g, [g.a2, g.b1, g.c1, g.b2, g.b3])
+a_in_b(s1, s2)
+s1=encode_shape(g, [g.a2, g.b1, g.c2, g.b2, g.b3])
+a_in_b(s1, s2)
+s2=encode_shape(g, [g.a2, g.b1, g.c2, g.b2, g.b3, a3])
+s2=encode_shape(g, [g.a2, g.b1, g.c2, g.b2, g.b3, g.a3])
+a_in_b(s1, s2)
+s1=encode_shape(g, [g.a2, g.b1, g.c2, g.b2, g.b3])
+s2=encode_shape(g, [g.a2, g.b1, g.c2, g.b2, g.b3, g.a3])
+a_in_b(s1, s2)
+s1=encode_shape(g, [g.a2, g.b1, g.c2, g.b2, g.b3])
+s2=encode_shape(g, [g.a2, g.b1, g.c2, g.b2, g.b3, g.a3])
+a_in_b(s1, s2)
+a_in_b(s2, s1)
+a_in_b(s1, s2)
+s1=encode_shape(g, [g.a2, g.b1, g.c2, g.b2, g.b3])
+s2=encode_shape(g, [g.a2, g.b1, g.c2, g.b2, g.b3, g.a3])
+a_in_b(s1, s2)
+s1=encode_shape(g, [g.a2, g.b1, g.c2, g.b2, g.b3])
+s2=encode_shape(g, [g.a2, g.b1, g.c2, g.b2, g.b3, g.a3])
+a_in_b(s1, s2)
+s1=encode_shape(g, [g.a2, g.b1, g.c2, g.b2, g.b3])
+s2=encode_shape(g, [g.a2, g.b1, g.c2, g.b2, g.b3, g.a3])
+a_in_b(s1, s2)
+s2=encode_shape(g, [g.a1, g.b1, g.c2, g.b2, g.b3, g.a3])
+a_in_b(s1, s2)
+help(sorted)
+s2=encode_shape(g, [g.a2, g.b1, g.c2, g.b2, g.b3, g.a3])
+s1=encode_shape(g, [g.a2, g.b1, g.c2, g.b2, g.b3])
+a_in_b(s1, s2)
+s1=encode_shape(g, [g.a1, g.b1, g.c2, g.b2, g.b3])
+a_in_b(s1, s2)
+s1=encode_shape(g, [g.a2, g.b1, g.c1, g.b2, g.b3])
+a_in_b(s1, s2)
+s1=encode_shape(g, [g.a2, g.b1, g.b4, g.b2, g.b3])
+a_in_b(s1, s2)
+s1=encode_shape(g, [g.a2, g.b1, g.b2, g.b3])
+a_in_b(s1, s2)
+s1=encode_shape(g, [g.a5, g.b1, g.b2, g.b3])
+a_in_b(s1, s2)
+s1=encode_shape(g, [g.a1, g.b1, g.b2, g.b3])
+a_in_b(s1, s2)
+s2=encode_shape(g, [g.a2, g.b1, g.c2, g.b2, g.b3, g.a3])
+s1=encode_shape(g, [g.a1, g.b1, g.b2, g.b3])
+a_in_b(s1, s2)
+s2=encode_shape(g, [g.a2, g.b1, g.c2, g.b2, g.b3, g.a3])
+s1=encode_shape(g, [g.a1, g.b1, g.b2, g.b3])
+a_in_b(s1, s2)
+s2=encode_shape(g, [g.a2, g.b1, g.c2, g.b2, g.b3, g.a3])
+s1=encode_shape(g, [g.a1, g.b1, g.b2, g.b3])
+a_in_b(s1, s2)
+area
+g.dump()
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+g.dump(fg)
+fg
+g.dump(group_union(fg))
+g.dump(group_union(g, fg))
+g.dump(area(g.c6)
+)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+g.dump(group_union(g, fg))
+g.dump(area(g.c6))
+g.dump(area(g.d7))
+g.dump(area(g.c14))
+g.dump(area(g.c14.group))
+g.dump(area(g.c14.group.fuzzy_group))
+sys.exit(0)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+g.dump(area(g.c14.group.fuzzy_group))
+g.dump(area(g.d7))
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+sys.exit(0)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+g.dump(area(g.d7))
+sys.exit(0)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+g.dump(area(g.d7))
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+g.dump(area(g.d7))
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+g.dump(area(g.d7))
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+sys.exit(0)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+sys.exit(0)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+g.dump(area(g.d7))
+sys.exit(0)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+g.dump(area(g.d7))
+area(g.d7).neighbours
+reduce(lambda a, b: a.update([b.group]) or a, area(g.d7).neighbours, set())
+reduce(lambda a, b: a.add(n) or a, (n.group for n in area(g.d7).neighbours if n.color is not None), set())
+reduce(lambda a, b: a.add(b) or a, (n.group for n in area(g.d7).neighbours if n.color is not None), set())
+[ g.dump(x) for x in reduce(lambda a, b: a.add(b) or a, (n.group for n in area(g.d7).neighbours if n.color is not None), set()) ]
+dir(set)
+sys.exit(0)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+context(g.d7)
+sys.exit(0)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+context(g.d7)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+context(g.d7)
+c=context(g.d7)
+g.dump(c['area'])
+g.dump(c['neighbours'])
+[g.dump(x) for x in c['neighbours']]
+g.dump(group_union(c['neighbours']))
+g.dump(group_union(g, c['neighbours']))
+sys.exit(0)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+c=context(g.d7)
+g.dump(group_union(g, c['neighbours']))
+g.dump(group_union(g, c.neighbours))
+area(group_union(g, c.neighbours))
+g.dump(area(group_union(g, c.neighbours)))
+encode_shape([g.c19, g.c18, g.d19, g.d18])
+encode_shape(g, [g.c19, g.c18, g.d19, g.d18])
+shape
+help(set)
+{'a':'toto'}.iter().next()
+encode_shape(g, [g.c19, g.c18, g.d19, g.d18])
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+encode_shape(g, [g.c19, g.c18, g.d19, g.d18])
+a=encode_shape(g, [g.c19, g.c18, g.d19, g.d18])
+b=encode_shape(g, [g.a1, g.a2, g.b1, g.c1])
+a_in_b(a, b)
+b=encode_shape(g, [g.a1, g.a2, g.b1, g.b2])
+a_in_b(a, b)
+b=encode_shape(g, [g.a1, g.a2, g.b1, g.b2, g.c1])
+a_in_b(a, b)
+b=encode_shape(g, [g.a1, g.a2, g.b1, g.b2, g.c2, g.b3])
+a_in_b(a, b)
+a=encode_shape(g, [g.c19, g.c18, g.c17, g.d18])
+a_in_b(a, b)
+a=encode_shape(g, [g.c19, g.c18, g.c17, g.d17])
+a_in_b(a, b)
+a=encode_shape(g, [g.c19, g.c18, g.c17, g.d19])
+a_in_b(a, b)
+{'a':'toto'}.copy()
+union(([x] for x in xrange(10)))
+set.union(([x] for x in xrange(10)))
+set_union(([x] for x in xrange(10)))
+sum(([x] for x in xrange(10)))
+g.a1
+g.a1.W
+g.a1.N
+g.a1.S
+g.a1.E
+x = [g.c19, g.c18, g.c17, g.d19]
+x
+reduce(lambda a, b: a or len(b.neighbours.intersection(x)==2) and b, x, False)
+reduce(lambda a, b: a or len(b.neighbours.intersection(x))==2 and b, x, False)
+[coord(i.c.x-x[0].c.x, i.c.y-x[0].c.y) for i in x]
+[(i.c.x-x[0].c.x, i.c.y-x[0].c.y) for i in x]
+sorted([(i.c.x-x[0].c.x, i.c.y-x[0].c.y) for i in x])
+(1,2)+(1,2)
+def xzip(*a):
+	i = [ iter(x) for x in a ]
+	while True:
+		yield [ x.next() for x in i ]
+for a,b,c in xzip([1,2,3],('a','b','c'),('pouet','plop','coin')):
+	print a,b,c
+def xzip(*a):
+	i = [ iter(x) for x in a ]
+	while True:
+		yield tuple((x.next() for x in i))
+for a,b,c in xzip([1,2,3],('a','b','c'),('pouet','plop','coin')):
+	print a,b,c
+[(i.c.x-x[0].c.x, i.c.y-x[0].c.y) for i in x]
+def xzip(*a):
+	i = [ iter(x) for x in a ]
+	while True:
+		yield [x.next() for x in i]
+for a,b,c in xzip([1,2,3],('a','b','c'),('pouet','plop','coin')):
+	print a,b,c
+for a,b,c in xzip([1,2,3],('a','b','c'),('pouet','plop')):
+	print a,b,c
+tuple.hash
+tuple.__hash__
+x = [g.c19, g.c18, g.c17, g.d19]
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+x = [g.c19, g.c18, g.c17, g.d19]
+shape_rel_coords(x)
+sys.exit(0)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+x = [g.c19, g.c18, g.c17, g.d19]
+shape_rel_coords(x)
+x = [g.c19, g.c18, g.c17, g.d19]
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+x = [g.c19, g.c18, g.c17, g.d19]
+shape_rel_coords(x)
+hash(shape_rel_coords(x))
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+x = [g.c19, g.c18, g.c17, g.d19]
+shape_rel_coords(x)
+hash(shape_rel_coords(x))
+src = shape_rel_coords(x)
+src
+map(lambda X: tuple((X(t) for t in src)), transpose)
+map(lambda X: tuple((X(*t) for t in src)), transpose)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+x = [g.c19, g.c18, g.c17, g.d19]
+shape_rel_coords(x)
+sys.exit(0)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+x = [g.c19, g.c18, g.c17, g.d19]
+shape_rel_coords(x)
+map(lambda X: tuple((X(*t) for t in src)), transpose)
+src = shape_rel_coords(x)
+map(lambda X: tuple((X(*t) for t in src)), transpose)
+src = shape_rel_coords(x)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+x = [g.c19, g.c18, g.c17, g.d19]
+src = shape_rel_coords(x)
+src
+transpose[0](src)
+map(transpose[0], src)
+map(lambda t: transpose[0](*t), src)
+map(lambda t: transpose[1](*t), src)
+x = [g.c19, g.c18, g.d18, g.d19]
+src = shape_rel_coords(x)
+map(lambda t: transpose[1](*t), src)
+src = shape_rel_coords(x)
+src
+map(lambda t: transpose[1](*t), src)
+map(lambda t: normalize_coords(transpose[1](*t)), src)
+normalize_coords((transpose[1](*t) for t in src))
+normalize_coords((transpose[1](*t) for t in src))==src
+normalize_coords((transpose[2](*t) for t in src))==src
+normalize_coords((transpose[3](*t) for t in src))==src
+normalize_coords((transpose[4](*t) for t in src))==src
+normalize_coords((transpose[5](*t) for t in src))==src
+normalize_coords((transpose[6](*t) for t in src))==src
+normalize_coords((transpose[7](*t) for t in src))==src
+normalize_coords((transpose[0](*t) for t in src))==src
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+x = [g.c19, g.c18, g.d18, g.d19]
+all_rel_shapes(x)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+x = [g.c19, g.c18, g.d18, g.d19]
+all_rel_shapes(x)
+x = [g.c19, g.c18, g.d18, g.d17]
+all_rel_shapes(x)
+xzip
+sys.exit(0)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+x = [g.c19, g.c18, g.d18, g.d19]
+x = [g.a1, g.b1, g.c1, g.c2]
+all_rel_shapes(x)
+min("azvvgb")
+min("zvvgb")
+all_rel_shapes(x)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+x = [g.a1, g.b1, g.c1, g.c2]
+all_rel_shapes(x)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+x = [g.a1, g.b1, g.c1, g.c2]
+all_rel_shapes(x)
+dir({})
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+x = [g.a1, g.b1, g.c1, g.c2]
+all_rel_shapes(x)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+x = [g.a1, g.b1, g.c1, g.c2]
+all_rel_shapes(x)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+x = [g.a1, g.b1, g.c1, g.c2]
+all_rel_shapes(x)
+st = shape_tree()
+st.from_shape(all_rel_shapes(x))
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+x = [g.a1, g.b1, g.c1, g.c2]
+st = shape_tree()
+st.from_shape(all_rel_shapes(x))
+st.from_shape(all_rel_shapes(x), lambda x:'pouet')
+st.from_shape(min(all_rel_shapes(x)), lambda x:'pouet')
+sys.exit(0)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+x = [g.a1, g.b1, g.c1, g.c2]
+st.from_shape(min(all_rel_shapes(x)), lambda x:'pouet')
+st = shape_tree()
+st.from_shape(min(all_rel_shapes(x)), lambda x:'pouet')
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+x = [g.a1, g.b1, g.c1, g.c2]
+st.from_shape(min(all_rel_shapes(x)), lambda x:'pouet')
+st = shape_tree()
+st.from_shape(min(all_rel_shapes(x)), lambda x:'pouet')
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+x = [g.a1, g.b1, g.c1, g.c2]
+st.from_shape(min(all_rel_shapes(x)), lambda x:'pouet')
+st = shape_tree()
+st.from_shape(min(all_rel_shapes(x)), lambda x:'pouet')
+st.from_shape(all_rel_shapes(x), lambda x:'pouet')
+ars = all_rel_shapes(x)
+ars
+for a in ars:
+	st.from_shape(a)
+for a in ars:
+	st.from_shape(a, lambda x: 'pouet')
+dict.iteritems()
+dict.iteritems
+shape_from_strings([" + ", "+++", "+  "])
+sorted(shape_from_strings([" + ", "+++", "+  "]))
+shape_from_strings([" + ", "+++", "+  "])
+st
+st=shape_tree()
+shape_from_strings(["+.", "++"])
+sfs=shape_from_strings(["#.", "##"])
+ars = all_rel_shapes(sfs)
+ars
+st.from_shape(ars)
+st.from_shape(ars, 'pouet')
+st.from_shape(list(ars), 'pouet')
+st
+for x, y in iterate_coords(g.size):
+	print st.match(g, x, y)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+sfs=shape_from_strings(["#.", "##"])
+ars = all_rel_shapes(sfs)
+[ st.from_shape(a) for a in ars ]
+st = shape_tree()
+[ st.from_shape(a) for a in ars ]
+[ st.from_shape(a, 'pouet') for a in ars ]
+st
+for x, y in iterate_coords(g.size):
+	print st.match(g, x, y)
+g[3,4]
+g[(3,4)]
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+g[3,4]
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+g[3,4]
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+sfs=shape_from_strings(["#.", "##"])
+st = shape_tree()
+ars = all_rel_shapes(sfs)
+for x, y in iterate_coords(g.size):
+	print st.match(g, x, y)
+[ st.from_shape(a, 'pouet') for a in ars ]
+for x, y in iterate_coords(g.size):
+	print st.match(g, x, y)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+sfs=shape_from_strings(["#.", "##"])
+st = shape_tree()
+ars = all_rel_shapes(sfs)
+[ st.from_shape(a, 'pouet') for a in ars ]
+for x, y in iterate_coords(g.size):
+	print st.match(g, x, y)
+g.dump()
+st.match(g, 2, 17)
+g[2, 17]
+st.match(g, 2, 17)
+st
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+sfs=shape_from_strings(["#.", "##"])
+st = shape_tree()
+ars = all_rel_shapes(sfs)
+[ st.from_shape(a, 'pouet') for a in ars ]
+st.match(g, 2, 17)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+st=shape_tree()
+st.from_strings(["#.", "##"], 'pouet')
+st
+st.match_all(g)
+st[0,0,'.']
+st[0,0,'.'].payload
+st[0,0,'.'].payload='toto'
+st.match_all(g)
+st.payload='toto'
+st.match_all(g)

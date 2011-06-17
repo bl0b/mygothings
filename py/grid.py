@@ -168,12 +168,16 @@ class coord(object):
         return str(1+y)
 
     def __init__(self, *a):
+        #print 'new coord', a
         if type(a[0]) is str:
             self.s = a[0]
             self.x, self.y = coord.from_xy(self.s)
         else:
-            self.x = a[0]
-            self.y = a[1]
+            if type(a[0]) is tuple:
+                self.x, self.y = a[0]
+            else:
+                self.x = a[0]
+                self.y = a[1]
             self.s = coord.X(self.x) + coord.Y(self.y)
 
     def __str__(self):
@@ -196,19 +200,31 @@ class coord(object):
         return x-1, y-1
 
 
-
-class group(set, grid_item):
-    #__metaclass__ = properties
+class grid_item_set(grid_item, set):
     def __init__(self, grid, _set=None):
         if _set is not None:
             set.__init__(self, _set)
         else:
             set.__init__(self)
         grid_item.__init__(self, grid)
+
+    intersection = lambda self, b: type(self)(self.grid, set.intersection(self, b))
+    difference = lambda self, b: type(self)(self.grid, set.difference(self, b))
+    union = lambda self, b: type(self)(self.grid, set.union(self, b))
+    __sub__ = lambda self, b: type(self)(self.grid, set.__isub__(self, b))
+
+
+
+
+class group(grid_item_set):
+    #__metaclass__ = properties
+    def __init__(self, grid, _set=None):
+        grid_item_set.__init__(self, grid, _set)
     def merge(self, g):
         for i in g:
             i.group = self
             self.add(i)
+
     color = cached_property(lambda self: min(self).color)
     #neighbours = cached_property(lambda self: group(a.grid, reduce(lambda a, b: a.update(b.neighbours) or a, self, set())-self))
     neighbours = property(lambda self: group(self.grid, reduce(lambda a, b: a.update(b.neighbours) or a, self, set())-self))
@@ -223,20 +239,62 @@ class group(set, grid_item):
                                   reduce(lambda a, b: a.add(b.group) or a,
                                          self.group.fuzzy_group.liberties, set())))
 
-    def nth_neighbours(self, n):
+    def nth_neighbours(self, n, flt=lambda i: True):
         if n==0:
             return self
         elif n==1:
             return self.neighbours
         n0 = set()
         n1 = self
-        n2 = self.neighbours
+        n2 = group(self.grid)
+        n2_exc = group(self.grid)
+        for x in n.neighbours:
+            if flt(x):
+                n2.add(x)
+            else:
+                n2_exc.add(x)
         while n > 1:
             n -= 1
             n0 = n1
+            n2_exc.update(filter(lambda i: not flt(i), n2))
+            n2.difference_update(n2_exc)
             n1 = n2
-            n2 = n1.neighbours-n1-n0
+            n2 = group(self.grid, n1.neighbours-n1-n0-n2_exc)
+            n2_exc.update(n2_exc.neighbours)
         return n2
+    @staticmethod
+    def __good_bad(N, flt):
+        good = group(N.grid)
+        bad = group(N.grid)
+        for n in N:
+            if flt(n):
+                good.add(n)
+            else:
+                bad.add(n)
+        return good, bad
+    def nth_neighbours_iter(self, flt=lambda i: True):
+        n0 = None
+        n1 = self
+        n2, n2_exc = group.__good_bad(self.neighbours, flt)
+        while len(n2)>0:
+            yield n2
+            n2_exc.update(n2_exc.neighbours)
+            n2, bad = group.__good_bad(n2.neighbours, lambda x: flt(x) and x not in n2 and x not in n2_exc)
+            n2_exc.update(bad)
+            n2_exc.update(bad.neighbours)
+            #n2 = good.difference(n2-n2_exc)
+
+            #n2 = group(self.grid)
+            #for n in N.neighbours:
+            #    if n in n2_exc:
+            #        continue
+            #    elif flt(n):
+            #        n2.add(n)
+            #    else:
+            #        n2_exc.add(n)
+            #n2_exc.update(n2_exc.neighbours)
+
+            #n2 = group(self.grid, (n for n in n2.neighbours if n not in n2_exc and flt(n)))
 
     def __hash__(self):
         return reduce(lambda a, b: a+hash(b), self, 0)

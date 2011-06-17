@@ -10,7 +10,7 @@ import os
 import readline
 import rlcompleter
 
-historyPath = os.path.expanduser(os.getenv("PYHISTORY") or "~/.pyhistory")
+historyPath = os.path.expanduser(os.getenv("PYHISTORY") and "../"+os.getenv("PYHISTORY") or "~/.pyhistory")
 
 print "[HISTORY] Using", historyPath
 

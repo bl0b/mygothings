@@ -1,0 +1,13 @@
+hackide list mygothings.hackide 
+hackide files mygothings.hackide 
+hackide files mygothings.hackide |xargs git add
+git commit -a
+ls sgf/
+ps aux|grep python
+kill -9 22694
+ps aux|grep python
+ps aux|grep sandbox
+kill 22230
+kill -9 22230
+ps aux|grep sandbox
+ls sgf/

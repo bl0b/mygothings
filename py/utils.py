@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__all__ = ( 'iterate_box', 'iterate_coords', 'WHITE', 'BLACK', 'HOSHI', 'KO', 'term', 'cached_property' )
+__all__ = ( 'xzip', 'iterate_box', 'iterate_coords', 'WHITE', 'BLACK', 'HOSHI', 'KO', 'term', 'cached_property' )
 
 from colorterm import *
 
@@ -7,6 +7,12 @@ WHITE='w'
 BLACK='b'
 HOSHI='h'
 KO='k'
+
+
+def xzip(*a):
+    i = [ iter(x) for x in a ]
+    while True:
+        yield [ x.next() for x in i ]
 
 
 

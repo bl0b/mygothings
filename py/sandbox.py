@@ -11,44 +11,9 @@ from utils import *
 from grid import *
 from goban import *
 from colorterm import *
+
 from direction import *
-
-shape_0 = 0
-shape_1 = 10
-shape_I = 20
-shape_T = 30
-shape_L = 40
-shape_X = 50
-
-shape_encoder = {
-    0: shape_0,
-    1: shape_1,
-    (WEST,EAST): shape_I,
-    (WEST,NORTH): shape_L,
-    (WEST,SOUTH): shape_L,
-    (EAST,WEST): shape_I,
-    (EAST,NORTH): shape_L,
-    (EAST,SOUTH): shape_L,
-    (NORTH,SOUTH): shape_I,
-    (NORTH,WEST): shape_L,
-    (NORTH,EAST): shape_L,
-    (SOUTH,NORTH): shape_I,
-    (SOUTH,WEST): shape_L,
-    (SOUTH,EAST): shape_L,
-    3: shape_T,
-    4: shape_X,
-}
-
-color_encoder = {
-}
-
-def encode_shape(g, grp):
-    return sorted((shape_encoder[len(t)==2 and t or len(t)] for t in (tuple((s.n2o(x) for x in s.neighbours if x in grp)) for s in grp)))
-    
-def encode_shape_int(g, grp):
-    return reduce(lambda a, b: a*10+b, encode_shape(g, grp))
-    
-
+from shape import *
 
 def field_diff(g, col):
         f = clean_vs(g)
@@ -112,6 +77,91 @@ def clean_vs(g):
 neighbours_in_set = lambda i, s: group(i.grid, set((n for n in i.neighbours if n not in i)).intersection(s))
 
 
+
+c_ = { WHITE: BLACK, BLACK:WHITE }
+c = WHITE
+def play(*pos):
+    global c
+    for p in pos:
+        c = c_[c]
+        g.add_stone(g[p], c)
+    
+
+#area = lambda i: reduce(lambda a, b: a.update(b) or a, i.group.nth_neighbours_iter(lambda x: x.color in (None, i.color)), group(i.grid))
+area = lambda i: reduce(lambda a, b: a.update(b) or a,
+                        i.group.nth_neighbours_iter(lambda x: x.color is None), group(i.grid))
+
+def influence_field(g):
+    f = {}
+    for i in g.intersections.values():
+        f[i] = { WHITE:0, BLACK:0 }
+    #print g.groups
+    for grp in g.groups:
+        #print grp
+        for i in area(grp):
+            f[i][grp.color] += 1
+    return f
+
+def influence(g):
+    f = influence_field(g)
+    ret = {
+        'B': group(g),
+        'W': group(g),
+        'Z': group(g),
+        'E': group(g),
+        'CW': group(g),
+        'CB': group(g),
+    }
+    for i in g.intersections.values():
+        x = f[i]
+        print x
+        if 0==x[BLACK]==x[WHITE]:
+            ret['Z'].add(i)
+        elif x[BLACK]==x[WHITE]:
+            ret['E'].add(i)
+        elif x[WHITE]==0:
+            ret['B'].add(i)
+        elif x[BLACK]==0:
+            ret['W'].add(i)
+        elif x[BLACK]>x[WHITE]:
+            ret['CB'].add(i)
+        elif x[WHITE]>x[BLACK]:
+            ret['CW'].add(i)
+        else:
+            raise ValueError(i)
+    return ret
+
+
+class context(object):
+    def __init__(self, x):
+        x = x.group
+        a = area(x)
+        n = a.surrounding_groups
+        n.remove(x)
+        self.area = a
+        self.neighbours = n
+
+
+
+def all_neighbours(i):
+    ng = {}
+    dist = 1
+    for grp in i.group.nth_neighbours_iter(lambda x: x.color is None):
+        for x in (a.group for a in grp if a.color is not None):
+            if x not in ng or ng[x]>dist:
+                ng[x] = dist
+        dist = dist+1
+    return ng
+
+
+
+def connex(S):
+    return set(( x.group.intersection(S) for x in S ))
+
+
+def group_union(grid, args):
+    return reduce(lambda a, b: a.update(b) or a, args, group(grid))
+        
 
 
 
