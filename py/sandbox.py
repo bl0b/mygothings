@@ -325,6 +325,17 @@ if __name__=='__main__':
     #print
     #print unicode(g)
     #print estimate_score(g)
-    g=goban(9)
-    print lmscores(BLACK)
+
+    #g=goban(9)
+    #print lmscores(BLACK)
+
+    g=goban('../sgf/goama134.sgf')
+
+    st=shape_tree()
+    st.from_strings(["#o", "o#"], 'crosscut')
+    st.from_strings(["#.", "o#"], 'cutting_point')
+    st.from_strings(["#.", "##"], 'empty_triangle')
+    st.from_strings(["##", "..", "##"], 'bamboo_joint')
+    stma = st.match_all(g)
+    print stma
 

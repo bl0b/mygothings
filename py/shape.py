@@ -181,6 +181,7 @@ def all_rel_shapes(s):
     return set((normalize_coords((T(x, y, c) for x, y, c in src)) for T in transpose))
 
 class shape_tree(dict):
+    match_calls = 0
     def __init__(self):
         dict.__init__(self)
         self.payload = None
@@ -192,44 +193,43 @@ class shape_tree(dict):
             if not x in self:
                 self[x] = shape_tree()
             #print s
-            if len(s)>0:
-                self[x].from_shape(s[1:], payload)
-            else:
-                self.payload = payload
+            #if len(s)>0:
+            self[x].from_shape(s[1:], payload)
+            #else:
+            #    self.payload = payload
         return self
-    def __match(self, g, x0, y0, mycolor, foecolor, grp, results):
+
+    __ccBW = set([(SC_ANY, BLACK), (SC_ANY, WHITE), (SC_ANY, None), (SC_SELF, BLACK), (SC_FOE, WHITE), (SC_EMPTY, None)])
+    __ccWB = set([(SC_ANY, BLACK), (SC_ANY, WHITE), (SC_ANY, None), (SC_SELF, WHITE), (SC_FOE, BLACK), (SC_EMPTY, None)])
+
+    def __match(self, g, gcol, x0, y0, cc, grp, results):
+        shape_tree.match_calls += 1
+        if self.payload:
+            results.add((group(g, grp), self.payload))
         for (x,y,c), st in self.iteritems():
             try:
-                i = g[x+x0, y+y0]
+                coord = (x+x0, y+y0)
+                i, gc = gcol[coord]
+                if (c, gc) in cc:
+                    st.__match(g, gcol, x0, y0, cc, grp+(i,), results)
                 #print i, x, y, c, st
             except KeyError, ke:
                 continue
-            if (c==SC_ANY
-                    or
-                c==SC_SELF and i.color==mycolor
-                    or
-                c==SC_FOE and i.color==foecolor
-                    or
-                c==SC_EMPTY and i.color is None):
 
-                grp = [i]+grp
-
-                if self.payload:
-                    results.add((group(g, grp), self.payload))
-                st.__match(g, x0, y0, mycolor, foecolor, grp, results)
-        if self.payload:
-            results.add((group(g, grp), self.payload))
-
-    def match(self, g, x0, y0):
-        ret = set()
-        self.__match(g, x0, y0, BLACK, WHITE, [], ret)
-        self.__match(g, x0, y0, WHITE, BLACK, [], ret)
+    def match(self, g, gcol, x0, y0, ret=set()):
+        self.__match(g, gcol, x0, y0, shape_tree.__ccBW, tuple(), ret)
+        self.__match(g, gcol, x0, y0, shape_tree.__ccWB, tuple(), ret)
         return ret
 
     def match_all(self, g):
+        shape_tree.match_calls = 0
+        c = chrono()
         ret = set()
+        gcol = dict(( (k, (i, i.color)) for k, i in g.intersections.iteritems() ))
         for x, y in iterate_coords(g.size):
-            ret.update(self.match(g, x, y))
+            #ret.update(self.match(g, x, y))
+            self.match(g, gcol, x, y, ret)
+        print "took", float(c), "to search whole grid, with", shape_tree.match_calls, "total recursive calls."
         return ret
 
     def from_strings(self, strings, payload):

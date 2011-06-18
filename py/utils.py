@@ -1,7 +1,18 @@
 # -*- coding: utf-8 -*-
-__all__ = ( 'xzip', 'iterate_box', 'iterate_coords', 'WHITE', 'BLACK', 'HOSHI', 'KO', 'term', 'cached_property' )
+__all__ = ( 'xzip', 'iterate_box', 'iterate_coords', 'WHITE', 'BLACK', 'HOSHI', 'KO', 'term', 'cached_property', 'chrono' )
 
 from colorterm import *
+from time import time
+
+class chrono(object):
+    def __init__(self):
+        self.t = time()
+    def __float__(self):
+        return time()-self.t
+    def start(self):
+        self.t = time()
+    def stop(self):
+        return float(self)
 
 WHITE='w'
 BLACK='b'

@@ -675,3 +675,73 @@ st[0,0,'.'].payload='toto'
 st.match_all(g)
 st.payload='toto'
 st.match_all(g)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+st=shape_tree()
+st.match_all(g)
+st[0,0,'.'].payload='toto'
+st.from_strings(["#.", "##"], 'pouet')
+st.match_all(g)
+for grp in st.match_all(g):
+	g.duump(grp)
+for grp in st.match_all(g):
+	g.dump(grp)
+for grp in st.match_all(g):
+	print grp
+	g.dump(grp[0])
+st=shape_tree()
+st.from_strings(["#.", "o#"], 'pouet')
+for grp in st.match_all(g):
+	g.dump(grp[0])
+st.match_all(g)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+st=shape_tree()
+st.from_strings(["#.", "o#"], 'empty_triangle')
+st.from_strings(["#o", "o#"], 'crosscut')
+st.from_strings(["#.", "o#"], 'cutting_point')
+st
+st.from_strings(["#.", "##"], 'empty_triangle')
+st.match_all(g)
+g=goban('../sgf/goama134.sgf');a = [ area(grp) for grp in g.groups ];A = reduce(lambda a, b: a.update(b) or a, a, group(g));print;g.dump(A);B=list(connex(A));fg = [ group_union(g, (n.group for n in b.neighbours)) for b in B ]
+st=shape_tree()
+st.from_strings(["#o", "o#"], 'crosscut')
+st.from_strings(["#.", "o#"], 'cutting_point')
+st.from_strings(["#.", "##"], 'empty_triangle')
+st.match_all(g)
+for i in xrange(1000): st.match_all(g)
+for i in xrange(10): st.match_all(g)
+sys.time
+sys.gettime
+sys.gettimeofday
+dir(sys)
+from time import time
+time.time()
+time()
+st.match_all(g)
+sys.exit(0)
+st.match_all(g)
+g.dump()
+st.from_strings(['##','..','##'], 'bamboo_joint')
+st.match_all(g)
+stma = st.match_all(g)
+filter(lambda x: x[1]=='bamboo_joint', stma)
+st.keys()
+g.intersections.keys()
+stma = st.match_all(g)
+g=goban(19)
+st.match_all(g)
+stma = st.match_all(g)
+st.match_all(g)
+stma = st.match_all(g)
+help()
+profile
+profiler
+profiling
+prof
+*prof*
+pro
+pr
+p
+modules
+(1,)+(1,)
+(1,)+[1,]
+stma = st.match_all(g)
