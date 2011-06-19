@@ -11,3 +11,6 @@ kill 22230
 kill -9 22230
 ps aux|grep sandbox
 ls sgf/
+git commit -a
+grep coord\( py/*.py
+vim README.md 

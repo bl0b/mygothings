@@ -745,3 +745,407 @@ modules
 (1,)+(1,)
 (1,)+[1,]
 stma = st.match_all(g)
+g.dump()
+context(g.d7)
+c = context(g.d7)
+g.dump(c.area)
+c = context(g.d6)
+g.dump(c.area)
+c = context(g.d5)
+g.dump(c.area)
+g.d7.c
+g.d7.c.xy
+g[3,5]
+g.d7.c.xy
+g.d7.c.s
+stma
+min(stma)
+g.dump(min(stma))
+g.dump(min(stma)[0])
+min(stma)
+grp=min(stma)[0]
+[ i.c.s, i.c.xy for i in grp ]
+[ (i.c.s, i.c.xy) for i in grp ]
+g.c17
+min(grp)
+g.d17==min(grp)
+g.d3==min(grp)
+g.dump([g.d3])
+grp=min(stma)[0]
+grp
+g.dump([g.d3])
+grp=min(stma)[0]
+g.d3==min(grp)
+g.d17==min(grp)
+grp
+g.dump(grp)
+bad_shape = shape_tree()
+reduce(lambda a, b: a.update(b[0]) or a, bad, group(g))
+g.dump(reduce(lambda a, b: a.update(b[0]) or a, bad, group(g)))
+bad
+g.dump(reduce(lambda a, b: a.update(b[0]) or a, bad[b], group(g)))
+g.dump(reduce(lambda a, b: a.update(b[0]) or a, bad[BLACK], group(g)))
+[ (grp, len(area(grp))/float(len(grp))) for grp in g.groups ]
+sorted([ (grp, len(area(grp))/float(len(grp))) for grp in g.groups ])
+sorted([ (grp, len(area(grp))/float(len(grp))) for grp in g.groups ], None, lambda x:x[1])
+sorted([ (grp, len(area(grp))/float(len(grp))) for grp in g.groups ], None, lambda x:-x[1])
+g.dump([g.m18])
+w=sorted([ (grp, len(area(grp))/float(len(grp))) for grp in g.groups ], None, lambda x:-x[1])
+w[-3]
+g.dump(w[-3][0])
+c
+c=sys.stdin.read(1)
+v
+c
+dir(sys.stdin)
+c=sys.stdin.next()
+help(sys.stdin.readinto)
+help(sys.stdin.read)
+c=sys.stdin.read(1)
+g.dump()
+w=sorted([ (grp, len(area(grp))/float(len(grp))) for grp in g.groups ], None, lambda x:-x[1])
+w
+[ x[0] for x in w if x[1]>19.5 ]
+g.dump(group_union([ x[0] for x in w if x[1]>19.5 ]))
+g.dump(group_union(g, [ x[0] for x in w if x[1]>19.5 ]))
+w=sorted([ (grp, len(area(grp))/float(len(grp))) for grp in g.fuzzy_groups ], None, lambda x:-x[1])
+g.fuzzy_groups
+w=sorted([ (grp, len(area(grp))/float(len(grp))) for grp in g.fuzzy_groups[BLACK].union(g.fuzzy_groups[WHITE]) ], None, lambda x:-x[1])
+w
+g.dump(group_union(g, [ x[0] for x in w if x[1]>10 ]))
+g.dump(group_union(g, [ x[0] for x in w if x[1]>5 ]))
+g.dump(group_union(g, [ x[0] for x in w if x[1]>3 ]))
+g.dump(group_union(g, [ x[0] for x in w if x[1]>2 ]))
+g.dump(group_union(g, [ x[0] for x in w if x[1]>1 ]))
+g.dump(group_union(g, [ x[0] for x in w if x[1]>2 ]))
+g.dump(group_union(g, [ x[0] for x in w if x[1]>1 ]))
+g.dump(group_union(g, [ x[0] for x in w if x[1]>3 ]))
+A
+A = dict(((grp, area(grp)) for grp in g.groups))
+A
+A = dict(((grp, area(grp)) for grp in g.groups if grp.color is BLACK))
+AB = dict(((grp, area(grp)) for grp in g.groups if grp.color is BLACK))
+AW = dict(((grp, area(grp)) for grp in g.groups if grp.color is WHITE))
+AB
+AW
+areaB = group_union(AB.values())
+areaB = group_union(g, AB.values())
+areaB
+connex
+connex(areaB)
+g.dump()
+ga = g.p2.group
+ga
+area(ga)
+[ n.group for n in area(ga).neighbours if n.color is ga.color ]
+set((n.group for n in area(ga).neighbours if n.color is ga.color))
+group_union((n.group for n in area(ga).neighbours if n.color is ga.color))
+group_union(g, (n.group for n in area(ga).neighbours if n.color is ga.color))
+ga = group_union(g, (n.group for n in area(ga).neighbours if n.color is ga.color))
+ga
+ga = group_union(g, (n.group for n in area(ga).neighbours if n.color is ga.color))
+ga
+ga = group_union(g, (n.group for n in area(ga).neighbours if n.color is ga.color))
+ga
+ga = group_union(g, (n.group for n in area(ga).neighbours if n.color is ga.color))
+ga
+g.duump(ga)
+g.dump(ga)
+fuzzy_2(g.d18)
+g.dump(fuzzy_2(g.d18))
+g.dump(area(g.g8))
+g.dump(area(g.f9))
+g.dump(area(g.f10))
+g.dump(area(g.d12))
+fuzzy_2(g.d18)
+g.dump(fuzzy_2(g.d18))
+g.dump(fuzzy_2(g.d3))
+g.dump(fuzzy_2(g.i3))
+g.add_stone(g.l5, WHITE)
+g.dump(fuzzy_2(g.i3))
+g.add_stone(g.i4, WHITE)
+g.dump(fuzzy_2(g.i3))
+g.dump(fuzzy_2(g.d3))
+g.dump(fuzzy_2(g.h7))
+g.dump(fuzzy_2(g.q4))
+g.dump(fuzzy_2(g.h7))
+g.add_stone(g.l5, WHITE)
+g.add_stone(g.i4, WHITE)
+g.dump(fuzzy_2(g.q4))
+g.dump(fuzzy_2(g.b3))
+g.dump(area(g.c7))
+g.dump(fuzzy_2(g.c7))
+filter(lambda x: len(x.liberties)==2, g.groups)
+grp2=filter(lambda x: len(x.liberties)==2, g.groups)
+context(grp2[0])
+c
+c=context(grp2[0])
+c.area
+g.dump(c.area)
+g.dump(area(g.c13))
+g.dump(fuzzy_2(g.c13))
+g.dump(fuzzy_2(g.c7))
+g.dump(area(g.c7))
+g.dump(fuzzy_2(g.c13))
+g.dump(area(g.d12))
+g.dump(fuzzy_2(g.c13))
+g.dump(area(g.d12))
+area(g.d12)
+g.dump(fuzzy_2(g.c13))
+area(g.b1)
+area(g.b2)
+g.b2.color
+g.b2.fuzzy_group
+g.b2.group.fuzzy_group
+g.b2.fuzzy_group
+g.b2.group.fuzzy_group
+g.dump(g.b2.group.fuzzy_group)
+area(g.b2)
+area(g.c3)
+g.dump(area(g.c3))
+g.dump(area(g.k3))
+g.dump(area(g.c3))
+g.dump(area(g.b2))
+g.dump(area(g.c3.group.fuzzy_group))
+g.dump(area(g.b3.group.fuzzy_group))
+g.dump(area(g.d7.group.fuzzy_group))
+g.dump(area(g.c7.group.fuzzy_group))
+neighbour_score(g.d12)
+g.d12.neighbours
+[x.color for x in g.d12.neighbours]
+[x.color for x in g.d11.neighbours]
+neighbour_score(g.d11)
+neighbour_score(g.d11, WHITE)
+neighbour_score(g.d11, BLACK)
+g.dump(area(g.c7.group.fuzzy_group))
+g.dump(area(g.c13.group.fuzzy_group))
+g.dump(area(g.h4))
+area(g.b3)
+g.dump(area(g.b3))
+set((x.group for x in g.dump(area(g.b3))))
+set((x.group for x in area(g.b3)))
+set((x.group for x in area(g.b3).neighbours if x.color is g.b3.color))
+g.dump(group_union(g, set((x.group for x in area(g.b3).neighbours if x.color is g.b3.color)))
+g.dump(group_union(g, set((x.group for x in area(g.b3).neighbours if x.color is g.b3.color))))
+fuzz = lambda i: set((x.group for x in area(i).neighbours if x.color is i.color))
+fuzz(g.h4)
+g.dump(group_union(g, fuzz(g.h4)))
+g.dump(group_union(g, fuzz(g.i3)))
+g.dump(group_union(g, fuzz(fuzz(g.i3))))
+fuzz = lambda i: group(i.grid, (x.group for x in area(i).neighbours if x.color is i.color))
+g.dump(group_union(g, fuzz(fuzz(g.i3))))
+g.dump(group_union(g, fuzz(fuzz(fuzz(g.i3)))))
+g.dump(group_union(g, fuzz(fuzz(fuzz(fuzz(g.i3))))))
+g.dump(group_union(g, fuzz(fuzz(fuzz(fuzz(g.b4))))))
+g.dump(group_union(g, fuzz(fuzz(fuzz(fuzz(g.p4))))))
+g.dump(group_union(g, fuzz(fuzz(fuzz(g.p4)))))
+g.dump(group_union(g, fuzz(fuzz(fuzz(fuzz(g.p4))))))
+g.dump(group_union(g, fuzz(fuzz(fuzz(fuzz(fuzz(g.p4)))))))
+g.dump(group_union(g, fuzz(fuzz(fuzz(fuzz(g.p4))))))
+g.dump(group_union(g, fuzz(g.c7)))
+context(group_union(g, fuzz(g.c7)))
+context(*group_union(g, fuzz(g.c7)))
+context(group_union(g, fuzz(g.c7)))
+group_union(g, fuzz(g.c7))
+hash(set())
+hash(group(g))
+hash(group(g, (group(g),)))
+g.dump()
+rec_fuzz(g.c7)
+g.dump(group_union(g, rec_fuzz(g.c7)))
+toplevel_contexts(g)
+for tlc in toplevel_contexts(g):	$
+for tlc in toplevel_contexts(g): g.dump(tlc)
+T=toplevel_contexts(g)
+T
+sorted(T)
+T=sorted(T)
+for tlc in T: g.dump(tlc)
+g.go_back(120)
+g.dump()
+T=sorted(toplevel_contexts(g))
+for tlc in T: g.dump(tlc)
+g.go_forward(40)
+g.dump()
+T=sorted(toplevel_contexts(g))
+for tlc in T: g.dump(tlc)
+g.dump(area(g.e6))
+g.dump(area(g.d6))
+T=sorted(toplevel_contexts(g))
+T
+for tlc in T: g.dump(tlc)
+for tlc in T: g.dump(area(tlc))
+for tlc in T: g.dump(area(tlc)+tlc)
+for c in map(context, T): g.dump(c.area+group_union(g, c.neighbours))
+map(context, T)
+T
+T[0]
+context(T[0])
+g.b3.surrounding_groups
+g.b3.group.surrounding_groups
+T=sorted(toplevel_contexts(g))
+T
+context(T[0])
+for c in map(context, T): g.dump(c.area+group_union(g, c.neighbours))
+dir(c)
+for grp, c in map(lambda x: (x, context(x)), T): g.dump(grp+c.area+group_union(g, c.neighbours))
+T=sorted(toplevel_contexts(g))
+for grp, c in map(lambda x: (x, context(x)), T): g.dump(grp+c.area+group_union(g, c.neighbours))
+g.dump(area(g.e6))
+import datetime
+str(datetime.now())
+str(datetime.datetime.now())
+g=goban(9)
+g.add_stone(g.c3)
+g.add_stone(BLACK, g.c3)
+g.add_stone(g.c3, BLACK)
+g.current
+g.tree
+g.commit_position()
+g.tree
+g.add_stone(g.c7, WHITE)
+g.commit_position()
+g.dump()
+g.tree
+g.current
+g.treee
+g.tree
+g.fork()
+g.tree
+g.remove_variation(g.current)
+g.delete_variation(g.current)
+dir(g)
+g.delete_position(g.current)
+g.tree
+g.dump()
+g.go_back()
+g.dump()
+g.go_back()
+g.dump()
+g.add_stone(g.g3, WHITE)
+g.tree
+1 is 1
+a=int(1)
+1 is a
+a is 1
+"aaa" is "aaa"
+a= 'a'*3
+b='aa'+'a'
+a is b
+object()
+g.dump()
+shicho_works(g.m5)
+ret=shicho_works(g.m5)
+ret[0]
+g.dump()
+g.next_variation()
+g.dump()
+g.tree
+ret
+ret[0]
+ret[1][0]
+ret[1].data
+g.current.data
+g.current
+g.go_forward(10)
+g.dump()
+g.go_forward(10)
+g.dump()
+g.current
+g.go_forward(10)
+g.current
+g.go_forward()
+g.dump()
+g.go_forward()
+g.dump()
+g.go_back(2)
+g.dump()
+g.go_back(1)
+g.dump()
+g.go_back(1)
+g.dump()
+g.go_forward();g.dump()
+ret=shicho_works(g.m5)
+ret[0]
+g.go_forward();g.dump()
+g.next_variation()
+g.dump()
+g.go_forward();g.dump()
+g.next_variation()
+g.go_forward();g.dump()
+g.next_variation()
+g.go_forward();g.dump()
+g.next_variation()
+g.go_forward();g.dump()
+g.go_back()
+g.next_variation()
+g.dump()
+ret=shicho_works(g.m5)
+ret[0]
+ret[1]
+g.dump()
+g.go_forward();g.dump()
+g.next_variation();g.dump()
+g.go_forward();g.dump()
+g.go_back(); g.dump()
+g.next_variation();g.dump()
+g.go_forward();g.dump()
+g.next_variation();g.dump()
+ret=shicho_works(g.m5)
+ret
+g.go_forward();g.dump()
+g.next_variation();g.dump()
+g.go_forward();g.dump()
+g=goban(9)
+g.add_stone(g.c3, BLACK)
+g.add_stone(g.d3, BLACK)
+g.add_stone(g., BLACK)
+g.dump()
+g.add_stone(g.b4, BLACK)
+g.add_stone(g.c4, WHITE)
+g.dump()
+shicho_works(g.c4)
+g.next_variation();g.dump()
+g.go_forward();g.dump()
+g.next_variation();g.dump()
+g.go_forward();g.dump()
+g.current
+g.go_forward()
+g.current
+dir(g.current)
+list(g.current)
+shicho_works(g.c4)
+g=goban('../sgf/corner.sgf')
+g.dump()
+g.add_stone(g.e4, WHITE)
+g.dump()
+shicho_works(g.e4)
+g.dump()
+g.add_stone(g.h7, WHITE)
+g.dump()
+shicho_works(g.e4)
+g.dump()
+g.add_stone(g.g6)
+g.add_stone(g.g6, WHITE)
+g.dump()
+shicho_works(g.e4)
+g.go_forward()
+g.dump()
+g.next_variation();g.dump()
+g.go_back()
+g.next_variation();g.dump()
+g.go_forward();g.dump()
+g.dump()
+g.next_variation();g.dump()
+g.go_back();g.dump()
+g.next_variation();g.dump()
+g=goban('../sgf/corner.sgf')
+g.add_stone(g.e4, WHITE)
+g.add_stone(g.h7, WHITE)
+shicho_works(g.e4)
+g.dump()
+g.go_forward();g.dump()
+g.next_variation();g.dump()
+g.go_forward();g.dump()
+g.next_variation();g.dump()
+g.go_forward();g.dump()

@@ -167,11 +167,11 @@ class coord(object):
     def Y(y):
         return str(1+y)
 
-    def __init__(self, *a):
+    def __init__(self, grid, *a):
         #print 'new coord', a
         if type(a[0]) is str:
             self.s = a[0]
-            self.x, self.y = coord.from_xy(self.s)
+            self.x, self.y = coord.from_xy(grid, self.s)
         else:
             if type(a[0]) is tuple:
                 self.x, self.y = a[0]
@@ -179,15 +179,15 @@ class coord(object):
                 self.x = a[0]
                 self.y = a[1]
             self.s = coord.X(self.x) + coord.Y(self.y)
+        self.xy = (self.x, self.y)
 
     def __str__(self):
         return self.s
 
-    xy = property(lambda self: (self.x, self.y))
     #xyinv = lambda self, size: (self.x, size-1-self.y)
 
     @staticmethod
-    def from_xy(s):
+    def from_xy(grid, s):
         x=0
         y=0
         for c in s.lower():
@@ -197,7 +197,7 @@ class coord(object):
             else:
                 y*=10
                 y+=int(c)
-        return x-1, y-1
+        return x-1, grid.size-y
 
 
 class grid_item_set(grid_item, set):
@@ -212,6 +212,7 @@ class grid_item_set(grid_item, set):
     difference = lambda self, b: type(self)(self.grid, set.difference(self, b))
     union = lambda self, b: type(self)(self.grid, set.union(self, b))
     __sub__ = lambda self, b: type(self)(self.grid, set.__isub__(self, b))
+    __add__ = lambda self, b: type(self)(self.grid, set.union(self, b))
 
 
 
@@ -272,18 +273,20 @@ class group(grid_item_set):
             else:
                 bad.add(n)
         return good, bad
-    def nth_neighbours_iter(self, flt=lambda i: True):
+    def nth_neighbours_iter(self, match_flt=lambda i: True, propagate_flt=lambda i: True):
         n0 = None
         n1 = self
-        n2, n2_exc = group.__good_bad(self.neighbours, flt)
+        n2, n2_exc = group.__good_bad(self.neighbours, match_flt)
         while len(n2)>0:
             yield n2
+            n2_exc.update(n2)
+            good, bad = group.__good_bad(n2.neighbours, lambda x: x not in n2_exc and propagate_flt(x))
+            n2, bad = group.__good_bad(good, match_flt)
             n2_exc.update(n2_exc.neighbours)
-            n2, bad = group.__good_bad(n2.neighbours, lambda x: flt(x) and x not in n2 and x not in n2_exc)
             n2_exc.update(bad)
-            n2_exc.update(bad.neighbours)
-            #n2 = good.difference(n2-n2_exc)
+            #n2_exc.update(bad.neighbours)
 
+            #n2 = good.difference(n2-n2_exc)
             #n2 = group(self.grid)
             #for n in N.neighbours:
             #    if n in n2_exc:
@@ -361,30 +364,30 @@ class grid_system(grid_item):
         for (x, y) in iterate_coords(size):
             hx = x>ctr and size-x or 1+x
             hy = y>ctr and size-y or 1+y
-            i = intersection(self, coord(x, self.size-1-y), hx, hy, hx in hoshi and hy in hoshi)
+            i = intersection(self, coord(self, x, self.size-1-y), hx, hy, hx in hoshi and hy in hoshi)
             self.intersections[x, y] = i
         for (x, y) in iterate_coords(size):
-            i = self.intersections[coord(x,y).xy]
+            i = self.intersections[coord(self, x,y).xy]
             if x>0:
-                i.W = self.intersections[coord(x-1, y).xy]
+                i.W = self.intersections[coord(self, x-1, y).xy]
                 i.neighbours.add(i.W)
             if x<(size-1):
-                i.E = self.intersections[coord(x+1, y).xy]
+                i.E = self.intersections[coord(self, x+1, y).xy]
                 i.neighbours.add(i.E)
             if y>0:
-                i.N = self.intersections[coord(x, y-1).xy]
+                i.N = self.intersections[coord(self, x, y-1).xy]
                 i.neighbours.add(i.N)
             if y<(size-1):
-                i.S = self.intersections[coord(x, y+1).xy]
+                i.S = self.intersections[coord(self, x, y+1).xy]
                 i.neighbours.add(i.S)
             i.compute_neighbour_vs_orientation()
         self.tree = position(self.size, position(0))
         self.current = self.tree
     def __getitem__(self, *xy):
-        return self.intersections[coord(*xy).xy]
+        return self.intersections[coord(self, *xy).xy]
     def __setitem__(self, *xy):
         value = xy.pop()
-        self.intersections[coord(*xy).xy] = value
+        self.intersections[coord(self, *xy).xy] = value
     def fork(self):
         dat = self.current.data
         self.current = position(self.size, self.current.parent)
@@ -394,7 +397,7 @@ class grid_system(grid_item):
         pos.parent.remove(pos)
         if self.current == pos:
             self.current = self.current.parent[self.current.parent.index(self.current)-1]
-        del pos
+        #del pos
     def previous_variation(self):
         c = self.current
         p = c.parent

@@ -15,6 +15,42 @@ from colorterm import *
 from direction import *
 from shape import *
 
+
+
+def fuzzy_2(x):
+    last=0
+    ga = x.group
+    while len(ga)!=last:
+        last = len(ga)
+        ga = group_union(x.grid, (n.group for n in area(ga).neighbours if n.color is x.color))
+    return ga
+
+
+def fuzz(i):
+    return group(i.grid, (x.group for x in area(i).neighbours if x.color is i.color))
+
+def rec_fuzz(grp):
+    f = fuzz(grp)
+    if f!=grp:
+        return rec_fuzz(f)
+    else:
+        return grp
+
+def toplevel_contexts(g):
+    #ret = set()
+    ret = []
+    S = g.black+g.white
+    while len(S)>0:
+        s = min(S)
+        f = group_union(g, rec_fuzz(s.group))
+        S.difference_update(f)
+        #ret.add(f)
+        ret.append(f)
+    return ret
+
+        
+
+
 def field_diff(g, col):
         f = clean_vs(g)
         return reduce(lambda a, b: a+b.color_, f.values(), 0.)
@@ -88,8 +124,19 @@ def play(*pos):
     
 
 #area = lambda i: reduce(lambda a, b: a.update(b) or a, i.group.nth_neighbours_iter(lambda x: x.color in (None, i.color)), group(i.grid))
+def iscore(c, b):
+    if b.color is None:
+        return 0
+    elif b.color is c:
+        return 1
+    else:
+        return -1
+
+neighbour_score = lambda i, c: reduce(lambda a, b: a+iscore(c, b), i.neighbours, 0) 
 area = lambda i: reduce(lambda a, b: a.update(b) or a,
-                        i.group.nth_neighbours_iter(lambda x: x.color is None), group(i.grid))
+                        i.group.nth_neighbours_iter(lambda x: x.color is None,
+                                                    lambda x: x.color is None and neighbour_score(x, i.color)>=0),
+                        group(i.grid))
 
 def influence_field(g):
     f = {}
@@ -137,9 +184,75 @@ class context(object):
         x = x.group
         a = area(x)
         n = a.surrounding_groups
-        n.remove(x)
+        n.difference_update([x])
+        n.update((xn.group for xn in x.neighbours))
         self.area = a
         self.neighbours = n
+    def __str__(self):
+        return 'area: '+str(len(self.area))+', neighbours: '+str([ (n.color, len(n.liberties)) for n in self.neighbours])
+
+
+
+def toggle_color(c):
+    if c is BLACK:
+        return WHITE
+    elif c is WHITE:
+        return BLACK
+    else:
+        return c
+
+
+class explorer(object):
+    CONTINUE = object()
+    def __init__(self, grid):
+        self.grid = grid
+    def play_one(self, color, pos):
+        self.grid.commit_position()
+        self.grid.add_stone(pos, color)
+    def go_back(self):
+        self.grid.go_back()
+    def explore(self, colP, colO, msP, msO, combP, combO, evP, evO, indent=0):
+        status = evP()
+        if status is explorer.CONTINUE:
+            outcomes = []
+            for move in msP():
+                #print '  '*indent, colP, move
+                self.play_one(colP, move)
+                outcomes.append(self.explore(colO, colP, msO, msP, combO, combP, evO, evP, indent+1))
+                self.go_back()
+            status = combP(outcomes)
+        #print '  '*indent, "=>", status
+        return status
+
+
+def shicho_works(victim):
+    victim = min(victim.group)
+    exp = victim.grid.fork()
+    if victim.color is None or len(victim.group.liberties)>2:
+        return False
+    colO = victim.color
+    colP = colO is WHITE and BLACK or WHITE
+    def status():
+        if victim.color is None:
+            return True
+        if len(victim.group.liberties)>2:
+            return False
+        return explorer.CONTINUE
+    evP = status
+    evO = status
+    def msP():
+        return victim.group.liberties
+    def msO():
+        ret = group_union(victim.grid, (n.liberties for n in victim.group.neighbours if n.color not in (None, victim.color) and len(n.group.liberties)<2))
+        ret.update(victim.group.liberties)
+        return ret
+    combP = lambda l: reduce(lambda a, b: a or b, l, False)
+    combO = lambda l: reduce(lambda a, b: a and b, l, True)
+    ret = explorer(victim.grid).explore(colP, colO, msP, msO, combP, combO, evP, evO)
+    #victim.grid.delete_position(exp)
+    return ret, exp
+
+
 
 
 
@@ -337,5 +450,10 @@ if __name__=='__main__':
     st.from_strings(["#.", "##"], 'empty_triangle')
     st.from_strings(["##", "..", "##"], 'bamboo_joint')
     stma = st.match_all(g)
-    print stma
+    #print stma
 
+    bad_shape = shape_tree()
+    bad_shape.from_strings(["#o#", " o "], "tobi_tranché")
+    bad_shape.from_strings(["#o ", " o#"], "keima_tranché")
+    bad_shape.from_strings(["#.?", "...", "?.#"], "éléphant")
+    bad = bad_shape.match_all(g)

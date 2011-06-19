@@ -43,12 +43,12 @@ def feed(self, gametree, aftermove=lambda g : None) :
             if col is not None:
                 xy = str(node[col])[2:4]
                 x, y = map(lambda x : ord(x)-ord('a'), list(xy))
-                print coord(x, y),
+                print coord(self, x, y),
                 if x==y and x>=self.size:
                     self.add_pass()
                 else:
-                    #print "new stone", colors[col], coord(x, y)
-                    self.add_stone(self.intersections[coord(x, y).xy], colors[col])
+                    #print "new stone", colors[col], coord(self, x, y)
+                    self.add_stone(self.intersections[coord(self, x, y).xy], colors[col])
                 self.commit_position()
                 aftermove(self)
 
@@ -167,7 +167,7 @@ class goban(grid_system):
         rows.reverse()
         rows += [ u"Prisoners : White(%i) Black(%i)"%(self.prisoners[WHITE], self.prisoners[BLACK]) ]
         for x, y in iterate_coords(self.size):
-            rows[y] += ' '+self.intersections[coord(x, y).xy].prettyprint(False)
+            rows[y] += ' '+self.intersections[coord(self, x, y).xy].prettyprint(False)
         return (term.NORMAL+u'\n').join(rows)
 
     def hilite(self, hilite=[]):
@@ -176,7 +176,7 @@ class goban(grid_system):
         rows.reverse()
         rows += [ u"Prisoners : White(%i) Black(%i)"%(self.prisoners[WHITE], self.prisoners[BLACK]) ]
         for x, y in iterate_coords(self.size):
-            i = self.intersections[coord(x, y).xy]
+            i = self.intersections[coord(self, x, y).xy]
             rows[y] += ' '+i.prettyprint(i in hilite)
         return (term.NORMAL+u'\n').join(rows)
 
@@ -188,7 +188,7 @@ class goban(grid_system):
         rows.reverse()
         rows += [ u"Prisoners : White(%i) Black(%i)"%(self.prisoners[WHITE], self.prisoners[BLACK]) ]
         for x, y in iterate_coords(self.size):
-            i = self.intersections[coord(x, y).xy]
+            i = self.intersections[coord(self, x, y).xy]
             if i in hlvec:
                 rows[y] += ' '+i.prettyprint(True, hlvec[i])
             else:
@@ -228,12 +228,12 @@ class goban(grid_system):
     # with g = goban(),
     # g['s15'] can be written g.s15
     def __getitem__(self, *xy):
-        c = coord(*xy)
+        c = coord(self, *xy)
         c.y = self.size-1-c.y
         return self.intersections[c.xy]
     def __setitem__(self, *xy):
         value = xy.pop()
-        c = coord(*xy)
+        c = coord(self, *xy)
         c.y = self.size-1-c.y
         self.intersections[c.xy] = value
     def __getattribute__(self, attr):

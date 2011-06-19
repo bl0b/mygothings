@@ -216,16 +216,19 @@ class shape_tree(dict):
             except KeyError, ke:
                 continue
 
-    def match(self, g, gcol, x0, y0, ret=set()):
-        self.__match(g, gcol, x0, y0, shape_tree.__ccBW, tuple(), ret)
-        self.__match(g, gcol, x0, y0, shape_tree.__ccWB, tuple(), ret)
+    def match(self, g, gcol, x0, y0, ret={BLACK:set(), WHITE:set()}):
+        self.__match(g, gcol, x0, y0, shape_tree.__ccBW, tuple(), ret[BLACK])
+        self.__match(g, gcol, x0, y0, shape_tree.__ccWB, tuple(), ret[WHITE])
         return ret
 
-    def match_all(self, g):
+    def match_all(self, g, zone=None):
         shape_tree.match_calls = 0
         c = chrono()
-        ret = set()
-        gcol = dict(( (k, (i, i.color)) for k, i in g.intersections.iteritems() ))
+        ret = { BLACK:set(), WHITE:set() }
+        if zone is None:
+            gcol = dict(( (k, (i, i.color)) for k, i in g.intersections.iteritems() ))
+        else:
+            gcol = dict(( (i.c.xy, (i, i.color)) for i in zone ))
         for x, y in iterate_coords(g.size):
             #ret.update(self.match(g, x, y))
             self.match(g, gcol, x, y, ret)
