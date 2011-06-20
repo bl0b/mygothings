@@ -136,16 +136,20 @@ plus = lambda x: x
 
 
 def xy(fx, fy):
-    return lambda x, y, c='?': (fx(x), fy(y), c)
+    return lambda x, y, c='?', h=False: (fx(x), fy(y), c, h)
 
 def yx(fx, fy):
-    return lambda x, y, c='?': (fy(y), fx(x), c)
+    return lambda x, y, c='?', h=False: (fy(y), fx(x), c, h)
 
-SC_SELF='#'
+SC_SELF='s'
 SC_EMPTY='.'
-SC_FOE='o'
+SC_FOE='f'
 SC_ANY='?'
 SC_UNUSED=' '
+SC_SELF_HOTSPOT='S'
+SC_FOE_HOTSPOT='F'
+SC_EMPTY_HOTSPOT='!'
+
 
 transpose = (
     xy(plus, plus), xy(plus, minus), xy(minus, plus), xy(minus, minus),
@@ -154,31 +158,49 @@ transpose = (
 
 def normalize_coords(s):
     s = sorted(s)
-    x0, y0, c = s[0]
-    return tuple(((x-x0, y-y0, c) for x, y, c in s))
+    x0, y0, c, h = s[0]
+    return tuple(((x-x0, y-y0, c, h) for x, y, c, h in s))
 
-def shape_rel_coords(s, colconv = lambda c: SC_ANY):
+def shape_rel_coords(s, colconv = lambda c: SC_ANY, hotspots=set()):
     s0 = min(s)
     if type(s0) is intersection:
         x0 = s0.c.x
         y0 = s0.c.y
-        return normalize_coords(((i.c.x-x0, i.c.y-y0, colconv(i.color)) for i in s))
+        return normalize_coords(((i.c.x-x0, i.c.y-y0, colconv(i.color), i in hotspots) for i in s))
     elif type(s0) is tuple:
-        x0, y0, c = s0 
-        return normalize_coords(((x-x0, y-y0, c) for x, y, c in s))
+        x0, y0, c, h = s0 
+        return normalize_coords(((x-x0, y-y0, c, h) for x, y, c, h in s))
 
+hs_flag = {
+    SC_ANY: True,
+    SC_EMPTY_HOTSPOT:True,
+    SC_FOE_HOTSPOT:True,
+    SC_SELF_HOTSPOT:True,
+    SC_SELF:False,
+    SC_FOE:False,
+    SC_EMPTY:False
+}
+hs_col = {
+    SC_ANY: SC_ANY,
+    SC_EMPTY_HOTSPOT: SC_EMPTY,
+    SC_FOE_HOTSPOT: SC_FOE,
+    SC_SELF_HOTSPOT: SC_SELF,
+    SC_SELF: SC_SELF,
+    SC_FOE: SC_FOE,
+    SC_EMPTY: SC_EMPTY
+}
 def shape_from_strings(strlist):
     def gen_shape():
         for y, s in xzip(xrange(len(strlist)), strlist):
             for x, c in xzip(xrange(len(s)), s):
                 if c is not SC_UNUSED:
-                    yield (x, y, c)
+                    yield (x, y, hs_col[c], hs_flag[c])
     return normalize_coords(gen_shape())
 
 def all_rel_shapes(s):
     src = shape_rel_coords(s)
     ret = set()
-    return set((normalize_coords((T(x, y, c) for x, y, c in src)) for T in transpose))
+    return set((normalize_coords((T(x, y, c, h) for x, y, c, h in src)) for T in transpose))
 
 class shape_tree(dict):
     match_calls = 0
@@ -199,32 +221,36 @@ class shape_tree(dict):
             #    self.payload = payload
         return self
 
+    # cc is short for color conversion.
+    # each __ccXY says which SC_* matches to BLACK or WHITE.
     __ccBW = set([(SC_ANY, BLACK), (SC_ANY, WHITE), (SC_ANY, None), (SC_SELF, BLACK), (SC_FOE, WHITE), (SC_EMPTY, None)])
     __ccWB = set([(SC_ANY, BLACK), (SC_ANY, WHITE), (SC_ANY, None), (SC_SELF, WHITE), (SC_FOE, BLACK), (SC_EMPTY, None)])
 
-    def __match(self, g, gcol, x0, y0, cc, grp, results):
+    def __match(self, g, gcol, x0, y0, cc, grp, hsgrp, results):
         shape_tree.match_calls += 1
         if self.payload:
-            results.add((group(g, grp), self.payload))
-        for (x,y,c), st in self.iteritems():
+            results.add((group(g, grp), group(g, hsgrp), self.payload))
+        for (x,y,c,h), st in self.iteritems():
             try:
                 coord = (x+x0, y+y0)
                 i, gc = gcol[coord]
                 if (c, gc) in cc:
-                    st.__match(g, gcol, x0, y0, cc, grp+(i,), results)
-                #print i, x, y, c, st
+                    tmp=(i,)
+                    st.__match(g, gcol, x0, y0, cc, grp+tmp, h and hsgrp+tmp or hsgrp, results)
+                #print i, x, y, c, st, h
             except KeyError, ke:
                 continue
 
     def match(self, g, gcol, x0, y0, ret={BLACK:set(), WHITE:set()}):
-        self.__match(g, gcol, x0, y0, shape_tree.__ccBW, tuple(), ret[BLACK])
-        self.__match(g, gcol, x0, y0, shape_tree.__ccWB, tuple(), ret[WHITE])
+        self.__match(g, gcol, x0, y0, shape_tree.__ccBW, tuple(), tuple(), ret[BLACK])
+        self.__match(g, gcol, x0, y0, shape_tree.__ccWB, tuple(), tuple(), ret[WHITE])
         return ret
 
     def match_all(self, g, zone=None):
         shape_tree.match_calls = 0
         c = chrono()
         ret = { BLACK:set(), WHITE:set() }
+        # using gcol is MUCH faster than accessing i.color !
         if zone is None:
             gcol = dict(( (k, (i, i.color)) for k, i in g.intersections.iteritems() ))
         else:

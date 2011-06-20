@@ -249,7 +249,7 @@ class group(grid_item_set):
         n1 = self
         n2 = group(self.grid)
         n2_exc = group(self.grid)
-        for x in n.neighbours:
+        for x in n1.neighbours:
             if flt(x):
                 n2.add(x)
             else:
@@ -263,41 +263,75 @@ class group(grid_item_set):
             n2 = group(self.grid, n1.neighbours-n1-n0-n2_exc)
             n2_exc.update(n2_exc.neighbours)
         return n2
-    @staticmethod
-    def __good_bad(N, flt):
-        good = group(N.grid)
-        bad = group(N.grid)
-        for n in N:
-            if flt(n):
-                good.add(n)
-            else:
-                bad.add(n)
-        return good, bad
-    def nth_neighbours_iter(self, match_flt=lambda i: True, propagate_flt=lambda i: True):
-        n0 = None
+
+    def nth_neighbours_iter(self, flt=lambda i: True, propag_flt=lambda i: True):
+        n0 = set()
         n1 = self
-        n2, n2_exc = group.__good_bad(self.neighbours, match_flt)
+        n2 = group(self.grid)
+        n2_exc = group(self.grid)
+        for x in n1.neighbours:
+            if flt(x):
+                n2.add(x)
+            else:
+                n2_exc.add(x)
         while len(n2)>0:
-            yield n2
-            n2_exc.update(n2)
-            good, bad = group.__good_bad(n2.neighbours, lambda x: x not in n2_exc and propagate_flt(x))
-            n2, bad = group.__good_bad(good, match_flt)
-            n2_exc.update(n2_exc.neighbours)
+            #n -= 1
+            n0 = n1
+            bad = group(self.grid, filter(lambda i: not flt(i), n2))
+            yield n2-bad
             n2_exc.update(bad)
-            #n2_exc.update(bad.neighbours)
+            n2_exc.update(bad.neighbours)
+            n2_exc.update(n2_exc.neighbours)
+            n2.difference_update(n2_exc)
+            n1 = n2
+            n2 = group(self.grid, n1.neighbours-n1-n0-n2_exc)
+        #return n2
 
-            #n2 = good.difference(n2-n2_exc)
-            #n2 = group(self.grid)
-            #for n in N.neighbours:
-            #    if n in n2_exc:
-            #        continue
-            #    elif flt(n):
-            #        n2.add(n)
-            #    else:
-            #        n2_exc.add(n)
-            #n2_exc.update(n2_exc.neighbours)
-
-            #n2 = group(self.grid, (n for n in n2.neighbours if n not in n2_exc and flt(n)))
+#    @staticmethod
+#    def __good_bad(N, flt):
+#        good = group(N.grid)
+#        bad = group(N.grid)
+#        for n in N:
+#            if flt(n):
+#                good.add(n)
+#            else:
+#                bad.add(n)
+#        return good, bad
+#    def nth_neighbours_iter(self, match_flt=lambda i: True, propagate_flt=lambda i: True):
+#        n0 = None
+#        n1 = self
+#        n2, n2_exc = group.__good_bad(self.neighbours, match_flt)
+#        while len(n2)>0:
+#            print
+#            print n2
+#            print n2_exc
+#            yield n2
+#            propag = group(self.grid, (x for x in n2 if propagate_flt(x)))
+#            good = group(self.grid)
+#            bad = group(self.grid)
+#            for x in (x for x in propag.neighbours if x not in n2 and x not in n2_exc):
+#                if match_flt(x):
+#                    good.add(x)
+#                else:
+#                    bad.add(x)
+#            #n2, bad = group.__good_bad(good, match_flt)
+#            n2 = good
+#            n2_exc.update(bad)
+#            n2_exc.update(bad.neighbours)
+#            #n2_exc.update(bad.neighbours)
+#
+#            #n2 = good.difference(n2-n2_exc)
+#            #n2 = group(self.grid)
+#            #for n in N.neighbours:
+#            #    if n in n2_exc:
+#            #        continue
+#            #    elif flt(n):
+#            #        n2.add(n)
+#            #    else:
+#            #        n2_exc.add(n)
+#            #n2_exc.update(n2_exc.neighbours)
+#
+#            #n2 = group(self.grid, (n for n in n2.neighbours if n not in n2_exc and flt(n)))
 
     def __hash__(self):
         return reduce(lambda a, b: a+hash(b), self, 0)

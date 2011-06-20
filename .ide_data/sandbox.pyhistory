@@ -1149,3 +1149,254 @@ g.next_variation();g.dump()
 g.go_forward();g.dump()
 g.next_variation();g.dump()
 g.go_forward();g.dump()
+g.dump()
+grp2 = [ grp for grp in g.groups if len(grp.liberties)==2 ]
+grp2
+cap = [ grp for grp in grp2 ]
+g.dump()
+grp2 = [ grp for grp in g.groups if len(grp.liberties)==2 and shicho_works(grp)[0] ]
+grp2
+g.dump(group_union(g, grp2))
+ataris = [ grp for grp in g.groups if len(grp.liberties)==1 ]
+ataris
+g.dump(group_union(g, ataris))
+g.dump(group_union(g, ataris+cap))
+g.dump(group_union(g, ataris+grp2))
+toplevel_contexts(g)
+[ g.remove_stone(x) for x in ataris+grp2 ]
+[ g.remove_stone(x) for x in group_union(g, ataris+grp2) ]
+toplevel_contexts(g)
+for x in toplevel_contexts(g): g.dump(x)
+area(g.r6)
+g.dump(area(g.r6))
+g.dump(g.r6.nth_neighbours(1))
+g.dump(g.r6.group.nth_neighbours(1))
+g.dump(g.r6.group.nth_neighbours(2))
+g.dump(g.r6.group.nth_neighbours(3))
+g.dump(g.r6.group.nth_neighbours(4))
+g.dump(g.r6.group.nth_neighbours(5))
+g.dump(area(g.r6))
+g.dump(area(g.c7))
+g.dump(area(g.d12))
+g.dump(area(g.c7))
+g.dump(area(g.r6))
+toplevel_contexts(g)
+sys.exit(0)
+toplevel_contexts(g)
+for tl in toplevel_contexts(g):
+	g.dump(tl)
+g.dump(area(g.m2))
+g.dump(area(g.n4))
+g.dump(area(g.n3))
+g.dump(area(g.n4))
+g.dump(fuzz(g.n2))
+g.dump(fuzz(g.n3))
+g.dump(fuzz(g.n3.group))
+g.dump(fuzz(g.n4))
+g.dump(area(g.n4))
+g.dump(fuzz(g.n4))
+g.dump(fuzz(fuzz(g.n4)))
+g.dump(fuzz(fuzz(fuzz(g.n4))))
+g.dump(fuzz(fuzz(fuzz(fuzz(g.n4))))
+g.dump(fuzz(fuzz(fuzz(fuzz(g.n4)))))
+g.dump(area(g.d12))
+g.dump(area(g.c7))
+g.dump(rec_fuzz(g.b3))
+g.dump(rec_fuzz(g.b3.group))
+g.dump(area(g.c13)
+)
+g.dump(area(g.c13))
+g.dump(area(g.c7))
+g.dump(rec_fuzz(g.b3.group))
+g.dump(rec_fuzz(g.c7.group))
+shicho_works(g.k4)
+g.go_forward();g.dump()
+g.next_variation(); g.dump()
+g.go_forward();g.dump()
+help(SGFlib)
+help(SGF)
+for tl in toplevel_contexts(g): g.dump(tl)
+g.dump(area(g.d16))
+g=goban('../mumuse_go/Murakawa-Iyama-9x9.sgf')
+g=goban('../../mumuse_go/Murakawa-Iyama-9x9.sgf')
+g.dump()
+for tl in toplevel_contexts(g): g.dump(tl)
+g = goban('../sgf/test.sgf')
+g.dump()
+for tl in toplevel_contexts(g): g.dump(tl)
+for tl in toplevel_contexts(g): g.dump(tl) or g.dump(group_union([tl,area(tl)])
+)
+for tl in toplevel_contexts(g): g.dump(tl) or g.dump(group_union(g, [tl,area(tl)]))
+tl = toplevel_contexts(g)
+filter(lambda x: len(x)==1, tl)
+map(shicho_works, tl)
+g.go_forward()
+g.dump()
+g.go_forward()
+g.current
+g = goban('../sgf/test.sgf')
+tl = toplevel_contexts(g)
+map(shicho_works, tl)
+g.dump()
+g.go_forward(); g.dump()
+g.next_variation(); g.dump()
+g.go_forward(); g.dump()
+g.current
+g.previous_variation(); g.dump()
+g.current
+filter(shicho_works, tl)
+map(shicho_works, tl)
+filter(lambda x: shicho_works(x)[0], tl)
+tl = toplevel_contexts(g)
+filter(lambda x: shicho_works(x)[0], tl)
+g.dump(group_union(g, filter(lambda x: shicho_works(x)[0], tl)))
+shicho_works(g.m5.group)
+g.current
+g.go_forward(); g.dump()
+g.next_variation(); g.dump()
+g.go_forward(); g.dump()
+g.next_variation(); g.dump()
+g.go_forward(); g.dump()
+g.next_variation(); g.dump()
+g.go_back(); g.dump()
+g.next_variation(); g.dump()
+g.go_forward(); g.dump()
+g.next_variation(); g.dump()
+g.go_forward(); g.dump()
+g=goban('../mumuse_go/goproblems_12022.sgf')
+g=goban('../../mumuse_go/goproblems_12022.sgf')
+g.dump()
+g.go_back(100)
+g.dump()
+g.go_forward(); g.dump()
+g.next_variation()
+g.go_forward(); g.dump()
+tl = toplevel_contexts(g)
+for t in tl: g.dump(t)
+for t in tl: g.dump(group_union(g, [t, area(t)]))
+)
+for t in tl: g.dump(group_union(g, [t, area(t)]))
+{1:2}+{3:4}
+dir({})
+print '\n'.join(dir({}))
+doc
+help({}.viewitems)
+bad
+[ g.dump(x[0] for x in bad['b'] ]
+[ g.dump(x[0]) for x in bad['b'] ]
+[ (g.dump(x[0]), x[1] and g.dump(x[1])) for x in bad['b'] ]
+bad
+[x[1] for x in bad]
+[x[1] for x in bad[BLACK]]
+[x[1] for x in bad[WHITE]]
+bad
+[x[1] for x in bad[WHITE]]
+[x[1] for x in bad[BLACK]]
+[ (g.dump(x[0]), x[1] and g.dump(x[1])) for x in bad['b'] ]
+[ (g.dump(x[0]), x[1] and g.dump(x[1])) for x in bad['w'] ]
+[ (g.dump(x[0]), x[1] and g.dump(x[1])) for x in bad['b'] ]
+[ (g.dump(x[0]), x[1] and g.dump(x[1])) for x in bad['w'] ]
+[ (g.dump(x[0]), x[1] and g.dump(x[1])) for x in bad['b'] ]
+[ (g.dump(x[0]), x[1] and g.dump(x[1])) for x in bad['w'] ]
+[ (g.dump(x[0]), x[1] and g.dump(x[1])) for x in bad[WHITE] ]
+bad
+[ (g.dump(x[0]), x[1] and g.dump(x[1])) for x in bad[WHITE] ]
+def bla(x):
+	print x
+	return x
+[ (bla(x[2], g.dump(x[0]), x[1] and g.dump(x[1])) for x in bad[WHITE] ]
+[ (bla(x[2]), g.dump(x[0]), x[1] and g.dump(x[1])) for x in bad[WHITE] ]
+g.q11
+g.q11.liberties
+g=goban('../../mumuse_go/goproblems_12022.sgf')
+g.dump()
+g
+c=context(g.k5)
+c
+c.area
+c.neighbours
+T=toplevel_contexts(g)
+T
+g.dump(T[0])
+g.dump(T[1])
+g.dump(T[2])
+bad = bad_shape.match_all(g)
+bad
+bad[WHITE]
+g.dump(group_union(g, (x[1] for x in bad[WHITE])))
+g.legal_moves()
+g.legal_moves(BLACK)
+LM=g.legal_moves(BLACK)
+g.dump(group_union(g, (x[1] for x in bad[WHITE])).intersection(LM))
+estimate_score(g)
+context(g.white)
+context(g.white).area
+g.dump(context(g.white).area)
+M = filter(lambda x: len(x.liberties)>1, context(g.white).area)
+g.dump(M)
+M = filter(lambda x: len(x.liberties)>0, context(g.white).area)
+M.add(g.l4)
+M
+M.append(g.l4)
+M.remove(g.g1)
+g.dump(M)
+len(g.white)
+mP = lambda: area(g.white).intersection(M)
+evP = lambda: estimate_score(g)[0][WHITE]
+combP = lambda l: max(l)
+combO = lambda l: min(l)
+explorer(g).explore(BLACK, WHITE, mP, mP, combP, combO, evP, evP)
+del explorer
+from sandbox import explorer
+del explorer
+from sandbox import explorer
+explorer.__doc__
+help(explorer)
+g=goban('../../mumuse_go/goproblems_12022.sgf')
+M = filter(lambda x: len(x.liberties)>1, context(g.white).area)
+g.dump(M)
+M = filter(lambda x: x.liberties, context(g.white).area)
+g.dump(M)
+g.dump(area(M))
+g.dump(area(group(g, M)))
+g.dump(area(M))
+g.dump(area(group(g, M))+M)
+M=area(group(g, M))+M
+M
+mP = lambda: filter(lambda x: x.liberties, M)
+evP = lambda: estimate_score(g)[0][WHITE]
+combP = lambda l: max(l)
+combO = lambda l: min(l)
+explorer(g).explore(BLACK, WHITE, mP, mP, combP, combO, evP, evP)
+g.go_forward(); g.dump()
+g.go_back()
+g.dump()
+g.go_forward(); g.dump()
+g.next_variation(); g.dump()
+g.go_forward(); g.dump()
+explorer(g).explore(BLACK, WHITE, mP, mP, combO, combP, evP, evP)
+evP
+evP()
+connex
+connex(area(g.white))
+[ set((n.group for n in i.neighbours)) for i in connex(area(g.white)) ]
+[ set((n.color for n in i.neighbours)) for i in connex(area(g.white)) ]
+[ set((n.color for n in i.neighbours)) for i in connex(area(g.white)) if reduce(lambda a, b: a and len(b.liberties)>1, i.surrounding_groups) ]
+set((i.group for i in connex(area(g.white)) if len(set((n.color for n in i.neighbours)))==1 and reduce(lambda a, b: a and len(b.liberties)>1, i.surrounding_groups)))
+g2=goban('../sgf/goama134.sgf')
+g2.dump()
+g2 = goban('../sgf/2010-03-07-Blanc-Noir.sgf')
+g2 = goban('../../mumuse_go/2010-03-07-Blanc-Noir.sgf')
+g2.dump()
+g2 = goban('../sgf/blob-gnugo.sgf')
+g2
+g2.dump()
+tl = toplevel_contexts(g2)
+tl
+len(tl)
+for t in tl: g2.dump(t)
+tl[0]
+g2 = goban('../sgf/blob-gnugo.sgf')
+tl = toplevel_contexts(g2)
+tl[0]
+detect_eyes(None)

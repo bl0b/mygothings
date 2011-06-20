@@ -8,19 +8,24 @@
 # hlsearch on (H) or off (h):
 ~h
 # Dernier motif de recherche  :
-~Msle0~/\<tobi_tranché\>
+~Msle0/\<n2\>
 
 # Dernier motif de recherche Substitue  :
-~MSle0&coord(
+~MSle0~&^
 
 # Dernières chaînes de substitution :
-$coord(self, 
+$#
 
 # Historique ligne de commande (chronologie décroissante) :
-:SaveSession editor
 :w
-:174
+:49
+:SaveSession editor
+:35
+:'<,'>s/^/#
 :s
+:s/grp/victim
+:s/grp.victim
+:174
 :split py/goban.py
 :s/coord(/coord(self, 
 :edit py/grid.py
@@ -35,7 +40,6 @@ $coord(self,
 :s/car/x
 :edit py/shape.py
 :s/xy/yx/g
-:'<,'>s/^/#
 :218
 :205
 :split py/grid.py
@@ -54,6 +58,16 @@ $coord(self,
 :214
 
 # Historique chaîne de recherche (chronologie décroissante) :
+? ^
+? \<n2\>
+?/delete_p
+? grp
+? grp.victim
+?/backup
+? \<n2_exc\>
+? \<__good_bad\>
+?/nth_neighbours_i
+?/nth_neighbour_i
 ? \<tobi_tranché\>
 ? \<from_xy\>
 ?/coord(
@@ -64,7 +78,6 @@ $coord(self,
 ? \<print\>
 ?/y,c, st
 ? car
-? ^
 ? \<grid_item_set\>
 ? \<group\>
 ?/group(grid)
@@ -94,105 +107,66 @@ $coord(self,
 
 # Registres :
 "0	LINE	0
-	    bad_shape.from_strings(["#o#", " o "], "tobi_tranché")
-"1	LINE	0
-	    xy = property(lambda self: (self.x, self.y))
+	        print f, grp
+""1	LINE	0
+	            yield n2
 "2	LINE	0
-	            results.add((group(g, grp), self.payload))
+	    grp = grp.group
 "3	LINE	0
-	                i = 
+	        print f, grp
 "4	LINE	0
-	            if (c, i) in cc:
-	                st.__match(g, x0, y0, cc, [i]+grp, results)
+	            n2_exc.update(n2_exc.neighbours)
 "5	LINE	0
-	    __colcmpBW = {
-	        SC_ANY: lambda x: True,
-	        SC_SELF: lambda x: x.color==BLACK,
-	        SC_FOE: lambda x: x.color==WHITE,
-	        SC_EMPTY: lambda x: x.color is None
-	    }
-	    __colcmpWB = {
-	        SC_ANY: lambda x: True,
-	        SC_SELF: lambda x: x.color==WHITE,
-	        SC_FOE: lambda x: x.color==BLACK,
-	        SC_EMPTY: lambda x: x.color is None
-	    }
+	        yield n2
 "6	LINE	0
-	        #self.__match(g, x0, y0, shape_tree.__colcmpBW, [], ret)
-	        #self.__match(g, x0, y0, shape_tree.__colcmpWB, [], ret)
-	        #self.__match2(g, x0, y0, BLACK, WHITE, [], ret)
-	        #self.__match2(g, x0, y0, WHITE, BLACK, [], ret)
-	        #self.__match3(g, x0, y0, BLACK, WHITE, [], ret)
-	        #self.__match3(g, x0, y0, WHITE, BLACK, [], ret)
+	        yield self.neighbours
 "7	LINE	0
-	    def __match(self, g, x0, y0, ccmp, grp, results):
-	        shape_tree.match_calls += 1
-	        for (x,y,c), st in self.iteritems():
-	            try:
-	                i = g[x+x0, y+y0]
-	                #print i, x, y, c, st
-	            except KeyError, ke:
-	                continue
-	            if ccmp[c](i):
-	                grp = [i]+grp
-	                #if self.payload:
-	                #    results.add((group(g, grp), self.payload))
-	                st.__match(g, x0, y0, ccmp, grp, results)
-	        if self.payload:
-	            results.add((group(g, grp), self.payload))
-	
-	    def __match2(self, g, x0, y0, sc, fc, grp, results):
-	        shape_tree.match_calls += 1
-	        if self.payload:
-	            results.add((group(g, grp), self.payload))
-	        for (x,y,c), st in self.iteritems():
-	            try:
-	                i = g[x+x0, y+y0]
-	                #print i, x, y, c, st
-	            except KeyError, ke:
-	                continue
-	            if c is SC_ANY or c is SC_SELF and i.color==sc or c is SC_FOE and i.color==fc or c is SC_EMPTY and i.color is None:
-	                grp = [i]+grp
-	                #if self.payload:
-	                #    results.add((group(g, grp), self.payload))
-	                st.__match2(g, x0, y0, sc, fc, grp, results)
-	
+	        elif n==1:
 "8	LINE	0
-	    def __match3(self, g, x0, y0, sc, fc, grp, results):
-	        shape_tree.match_calls += 1
-	        stack = [ (self, grp) ]
-	        while stack:
-	            st1, gr = stack.pop()
-	            if st1.payload:
-	                results.add((group(g, gr), st1.payload))
-	            for(x,y,c), st in st1.iteritems():
-	                try:
-	                    i = g[x+x0, y+y0]
-	                except KeyError, ke:
-	                    continue
-	                if c is SC_ANY or c is SC_SELF and i.color==sc or c is SC_FOE and i.color==fc or c is SC_EMPTY and i.color is None:
-	                    stack.append((st, [i]+gr))
-	
+	            return self
 "9	LINE	0
-	                grp = 
+	        if n==0:
 "d	LINE	0
 	    if s[shape_X]>0:
-""-	CHAR	0
-	print 
+"-	CHAR	0
+	)
 
 # Marques dans le fichier :
-'0  222  0  ~/bl0b_dev/mygothings/py/shape.py
-'1  235  0  ~/bl0b_dev/mygothings/py/shape.py
-'2  155  0  ~/bl0b_dev/mygothings/py/shape.py
-'3  286  0  ~/bl0b_dev/mygothings/py/grid.py
-'4  287  0  ~/bl0b_dev/mygothings/py/grid.py
-'5  288  0  ~/bl0b_dev/mygothings/py/grid.py
-'6  92  0  ~/bl0b_dev/mygothings/py/sandbox.py
-'7  160  13  ~/bl0b_dev/mygothings/py/sandbox.py
-'8  296  0  ~/bl0b_dev/mygothings/py/grid.py
-'9  298  0  ~/bl0b_dev/mygothings/py/grid.py
+'0  38  0  ~/bl0b_dev/mygothings/py/sandbox.py
+'1  36  0  ~/bl0b_dev/mygothings/py/sandbox.py
+'2  222  0  ~/bl0b_dev/mygothings/py/shape.py
+'3  235  0  ~/bl0b_dev/mygothings/py/shape.py
+'4  155  0  ~/bl0b_dev/mygothings/py/shape.py
+'5  324  0  ~/bl0b_dev/mygothings/py/grid.py
+'6  324  0  ~/bl0b_dev/mygothings/py/grid.py
+'7  325  0  ~/bl0b_dev/mygothings/py/grid.py
+'8  141  0  ~/bl0b_dev/mygothings/py/sandbox.py
+'9  277  13  ~/bl0b_dev/mygothings/py/sandbox.py
 
 # Liste de sauts (le plus récent en premier) :
+-'  38  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  1  0  ~/bl0b_dev/mygothings/py/shape.py
+-'  36  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  33  8  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  39  8  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  260  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  1  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  250  99  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  242  15  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  240  11  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  239  15  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  256  25  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  255  84  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  218  4  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  213  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  215  13  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  226  17  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  251  39  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  153  17  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  266  8  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  55  30  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  142  102  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  134  17  ~/bl0b_dev/mygothings/py/sandbox.py
 -'  222  0  ~/bl0b_dev/mygothings/py/shape.py
 -'  229  26  ~/bl0b_dev/mygothings/py/shape.py
 -'  205  22  ~/bl0b_dev/mygothings/py/shape.py
@@ -205,254 +179,238 @@ $coord(self,
 -'  202  0  ~/bl0b_dev/mygothings/py/shape.py
 -'  221  21  ~/bl0b_dev/mygothings/py/shape.py
 -'  213  20  ~/bl0b_dev/mygothings/py/shape.py
+-'  34  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  37  8  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  258  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  248  99  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  238  11  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  237  15  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  254  25  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  253  84  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  216  4  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  211  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  224  17  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  249  39  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  151  17  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  264  8  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  53  30  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  140  102  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  132  17  ~/bl0b_dev/mygothings/py/sandbox.py
 
 # Historique des marques dans les fichiers (les plus récentes en premier) :
 
 > ~/bl0b_dev/mygothings/py/sandbox.py
-	"	316	4
-	^	346	10
-	.	346	9
-	+	160	26
-	+	160	18
-	+	160	7
-	+	160	0
-	+	160	17
-	+	160	39
-	+	160	17
-	+	160	0
-	+	160	0
-	+	160	36
-	+	160	0
-	+	160	64
-	+	160	20
-	+	160	22
-	+	160	40
-	+	160	30
-	+	160	36
-	+	160	13
-	+	160	49
-	+	160	0
-	+	160	24
-	+	160	28
-	+	160	29
-	+	160	0
-	+	160	14
-	+	160	24
-	+	160	0
-	+	159	39
-	+	163	73
-	+	1	0
-	+	163	61
-	+	162	22
-	+	92	0
-	+	149	36
-	+	90	77
-	+	92	45
-	+	14	0
-	+	15	0
-	+	16	18
-	+	146	0
-	+	147	0
-	+	148	0
-	+	147	0
-	+	146	0
-	+	134	0
-	+	143	0
-	+	142	27
-	+	135	22
-	+	142	27
-	+	135	12
-	+	142	27
-	+	141	11
-	+	141	29
-	+	141	57
-	+	138	7
-	+	141	20
-	+	138	8
-	+	139	28
-	+	141	37
-	+	137	0
-	+	135	19
-	+	137	0
-	+	137	0
-	+	140	14
-	+	136	25
-	+	137	3
-	+	138	7
-	+	139	3
-	+	140	7
-	+	141	20
-	+	142	23
-	+	141	17
-	+	143	0
-	+	143	0
-	+	142	27
-	+	143	0
-	+	328	0
-	+	329	4
-	+	330	4
-	+	332	34
-	+	347	41
-	+	347	58
-	+	347	9
-	+	347	13
-	+	347	21
-	+	347	0
-	+	334	0
-	+	333	0
-	+	334	0
-	+	335	0
-	+	337	0
-	+	338	52
-	+	340	13
-	+	341	0
-	+	340	4
-	+	344	58
-	+	343	0
-	+	344	48
-	+	345	63
-	+	346	9
+	"	38	0
+	^	38	9
+	.	38	8
+	+	218	0
+	+	230	0
+	+	218	27
+	+	218	19
+	+	222	27
+	+	218	13
+	+	230	26
+	+	230	31
+	+	220	38
+	+	222	3
+	+	230	7
+	+	230	11
+	+	230	15
+	+	230	0
+	+	222	30
+	+	224	24
+	+	218	27
+	+	218	0
+	+	224	20
+	+	218	33
+	+	225	15
+	+	220	39
+	+	221	24
+	+	225	91
+	+	227	23
+	+	226	29
+	+	237	23
+	+	238	42
+	+	235	30
+	+	259	4
+	+	260	0
+	+	239	0
+	+	246	15
+	+	259	0
+	+	258	0
+	+	250	96
+	+	234	27
+	+	258	0
+	+	250	144
+	+	250	0
+	+	250	10
+	+	251	19
+	+	250	0
+	+	252	17
+	+	254	58
+	+	253	0
+	+	254	46
+	+	255	31
+	+	211	27
+	+	213	0
+	+	213	0
+	+	218	0
+	+	255	18
+	+	255	35
+	+	239	15
+	+	240	11
+	+	242	15
+	+	215	0
+	+	216	0
+	+	256	4
+	+	250	127
+	+	218	75
+	+	223	45
+	+	227	33
+	+	228	39
+	+	227	17
+	+	228	0
+	+	229	20
+	+	228	38
+	+	250	139
+	+	260	0
+	+	233	29
+	+	228	8
+	+	223	16
+	+	225	98
+	+	39	0
+	+	38	0
+	+	37	14
+	+	38	15
+	+	37	18
+	+	38	18
+	+	33	0
+	+	36	12
+	+	33	39
+	+	34	16
+	+	33	4
+	+	35	10
+	+	33	4
+	+	34	4
+	+	41	18
+	+	33	43
+	+	41	23
+	+	33	18
+	+	33	38
+	+	41	18
+	+	30	21
+	+	33	0
+	+	49	28
+	+	37	8
+	+	38	8
 
 > ~/bl0b_dev/mygothings/py/grid.py
-	"	200	30
-	^	200	30
-	.	200	30
-	+	287	0
-	+	296	0
-	+	296	0
-	+	294	0
-	+	296	0
-	+	228	35
-	+	228	0
-	+	228	0
-	+	228	0
-	+	228	0
-	+	228	0
-	+	227	0
-	+	275	21
-	+	296	0
-	+	289	0
+	"	281	23
+	^	281	24
+	.	281	23
+	+	323	12
+	+	323	0
+	+	323	28
+	+	323	43
+	+	323	19
+	+	323	0
+	+	308	0
+	+	323	0
+	+	308	38
+	+	323	0
+	+	323	16
+	+	323	0
+	+	308	0
+	+	323	0
+	+	323	0
+	+	323	0
+	+	323	0
+	+	308	0
+	+	323	12
+	+	323	30
+	+	323	0
+	+	323	0
+	+	308	0
+	+	323	12
+	+	323	139
+	+	323	0
+	+	323	28
+	+	323	75
+	+	300	87
+	+	323	105
+	+	303	64
+	+	323	0
+	+	323	0
+	+	323	0
+	+	323	68
+	+	317	20
+	+	323	0
+	+	317	85
+	+	317	0
+	+	321	0
+	+	317	20
+	+	317	28
+	+	321	0
+	+	321	12
+	+	322	0
+	+	324	0
+	+	215	58
+	+	215	60
+	+	320	43
+	+	321	12
+	+	317	18
+	+	321	12
+	+	317	54
+	+	321	0
+	+	320	0
+	+	434	8
+	+	321	0
+	+	319	0
+	+	308	39
+	+	317	89
+	+	308	0
+	+	309	65
+	+	317	41
+	+	312	87
+	+	314	24
+	+	310	34
+	+	309	35
+	+	311	33
+	+	316	22
+	+	317	0
+	+	320	28
+	+	308	19
+	+	317	12
+	+	318	20
+	+	306	20
+	+	305	16
+	+	307	23
+	+	272	18
+	+	291	0
+	+	290	0
+	+	242	0
+	+	267	26
+	+	268	0
+	+	277	15
+	+	277	0
+	+	278	0
+	+	288	8
+	+	278	12
+	+	267	78
+	+	280	17
+	+	283	28
+	+	280	18
+	+	282	0
+	+	283	39
+	+	280	67
 	+	288	0
-	+	295	0
-	+	287	0
-	+	287	12
-	+	288	12
-	+	289	12
-	+	290	12
-	+	291	12
-	+	292	12
-	+	293	12
-	+	294	12
-	+	295	12
-	+	287	40
-	+	287	60
-	+	287	43
-	+	287	76
-	+	287	0
-	+	281	0
-	+	281	0
-	+	287	0
-	+	266	19
-	+	265	16
-	+	268	27
-	+	267	0
-	+	268	27
-	+	274	0
-	+	279	0
-	+	278	53
-	+	287	0
-	+	282	55
-	+	278	57
-	+	282	60
-	+	287	0
-	+	284	29
-	+	280	25
-	+	280	18
-	+	280	47
-	+	280	27
-	+	280	18
-	+	280	32
-	+	280	36
-	+	285	42
-	+	282	107
-	+	282	13
-	+	285	12
-	+	286	0
-	+	280	0
-	+	283	0
-	+	284	39
-	+	228	67
-	+	217	0
-	+	216	0
-	+	204	0
-	+	219	24
-	+	222	46
-	+	228	0
-	+	211	45
-	+	212	42
-	+	213	37
-	+	214	58
-	+	62	32
-	+	210	0
-	+	203	30
-	+	179	0
-	+	171	18
-	+	178	0
-	+	179	3
-	+	180	7
-	+	171	8
-	+	187	0
-	+	182	12
-	+	170	28
-	+	174	42
-	+	190	21
-	+	200	31
-	+	364	0
-	+	367	0
-	+	369	0
-	+	372	0
-	+	375	0
-	+	378	0
-	+	384	0
-	+	387	0
-	+	174	48
-	+	200	30
-
-> ~/bl0b_dev/mygothings/NERD_tree_1
-	"	15	0
-	.	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
-	+	1	0
+	+	284	0
+	+	289	0
+	+	278	0
+	+	281	23
 
 > ~/bl0b_dev/mygothings/py/shape.py
-	"	222	0
+	"	222	17
 	^	221	76
 	.	221	75
 	+	220	20
@@ -557,7 +515,7 @@ $coord(self,
 	+	221	75
 
 > ~/bl0b_dev/mygothings/py/goban.py
-	"	179	35
+	"	179	34
 	.	236	0
 	+	46	0
 	+	50	0
@@ -567,6 +525,42 @@ $coord(self,
 	+	191	0
 	+	231	0
 	+	236	0
+
+> ~/bl0b_dev/mygothings/NERD_tree_1
+	"	4	0
+	.	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
 
 > ~/bl0b_dev/mygothings/py/utils.py
 	"	15	25

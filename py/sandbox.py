@@ -27,11 +27,15 @@ def fuzzy_2(x):
 
 
 def fuzz(i):
-    return group(i.grid, (x.group for x in area(i).neighbours if x.color is i.color))
+    return group_union(i.grid, (x.group for x in area(i).neighbours if x.color is i.color))
 
 def rec_fuzz(grp):
     f = fuzz(grp)
-    if f!=grp:
+    #f = fuzz(grp)
+    print f, grp
+    if len(f)>len(grp):
+        #print 'F', f
+        #print 'R', grp
         return rec_fuzz(f)
     else:
         return grp
@@ -42,7 +46,7 @@ def toplevel_contexts(g):
     S = g.black+g.white
     while len(S)>0:
         s = min(S)
-        f = group_union(g, rec_fuzz(s.group))
+        f = rec_fuzz(s.group)
         S.difference_update(f)
         #ret.add(f)
         ret.append(f)
@@ -203,6 +207,7 @@ def toggle_color(c):
 
 
 class explorer(object):
+    __doc__="stamp"
     CONTINUE = object()
     def __init__(self, grid):
         self.grid = grid
@@ -213,6 +218,7 @@ class explorer(object):
         self.grid.go_back()
     def explore(self, colP, colO, msP, msO, combP, combO, evP, evO, indent=0):
         status = evP()
+        outcomes = None
         if status is explorer.CONTINUE:
             outcomes = []
             for move in msP():
@@ -222,18 +228,18 @@ class explorer(object):
                 self.go_back()
             status = combP(outcomes)
         #print '  '*indent, "=>", status
-        return status
+        return outcomes and status or colP
 
 
 def shicho_works(victim):
     victim = min(victim.group)
-    exp = victim.grid.fork()
     if victim.color is None or len(victim.group.liberties)>2:
-        return False
+        return (False, None)
+    exp = victim.grid.fork()
     colO = victim.color
     colP = colO is WHITE and BLACK or WHITE
     def status():
-        if victim.color is None:
+        if victim.color is None or len(victim.group.liberties)==0:
             return True
         if len(victim.group.liberties)>2:
             return False
@@ -253,6 +259,43 @@ def shicho_works(victim):
     return ret, exp
 
 
+
+def is_capturable(victim):
+    "brute-force check of at least one possibility to capture the victim group, limited to groups under 10 liberties."
+    victim = min(victim.group)
+    if victim.color is None or len(victim.group.liberties)>10:
+        return (False, None)
+    exp = victim.grid.fork()
+    colO = victim.color
+    colP = colO is WHITE and BLACK or WHITE
+    def status():
+        if victim.color is None or len(victim.group.liberties)==0:
+            return True
+        if len(victim.group.liberties)>10:
+            return False
+        return explorer.CONTINUE
+    evP = status
+    evO = status
+    def msP():
+        return victim.group.liberties
+    def msO():
+        ret = group_union(victim.grid, (n.liberties for n in victim.group.neighbours if n.color not in (None, victim.color) and len(n.group.liberties)<2))
+        ret.update(victim.group.liberties)
+        return ret
+    combP = lambda l: reduce(lambda a, b: a or b, l, False)
+    combO = lambda l: reduce(lambda a, b: a and b, l, True)
+    ret = explorer(victim.grid).explore(colP, colO, msP, msO, combP, combO, evP, evO)
+    #victim.grid.delete_position(exp)
+    return ret, exp
+
+
+
+def detect_eyes(grp):
+    return set((
+            i.group for i in connex(area(grp))
+                    if  len(set((n.color for n in i.neighbours)))==1
+                    and reduce(lambda a, b: a and len(b.liberties)>1, i.surrounding_groups)
+           ))
 
 
 
@@ -445,15 +488,18 @@ if __name__=='__main__':
     g=goban('../sgf/goama134.sgf')
 
     st=shape_tree()
-    st.from_strings(["#o", "o#"], 'crosscut')
-    st.from_strings(["#.", "o#"], 'cutting_point')
-    st.from_strings(["#.", "##"], 'empty_triangle')
-    st.from_strings(["##", "..", "##"], 'bamboo_joint')
+    st.from_strings(["sf", "fs"], 'crosscut')
+    st.from_strings(["s.", "fs"], 'cutting_point')
+    st.from_strings(["s!", "ss"], 'empty_triangle')
+    st.from_strings(["ss", "!!", "ss"], 'bamboo_joint')
     stma = st.match_all(g)
     #print stma
 
     bad_shape = shape_tree()
-    bad_shape.from_strings(["#o#", " o "], "tobi_tranché")
-    bad_shape.from_strings(["#o ", " o#"], "keima_tranché")
-    bad_shape.from_strings(["#.?", "...", "?.#"], "éléphant")
+    bad_shape.from_strings([".!.", "sfs", " f "], "tobi_tranche")
+    bad_shape.from_strings(["...", "sf.", ".fs", "..."], "keima_tranche")
+    bad_shape.from_strings(["s..", ".!.", "..s"], "elephant")
+    bad_shape.from_strings(["s!", "Fs"], 'cutting_point')
+    bad_shape.from_strings(["?  ", "s! ", "ss?"], 'empty_triangle')
     bad = bad_shape.match_all(g)
+
