@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__all__ = ( 'grid_item', 'intersection', 'group', 'coord', 'position', 'grid_system' )
+__all__ = ( 'grid_item', 'intersection', 'group', 'coord', 'position', 'grid_system', 'connex', 'group_union', 'area' )
 
 from utils import *
 import re
@@ -7,6 +7,21 @@ from properties import *
 from direction import *
 
 # Define the goban as a graph
+
+def connex(S):
+    return set(( x.group.intersection(S) for x in S ))
+
+
+def group_union(grid, args):
+    return reduce(lambda a, b: a.update(b) or a, args, group(grid))
+ 
+neighbour_score = lambda i, c: reduce(lambda a, b: a+iscore(c, b), i.neighbours, 0) 
+area = lambda i: \
+    reduce(lambda a, b: a.update(b) or a,
+           i.group.nth_neighbours_iter(
+               lambda x: x.color is None,
+               lambda x: x.color is None and neighbour_score(x, i.color)>=0),
+           group(i.grid))
 
 def fuzzy_group(a):
     if type(a) is intersection:

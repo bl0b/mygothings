@@ -14,6 +14,7 @@ from colorterm import *
 
 from direction import *
 from shape import *
+from explorer import *
 
 
 
@@ -25,32 +26,6 @@ def fuzzy_2(x):
         ga = group_union(x.grid, (n.group for n in area(ga).neighbours if n.color is x.color))
     return ga
 
-
-def fuzz(i):
-    return group_union(i.grid, (x.group for x in area(i).neighbours if x.color is i.color))
-
-def rec_fuzz(grp):
-    f = fuzz(grp)
-    #f = fuzz(grp)
-    print f, grp
-    if len(f)>len(grp):
-        #print 'F', f
-        #print 'R', grp
-        return rec_fuzz(f)
-    else:
-        return grp
-
-def toplevel_contexts(g):
-    #ret = set()
-    ret = []
-    S = g.black+g.white
-    while len(S)>0:
-        s = min(S)
-        f = rec_fuzz(s.group)
-        S.difference_update(f)
-        #ret.add(f)
-        ret.append(f)
-    return ret
 
         
 
@@ -136,11 +111,6 @@ def iscore(c, b):
     else:
         return -1
 
-neighbour_score = lambda i, c: reduce(lambda a, b: a+iscore(c, b), i.neighbours, 0) 
-area = lambda i: reduce(lambda a, b: a.update(b) or a,
-                        i.group.nth_neighbours_iter(lambda x: x.color is None,
-                                                    lambda x: x.color is None and neighbour_score(x, i.color)>=0),
-                        group(i.grid))
 
 def influence_field(g):
     f = {}
@@ -206,60 +176,6 @@ def toggle_color(c):
         return c
 
 
-class explorer(object):
-    __doc__="stamp"
-    CONTINUE = object()
-    def __init__(self, grid):
-        self.grid = grid
-    def play_one(self, color, pos):
-        self.grid.commit_position()
-        self.grid.add_stone(pos, color)
-    def go_back(self):
-        self.grid.go_back()
-    def explore(self, colP, colO, msP, msO, combP, combO, evP, evO, indent=0):
-        status = evP()
-        outcomes = None
-        if status is explorer.CONTINUE:
-            outcomes = []
-            for move in msP():
-                #print '  '*indent, colP, move
-                self.play_one(colP, move)
-                outcomes.append(self.explore(colO, colP, msO, msP, combO, combP, evO, evP, indent+1))
-                self.go_back()
-            status = combP(outcomes)
-        #print '  '*indent, "=>", status
-        return outcomes and status or colP
-
-
-def shicho_works(victim):
-    victim = min(victim.group)
-    if victim.color is None or len(victim.group.liberties)>2:
-        return (False, None)
-    exp = victim.grid.fork()
-    colO = victim.color
-    colP = colO is WHITE and BLACK or WHITE
-    def status():
-        if victim.color is None or len(victim.group.liberties)==0:
-            return True
-        if len(victim.group.liberties)>2:
-            return False
-        return explorer.CONTINUE
-    evP = status
-    evO = status
-    def msP():
-        return victim.group.liberties
-    def msO():
-        ret = group_union(victim.grid, (n.liberties for n in victim.group.neighbours if n.color not in (None, victim.color) and len(n.group.liberties)<2))
-        ret.update(victim.group.liberties)
-        return ret
-    combP = lambda l: reduce(lambda a, b: a or b, l, False)
-    combO = lambda l: reduce(lambda a, b: a and b, l, True)
-    ret = explorer(victim.grid).explore(colP, colO, msP, msO, combP, combO, evP, evO)
-    #victim.grid.delete_position(exp)
-    return ret, exp
-
-
-
 def is_capturable(victim):
     "brute-force check of at least one possibility to capture the victim group, limited to groups under 10 liberties."
     victim = min(victim.group)
@@ -290,12 +206,25 @@ def is_capturable(victim):
 
 
 
+# TODO potential eyespace is filter(x is surrounded by self color or by liberties that are surrounded by self.color or by liberties, area)
 def detect_eyes(grp):
     return set((
             i.group for i in connex(area(grp))
                     if  len(set((n.color for n in i.neighbours)))==1
                     and reduce(lambda a, b: a and len(b.liberties)>1, i.surrounding_groups)
            ))
+
+
+def estimate_eyespace(grp):
+    A=area(grp.fuzzy_group)+grp.fuzzy_group
+    B=group(grp.grid, filter(lambda x: A.issuperset(x.neighbours), A))-grp.fuzzy_group
+    A=B+grp.fuzzy_group
+    B=group(grp.grid, filter(lambda x: A.issuperset(x.neighbours), A))-grp.fuzzy_group
+    return B
+
+
+
+
 
 
 
@@ -310,14 +239,6 @@ def all_neighbours(i):
     return ng
 
 
-
-def connex(S):
-    return set(( x.group.intersection(S) for x in S ))
-
-
-def group_union(grid, args):
-    return reduce(lambda a, b: a.update(b) or a, args, group(grid))
-        
 
 
 
@@ -452,12 +373,6 @@ def aftermove(c) :
 def hilite(g, *x):
     print unicode(g.hilite(reduce(lambda a,b:a.update(b) or a, x, set())))
 
-
-# choix de coup :
-#   max de fonction_evaluation(fonction_strategie(position), position) pour coup suivant
-# c'est mal dit : fonction_strategie(position) renvoie la fonction d'evaluation
-#   coup max de fonction_strategie(position)(position) ?
-# ca a l'air encore plus mal dit
 
 if __name__=='__main__':
     set_palette(vga_palette)

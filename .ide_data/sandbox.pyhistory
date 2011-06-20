@@ -1400,3 +1400,72 @@ g2 = goban('../sgf/blob-gnugo.sgf')
 tl = toplevel_contexts(g2)
 tl[0]
 detect_eyes(None)
+g2 = goban('../sgf/blob-gnugo.sgf')
+tl = toplevel_contexts(g2)
+detect_eyes(None)
+detect_eyes(tl[0])
+g.dump(group_union(g, detect_eyes(tl[0])))
+g2.dump(group_union(g2, detect_eyes(tl[0])))
+method
+dir(__builtins__)
+g2 = goban('../sgf/blob-gnugo.sgf')
+g2.contexts
+g2 = goban('../sgf/blob-gnugo.sgf')
+g2.contexts
+g2 = goban('../sgf/blob-gnugo.sgf')
+g2.contexts
+g2 = goban('../sgf/blob-gnugo.sgf')
+g2.contexts
+g2 = goban('../sgf/blob-gnugo.sgf')
+g2.contexts
+[ detect_eyes(x) for x in g2.contexts ]
+ey = [ (x, detect_eyes(x)) for x in g2.contexts ]
+for x, ex in ey:
+	g.dump(x); g.dump(ex)
+for x, ex in ey:
+	g2.dump(x); g2.dump(ex)
+for x, ex in ey:
+	if ex:
+		g2.dump(x); g2.dump(group_union(g2, ex))
+area
+area(g.s4)
+g.dump(area(g.s4))
+g2.dump(area(g2.s4))
+filter(lambda x: red(area(g2.s4.fuzzy_group))
+g2.dump(area(g2.s4.group.fuzzy_group))
+red = lambda x, p: reduce(lambda a, b: a and p(b), x, True)
+red = lambda x, p: reduce(lambda a, b: a and p(b), x.neighbours, True)
+filter(lambda x: red(x, lambda i: i.color is None and red(i, lambda z: z.color in (None, BLACK) or i.color is BLACK)), area(g2.s4.group.fuzzy_group))
+g.dump(filter(lambda x: red(x, lambda i: i.color is None and red(i, lambda z: z.color in (None, BLACK) or i.color is BLACK)), area(g2.s4.group.fuzzy_group)))
+g2.dump(filter(lambda x: red(x, lambda i: i.color is None and red(i, lambda z: z.color in (None, BLACK) or i.color is BLACK)), area(g2.s4.group.fuzzy_group)))
+A=area(g2.s4.group.fuzzy_group)
+A-A.neighbours.neighbours
+g2.dump(A)
+n=group(g2, (x for x in A.neighbours if x.color is None))
+A-n.neighbours
+n=group(g2, (x for x in A.neighbours if x.color is None))
+n
+g.dump(n)
+g2.dump(n)
+A=area(g2.s4.group.fuzzy_group)
+A
+g2.dump(A)
+B=filter(lambda x: A.issuperset(x.neighbours), A)
+B
+A
+g.dump(B)
+g2.dump(B)
+A=area(g2.s4.group.fuzzy_group)+g2.s4.group.fuzzy_group
+B=filter(lambda x: A.issuperset(x.neighbours), A)-g2.s4.group.fuzzy_group
+B=group(g2, filter(lambda x: A.issuperset(x.neighbours)), A)-g2.s4.group.fuzzy_group
+B=group(g2, filter(lambda x: A.issuperset(x.neighbours), A))-g2.s4.group.fuzzy_group
+B
+g2.dump(B)
+B=group(g2, filter(lambda x: B.issuperset(x.neighbours), B))
+B
+B=group(g2, filter(lambda x: A.issuperset(x.neighbours), A))-g2.s4.group.fuzzy_group
+A=B+g2.s4.group.fuzzy_group
+B=group(g2, filter(lambda x: A.issuperset(x.neighbours), A))-g2.s4.group.fuzzy_group
+B
+g2.dump(B)
+[ estimate_eyespace(grp) for grp in g.contexts ]

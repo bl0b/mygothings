@@ -4,6 +4,7 @@ __all__ = ( 'xzip', 'iterate_box', 'iterate_coords', 'WHITE', 'BLACK', 'HOSHI', 
 from colorterm import *
 from time import time
 
+       
 class chrono(object):
     def __init__(self):
         self.t = time()

@@ -18,6 +18,28 @@ class IllegalMove(Exception) :
     pass
 
 
+def fuzz(i):
+    return group_union(i.grid, (x.group for x in area(i).neighbours if x.color is i.color))
+
+def rec_fuzz(grp):
+    f = fuzz(grp)
+    if len(f)>len(grp):
+        return rec_fuzz(f)
+    else:
+        return grp
+
+def toplevel_contexts(g):
+    ret = []
+    S = g.black+g.white
+    while len(S)>0:
+        s = min(S)
+        f = rec_fuzz(s.group)
+        S.difference_update(f)
+        ret.append(f)
+    return ret
+
+
+
 def feed(self, gametree, aftermove=lambda g : None) :
     def gen_curs(cursor) :
         def _gen() :
@@ -224,6 +246,7 @@ class goban(grid_system):
                 S.difference_update(sg)
         return ret
     fuzzy_groups = cached_property(_fuzzy_groups)
+    contexts = cached_property(toplevel_contexts)
     # hack getattribute to retrieve an intersection more easily.
     # with g = goban(),
     # g['s15'] can be written g.s15
