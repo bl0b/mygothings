@@ -1,16 +1,31 @@
 # -*- coding: utf-8 -*-
-__all__ = ( 'grid_item', 'intersection', 'group', 'coord', 'position', 'grid_system', 'connex', 'group_union', 'area' )
+__all__ = ( 'grid_item', 'intersection', 'group', 'coord', 'position', 'grid_system', 'connex', 'cnx', 'group_union', 'area', 'detect_eyes' )
 
 from utils import *
 import re
 from properties import *
 from direction import *
+from itertools import ifilter
 
 # Define the goban as a graph
 
 def connex(S):
     return set(( x.group.intersection(S) for x in S ))
+    #return set(( x.neighbours.intersection(S) for x in S ))
 
+def cnx(haystack):
+    S = group(haystack.grid, haystack)
+    ret = []
+    while S:
+        s = group(haystack.grid, [min(S)])
+        N = s.neighbours.intersection(S)
+        S.difference_update(s)
+        while N:
+            s = s + N
+            S.difference_update(N)
+            N = s.neighbours.intersection(S)
+        ret.append(s)
+    return ret
 
 def group_union(grid, args):
     return reduce(lambda a, b: a.update(b) or a, args, group(grid))
@@ -22,6 +37,13 @@ area = lambda i: \
                lambda x: x.color is None,
                lambda x: x.color is None and neighbour_score(x, i.color)>=0),
            group(i.grid))
+
+def detect_eyes(grp):
+    return set((
+            i.group for i in connex(area(grp))
+                    if  len(set((n.color for n in i.neighbours)))==1
+                    and reduce(lambda a, b: a and len(b.liberties)>1, i.surrounding_groups)
+           ))
 
 def fuzzy_group(a):
     if type(a) is intersection:
@@ -81,12 +103,37 @@ class intersection(grid_item):
         self.is_hoshi = is_hoshi
         self.height = (self.heightx, self.heighty)
         self.min_height = min(self.heightx, self.heighty)
+
     liberties = cached_property(lambda self: group(self.grid, [ i for i in self.neighbours if i.color is None ]))
     __colifnko = staticmethod(lambda c: c!=KO and c or None)
+
     color = property(
         lambda self: intersection.__colifnko(self.grid.current.xy2c(self.c.x, self.c.y)),
         lambda self, v: self.grid.current.setc(self.c.x, self.c.y, v)
     )
+
+    def copy_view(self, grid):
+        return intersection(grid, self.c, self.heightx, self.heighty, self.is_hoshi)
+
+    def update_neighbours(self, W=None, N=None, E=None, S=None):
+        W = W and W.c.xy
+        N = N and N.c.xy
+        S = S and S.c.xy
+        E = E and E.c.xy
+        if W in self.grid.intersections:
+            self.W = self.grid[W]
+            self.neighbours.add(self.W)
+        if E in self.grid.intersections:
+            self.E = self.grid[E]
+            self.neighbours.add(self.E)
+        if N in self.grid.intersections:
+            self.N = self.grid[N]
+            self.neighbours.add(self.N)
+        if S in self.grid.intersections:
+            self.S = self.grid[S]
+            self.neighbours.add(self.S)
+        self.compute_neighbour_vs_orientation()
+
     def compute_neighbour_vs_orientation(self):
         for i, o in ((self.W, WEST), (self.S, SOUTH), (self.N, NORTH), (self.E, EAST)):
             if i:
@@ -241,7 +288,7 @@ class group(grid_item_set):
             i.group = self
             self.add(i)
 
-    color = cached_property(lambda self: min(self).color)
+    color = cached_property(lambda self: self and min(self).color or None)
     #neighbours = cached_property(lambda self: group(a.grid, reduce(lambda a, b: a.update(b.neighbours) or a, self, set())-self))
     neighbours = property(lambda self: group(self.grid, reduce(lambda a, b: a.update(b.neighbours) or a, self, set())-self))
     liberties = cached_property(lambda self: reduce(lambda a, b: b.color is None and a.add(b) or a, self.neighbours, group(self.grid)))
@@ -300,53 +347,6 @@ class group(grid_item_set):
             n2.difference_update(n2_exc)
             n1 = n2
             n2 = group(self.grid, n1.neighbours-n1-n0-n2_exc)
-        #return n2
-
-#    @staticmethod
-#    def __good_bad(N, flt):
-#        good = group(N.grid)
-#        bad = group(N.grid)
-#        for n in N:
-#            if flt(n):
-#                good.add(n)
-#            else:
-#                bad.add(n)
-#        return good, bad
-#    def nth_neighbours_iter(self, match_flt=lambda i: True, propagate_flt=lambda i: True):
-#        n0 = None
-#        n1 = self
-#        n2, n2_exc = group.__good_bad(self.neighbours, match_flt)
-#        while len(n2)>0:
-#            print
-#            print n2
-#            print n2_exc
-#            yield n2
-#            propag = group(self.grid, (x for x in n2 if propagate_flt(x)))
-#            good = group(self.grid)
-#            bad = group(self.grid)
-#            for x in (x for x in propag.neighbours if x not in n2 and x not in n2_exc):
-#                if match_flt(x):
-#                    good.add(x)
-#                else:
-#                    bad.add(x)
-#            #n2, bad = group.__good_bad(good, match_flt)
-#            n2 = good
-#            n2_exc.update(bad)
-#            n2_exc.update(bad.neighbours)
-#            #n2_exc.update(bad.neighbours)
-#
-#            #n2 = good.difference(n2-n2_exc)
-#            #n2 = group(self.grid)
-#            #for n in N.neighbours:
-#            #    if n in n2_exc:
-#            #        continue
-#            #    elif flt(n):
-#            #        n2.add(n)
-#            #    else:
-#            #        n2_exc.add(n)
-#            #n2_exc.update(n2_exc.neighbours)
-#
-#            #n2 = group(self.grid, (n for n in n2.neighbours if n not in n2_exc and flt(n)))
 
     def __hash__(self):
         return reduce(lambda a, b: a+hash(b), self, 0)
@@ -401,16 +401,33 @@ class position(list):
 
 class grid_system(grid_item):
     #__metaclass__ = properties
-    def __init__(self, size=None):
-        if size is not None:
-            self.init(size)
+    def __init__(self, size=None, view=None):
         grid_item.__init__(self, self)
+        print "COIN", size, view
+        if view is not None:
+            self.init_view(view)
+        elif size is not None:
+            self.init(size)
+    def init_view(self, view):
+        print "POUET"
+        self.size = view.grid.size
+        self.intersections = dict((((i.c.x, self.size-1-i.c.y), i.copy_view(self)) for i in view))
+        for i in self.intersections.itervalues():
+            src = view.grid.intersections[i.c.xy]
+            i.update_neighbours(src.W, src.N, src.E, src.S)
+        self.tree = position(self.size, view.grid.current.parent)
+        self.current = self.tree
+        self.current.data = view.grid.current.data
     def init(self, size):
+        pred = lambda x: True
+        if type(size) is group:
+            pred = lambda x: x in size
+            size = group.grid.size
         self.intersections = {}
         ctr = (size)/2
         self.size = size
         hoshi = ( size>=13 and 4 or 3, (size+1)/2 )
-        for (x, y) in iterate_coords(size):
+        for (x, y) in ifilter(pred, iterate_coords(size)):
             hx = x>ctr and size-x or 1+x
             hy = y>ctr and size-y or 1+y
             i = intersection(self, coord(self, x, self.size-1-y), hx, hy, hx in hoshi and hy in hoshi)
@@ -473,12 +490,4 @@ class grid_system(grid_item):
         return g1
     def vspace(self):
         return dict(((i, direction()) for i in self.intersections.values()))
-
-#    def remove_from_group(self, g, s):
-#        g.remove(s)
-#        if len(g)==0:
-#            try:
-#                self.groups.remove(g)
-#            except ValueError, ve:
-#                pass
 

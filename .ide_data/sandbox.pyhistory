@@ -1469,3 +1469,805 @@ B=group(g2, filter(lambda x: A.issuperset(x.neighbours), A))-g2.s4.group.fuzzy_g
 B
 g2.dump(B)
 [ estimate_eyespace(grp) for grp in g.contexts ]
+g.dump()
+g=goban(9)
+help(max)
+x
+x=[[1],[1,2],[3]]
+map(x)
+max(x)
+max(x, key=lambda a: len(a))
+import itertools
+help(itertools)
+itertools.tee(iter([1,2,3,4,5]), 2)
+y=itertools.tee(iter([1,2,3,4,5]), 2)
+y
+x,y=itertools.tee(iter([1,2,3,4,5]), 2)
+x.next()
+y.next()
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+G.dump()
+g.go_forward()
+filename='../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf'
+import gomill
+dir(gomill)
+import gomill.*
+help(gomill)
+import gomill.sgf_reader
+import gomill.sgf_reader as sgfrd
+help(sgfrd)
+import gomill.sgf_reader.read_sgf as read_sgf
+from gomill.sgf_reader import read_sgf
+read_sgf(filename)
+read_sgf(open(filename).read())
+s=read_sgf(open(filename).read())
+dir(s)
+s.get_setup_and_moves
+s.get_setup_and_moves()
+help(s.get_setup_and_moves)
+s.nodes
+dir(s.nodes[0])
+[x.prop_list for x in s.nodes]
+[dir(x.prop_list[0]) for x in s.nodes]
+[(p.identifier, p.values) for x in s.nodes for p in x.prop_list]
+help(s)
+s.get_handicap()
+s.get_komi()
+s.get_setup()
+help(s)
+s.get_size()
+help(sgfrd)
+[dict(((p.identifier, p.values) for p in x.prop_list)) for x in s.nodes]
+help(gomill.utils)
+import gomill.utils as gmu
+import gomill.util as gmu
+import gomill.tools as gmu
+help(gomill)
+import gomill.gomill_utils as gmu
+help(gmu)
+import gomill.gomill_common as gmu
+help(gmu)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+G.dump()
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+G.dump()
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+G.dump()
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+G.dump()
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+G.dump()
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+G.dump()
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+G.dump()
+G.go_forward()
+sys.exit(0)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sys.exit(0)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+X = SGFReader(filename)
+X = SGFParser(open(filename).read()).parse()
+filename='../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf'
+X
+dir(X)
+[x for x in X]
+X = X[0]
+X
+dir(X)
+[x for x in X]
+X.variations
+dir(X[0]
+)
+X[0]
+[x for x in X[0].iteritems()]
+[x for x in X[0].items()]
+[x for x in X[1].items()]
+X[1]['AB']
+dir(X[1]['AB'])
+[x for x in X[1]['AB']]
+X[0]['SZ']
+dir(X[0]['SZ'])
+[x for x in X[0]['SZ']]
+filename='../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf'
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+G.dump()
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+G.dump()
+G.contexts
+[G.dump(x) for x  in G.contexts]
+detect_eyes(G)
+detect_eyes(G.groups)
+[detect_eyes(grp) for grp in G.groups]
+eyes = dict(((grp, detect_eyes(grp)) for grp in G.groups))
+eyes
+dict(((k, len(v)) for k, v in eyes.iteritems()))
+[k for k, v in eyes.iteritems() if not len(v)]
+[g.dump(k) for k, v in eyes.iteritems() if not len(v)]
+[G.dump(k) for k, v in eyes.iteritems() if not len(v)]
+eyes = dict(((grp, detect_eyes(grp)) for grp in G.contexts))
+[G.dump(k) for k, v in eyes.iteritems() if not len(v)]
+eyes
+[G.dump(k+group_union(G, v)) for k, v in eyes if len(v)>=2 or len(v)==1 and len(min(v))>8]
+[G.dump(k+group_union(G, v)) for k, v in eyes.iteritems() if len(v)>=2 or len(v)==1 and len(min(v))>8]
+G.dump(group_union(G, (k+group_union(G, v)) for k, v in eyes.iteritems() if len(v)>=2 or len(v)==1 and len(min(v))>8))
+G.dump(group_union(G, ((k+group_union(G, v)) for k, v in eyes.iteritems() if len(v)>=2 or len(v)==1 and len(min(v))>8))
+)
+G.dump(area(G.g3.group)
+)
+help(itertools)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+G.dump(area(G.g3.group))
+[ set((s.group for s in grp)) for grp in G.contexts ]
+dict(( (k, v) for k, vlist in ((G.contexts, set((s.group for s in grp))) for grp in G.contexts) for v in vlist))
+[(k, v) for k, vlist in ((G.contexts, set((s.group for s in grp))) for grp in G.contexts) for v in vlist]
+[(k, v) for k, vlist in ((G.contexts, set((s.group for s in grp))) for grp in G.contexts) for v in vlist][0]
+[(k, v) for k, vlist in ((grp, set((s.group for s in grp))) for grp in G.contexts) for v in vlist][0]
+dict(((k, v) for k, vlist in ((grp, set((s.group for s in grp))) for grp in G.contexts) for v in vlist))
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+G.dump()
+G.context_by_group
+G.groups_by_context
+min(G.contexts)
+min(G.contexts).eyes
+G.dump(min(G.contexts))
+[ c for c in G.contexts if not c.eyes or len(c.eyes)==1 and len(min(c.eyes))<3 ]
+G.dump(group_union(G,[ c for c in G.contexts if not c.eyes or len(c.eyes)==1 and len(min(c.eyes))<3 ]))
+connex((c for c in G.contexts if not c.eyes or len(c.eyes)==1 and len(min(c.eyes))<3))
+connex(group(G, (c for c in G.contexts if not c.eyes or len(c.eyes)==1 and len(min(c.eyes))<3)))
+connex(group_union(G, (c for c in G.contexts if not c.eyes or len(c.eyes)==1 and len(min(c.eyes))<3)))
+connex(area(group_union(G, (c for c in G.contexts if not c.eyes or len(c.eyes)==1 and len(min(c.eyes))<3))))
+faito = group_union(G, (c for c in G.contexts if not c.eyes or len(c.eyes)==1 and len(min(c.eyes))<3))
+faito
+g.dump(faito)
+G.dump(faito)
+G.dump(area(faito)+faito)
+connex(area(faito)+faito)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+faito = group_union(G, (c for c in G.contexts if not c.eyes or len(c.eyes)==1 and len(min(c.eyes))<3))
+connex(area(faito)+faito)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+faito = group_union(G, (c for c in G.contexts if not c.eyes or len(c.eyes)==1 and len(min(c.eyes))<3))
+cnx(area(faito)+faito)
+from grid import cnx
+cnx(area(faito)+faito)
+sys.exit(0)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+faito = group_union(G, (c for c in G.contexts if not c.eyes or len(c.eyes)==1 and len(min(c.eyes))<3))
+cnx(area(faito)+faito)
+from grid import cnx
+cnx(area(faito)+faito)
+|g.dump(c) for c in cnx(area(faito)+faito)]
+[g.dump(c) for c in cnx(area(faito)+faito)]
+[G.dump(c) for c in cnx(area(faito)+faito)]
+sys.exit(0)
+identify_semeais(G)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+identify_semeais(G)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+identify_semeais(G)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+identify_semeais(G)
+len(identify_semeais(G))
+sem
+sem = identify_semeais(G)[0]
+G.dump(sem)
+and(True, True)
+bool.__and__(True, True)
+bool.__and__(True, True, True)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[0]
+sem
+status(sem)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[0]
+status(sem)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[0]
+status(sem)
+G.dump([G.t16])
+G.dump(sem)
+G.context_by_group
+G.context_by_group[group(G, [G.t16]))
+G.context_by_group[group(G, [G.t16])
+]
+G.context_by_group[group(G, [G.t16.group])
+]
+G.groups_by_context[group(G, [G.t16.group])]
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+G.context_by_group[group(G, [G.t16])
+]
+sem = identify_semeais(G)[0]
+G.dump(sem)
+status(sem)
+G.context_by_group[group(G, [G.t16])
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[0]
+G.dump(sem)
+status(sem)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[0]
+G.dump(sem)
+status(sem)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[0]
+G.dump(sem)
+status(sem)
+g.go_forward()
+G.go_forward()
+G.dump(sem)
+G.next_variation(); G.dump(sem)
+G.go_forward(); G.dump(sem)
+G.next_variation(); G.dump(sem)
+G.previous_variation(); G.dump(sem)
+G.go_forward(); G.dump(sem)
+sem = identify_semeais(G)[1]
+G.dump(sem)
+status(sem)
+dir(goban())
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[1]
+G.dump(sem)
+status(sem)
+G.current
+G.dump(à
+G.dump(sem)
+G.go_forward; G.dump(sem)
+G.go_forward(); G.dump(sem)
+G.next_variation(); G.dump(sem)
+G.go_forward(); G.dump(sem)
+G.next_variation(); G.dump(sem)
+G.go_forward(); G.dump(sem)
+G.go_back(); G.dump(sem)
+G.next_variation(); G.dump(sem)
+G.go_forward(); G.dump(sem)
+G.previous_variation()
+G.go_forward(); G.dump(sem)
+G.next_variation(); G.dump(sem)
+G.previous_variation()
+G.next_variation(); G.dump(sem)
+G.previous_variation();G.dump(sem)
+G.go_forward(); G.dump(sem)
+G.next_variation(); G.dump(sem)
+G.go_forward(); G.dump(sem)
+G.next_variation(); G.dump(sem)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[1]
+G.dump(sem)
+status(sem)
+sem = identify_semeais(G)[0]
+G.dump(sem)
+sem = identify_semeais(G)[3]
+G.dump(sem)
+status(sem)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[3]
+G.dump(sem)
+status(sem)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[3]
+G.dump(sem)
+status(sem)
+G.go_forward(); G.dump(sem)
+sys.raw_input()
+os.raw_input()
+import os
+os.raw_input()
+raw_input
+raw_input()
+sys.stdin.read(1)
+dir(sys.stdin)
+sys.stdin.mode
+help()
+pygame
+pygame.locals
+termios
+term
+terminal
+ansi
+*ansi
+*ansi*
+ANSI
+import ANSI
+dir(ANSI)
+a
+a=ANSI.ANSI()
+a.erase_screen()
+print a
+print >> a, "pouet"
+a
+print a
+dir(a)
+from utils import crawl
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[3]
+G.dump(sem)
+stat
+stat = status(sem)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[3]
+G.dump(sem)
+stat = status(sem)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[3]
+G.dump(sem)
+sys.exit(0)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[3]
+G.dump(sem)
+sem = identify_semeais(G)[3]
+sys.exit(0)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[3]; G.dump(sem)
+status(sem)
+sys.exit(0)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[3]; G.dump(sem)
+status(sem)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[3]; G.dump(sem)
+status(sem)
+sys.exit(0)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[3]; G.dump(sem)
+status(sem)
+sys.exit(0)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[3]; G.dump(sem)
+status(sem)
+st=status(sem)
+crawl(G, st[WHITE])
+crawl(G, st[WHITE][1])
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[3]; G.dump(sem)
+st=status(sem)
+crawl(G, st[WHITE][1])
+help(pygame.event)
+import pygame
+help(pygame.event)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[3]; G.dump(sem)
+st=status(sem)
+crawl(G, st[WHITE][1])
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[3]; G.dump(sem)
+st=status(sem)
+crawl(G, st[WHITE][1])
+screen = pygame.display.set_mode( (640,480) )
+pygame.display.set_caption('Python numbers')
+screen.fill((159, 182, 205))
+import pygame
+screen = pygame.display.set_mode( (640,480) )
+pygame.display.set_caption('Python numbers')
+screen.fill((159, 182, 205))
+crawl(G, st[WHITE][1])
+reset
+dir(__builtins__)
+help(reload)
+reload(sandbox)
+from sandbox import *
+reload(sandbox)
+import sandbox
+reload(sandbox)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[3]; G.dump(sem)
+st=status(sem)
+st
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[3]; G.dump(sem)
+st=status(sem)
+st=status(sem, 3)
+sem
+G.dump()
+G.go_back();G.dump()
+st=status(sem, 3)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[3]; G.dump(sem)
+st=status(sem, 3)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[3]; G.dump(sem)
+st=status(sem, 3)
+st=status(sem, maxdepth=3)
+dict(((k, s[0]) for k, s in st.iteritems()))
+sem = identify_semeais(G)[4]; G.dump(sem)
+st=status(sem)
+st=status(sem, maxdepth=3)
+g.go_back(100)
+G.go_back(100)
+G.dump()
+st=status(sem, maxdepth=3)
+dict(((k, s[0]) for k, s in st.iteritems()))
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[4]; G.dump(sem)
+st=status(sem, maxdepth=2)
+dict(((k, s[0]) for k, s in st.iteritems()))
+reload(status)
+sys.exit(0)
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+sem = identify_semeais(G)[4]; G.dump(sem)
+st=status(sem, maxdepth=2)
+st
+dict(((k, s[0]) for k, s in st.iteritems()))
+q = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_001.sgf')
+q.dump()
+sem = identify_semeais(G)[4]; G.dump(sem)
+allsem = identify_semeais(q)
+allsem
+[q.dump(x) for x in allsem]
+st = status(allsem[0], maxdepth=5)
+dict(((k, s[0]) for k, s in st.iteritems()))
+q.dump(allsem[0])
+q.dump()
+q.go_forward(); q.dump()
+q.go_back()
+q.go_forward(); q.dump()
+q.go_back()
+q.go_forward(); q.dump()
+q.current.data-q.current.parent.data
+X=q.current.data-q.current.parent.data
+X
+while X>(19*4): X/=(19*4)
+X
+X=q.current.data-q.current.parent.data
+while X>(y*(19*4)): y+=1
+y=0
+while X>(y*(19*4)): y+=1
+y=0
+while X>((19*4)**(y+1)): y+=1
+y
+4**19
+L=4**19
+y=0
+while X>(L**(y+1)): y+=1
+y
+X-(L**(y+1))
+X-(L**y)
+x=0
+while X>(4**(x+1)): x+=1
+x
+X2=X-(L**y)
+while X2>(4**(x+1)): x+=1
+x
+X2
+X
+y
+L
+X2=X/(L**y)
+x2
+X2
+L
+x=0
+x=0;while X2>(4**(x+1)): x+=1
+while X2>(4**(x+1)): x+=1
+x
+y
+q[x,y]
+q[x,18-y]
+q.dump([q.t16])
+q.go_back();q.dump()
+g.dump()
+identify_semeais
+allsem = identify_semeais(g)
+allsem
+len(allsem)
+g.dump(allsem[0])
+area(g.d12)
+g.dump(area(g.d12))
+g.dump(area(g.i12))
+g.dump(area(g.d12))
+g.dump(area(g.i12))
+g.contexts
+len(g.contexts)
+for c in g.contexts: g.dump(c)
+g.contexts[2]
+A=g.contexts[2]
+A
+g.dump(A)
+g.dump(area(A))
+g.dump(area(A)+A+A.neighbours)
+X=goban(area(A)+A+A.neighbours)
+X
+X.dump()
+X=goban(group(g, area(A)+A+A.neighbours))
+X.dump()
+dir(X)
+X.size
+X.intersections
+A=g.contexts[2]; g.dump(A)
+A=g.contexts[0]; g.dump(A)
+A=g.contexts[0]; B = group(g, A+area(A)+A.neighbours); g.dump(B)
+A=g.contexts[0]; B = group(g, A+area(A)+A.neighbours); g.dump(B); X=goban(B); X.dump()
+A=g.contexts[0]; B = group(g, A+area(A)+A.neighbours); g.dump(B); X=goban(view=B); X.dump()
+X.contexts
+with
+time()
+import time
+time.time()
+with time.time():
+	print 'toto'
+A=g.contexts[0]; B = group(g, A+area(A)+A.neighbours); g.dump(B); X=goban(view=B); X.dump()
+st.match_all(X)
+s=st.match_all(G)
+st.match_all(g)
+s=st.match_all(g)
+s=st.match_all(X)
+A
+G = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+allsem = identify_semeais(G)
+allsem
+G.dump(allsem[3])
+s=st.match_all(G, A)
+s=st.match_all(G)
+s=st.match_all(G, A)
+s=st.match_all(G)
+s=st.match_all(G, A)[A
+help(shape)à
+help(shape)
+shapeètree
+shape_tree
+test = shape_tree()
+test.match(g)
+test.match_all(g)
+allsem = identify_semeais(g)
+allsem
+A=allsem[3]
+allsem
+len(allsem)
+g=goban('../sgf/blob-gnugo.sgf')
+allsem = identify_semeais(g)
+len(allsem)
+g.dump(*allsem)
+g = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+g.dump()
+allsem = identify_semeais(g)
+len(allsem)
+A=allsem[3]
+ga = goban(A)
+ga = goban(view=A)
+ga.dump()
+ga.q13
+ga.q12
+ga.q13.color
+outslib = group(ga, (ga.q13, ga.q14))
+reduce(lambda a, b: a.color==b.color, (ga.q13,))
+ga.dump(area(ga.white))
+ga.dump(area(ga.black))
+A=allsem[2]
+ga = goban(view=A)
+ga.dump()
+ga = goban(view=allsem[0]);ga.dump()
+ga = goban(view=allsem[1]);ga.dump()
+ga = goban(view=allsem[2]);ga.dump()
+ga = goban(view=allsem[3]);ga.dump()
+ga = goban(view=allsem[4]);ga.dump()
+ga = goban(view=allsem[5]);ga.dump()
+ga = goban(view=allsem[0]);ga.dump()
+cnx(ga.white.liberties)
+wl = cnx(ga.white.liberties)
+filter(lambda lgrp: reduce(lambda a, b: a and b.color in (None, WHITE), lgrp.neighbours, True), wl)
+wl
+reduce(lambda a, b: a and b.color in (None, WHITE), wl[0].neighbours, True)
+reduce(lambda a, b: a and b.color in (None, WHITE), wl[2].neighbours, True)
+reduce(lambda a, b: a and (b not in ga.intersections or b.color in (None, WHITE)), wl[2].neighbours, True)
+filter(lambda lgrp: reduce(lambda a, b: a and (b not in ga.intersections or b.color in (None, WHITE)), wl[2].neighbours, True), wl)
+ga.intersections
+filter(lambda lgrp: reduce(lambda a, b: a and (b.c not in ga.intersections or b.color in (None, WHITE)), wl[2].neighbours, True), wl)
+filter(lambda lgrp: reduce(lambda a, b: a and (b.c.xy not in ga.intersections or b.color in (None, WHITE)), wl[2].neighbours, True), wl)
+filter(lambda lgrp: reduce(lambda a, b: a and (b.c.xy not in ga.intersections or b.color in (None, WHITE)), lgrp, True), wl)
+filter(lambda lgrp: reduce(lambda a, b: a and ((b.c.xy not in ga.intersections) or b.color in (None, WHITE)), lgrp, True), wl)
+ga.b12.neighbours
+reduce(lambx.color for x in ga.b12.neighbours]
+filter(lambda lgrp: reduce(lambda a, b: a and (b.c.xy not in ga.intersections) or b.color in (None, WHITE)), lgrp, True), wl)
+filter(lambda lgrp: reduce(lambda a, b: a and (b.c.xy not in ga.intersections) or b.color in (None, WHITE)), lgrp, True), wl))
+filter(lambda lgrp: reduce(lambda a, b: a and ((b.c.xy not in ga.intersections) or b.color in (None, WHITE)), lgrp, True), wl)
+filter(lambda lgrp: reduce(lambda a, b: a and (b not in ga.intersections or b.color in (None, WHITE)), wl[2].neighbours, True), wl)
+g = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+allsem = identify_semeais(g)
+ga = goban(view=allsem[0]);ga.dump()
+g = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+allsem = identify_semeais(g)
+ga = goban(view=allsem[0]);ga.dump()
+g.dump()
+ga = goban(view=allsem[1]);ga.dump()
+ga
+ga.b10.grid
+ga.current.data
+g.current.data
+ga.d12.neighbours
+ga.go_forward()
+ga.current
+id(ga.current)
+id(g.current)
+ga.current.data = g.current.data
+ga.dump()
+wl = cnx(ga.white.liberties)
+reduce(lambda a, b: a and b.color in (None, WHITE), wl[0].neighbours, True)
+wl
+filter(lambda lgrp: reduce(lambda a, b: a and b.color in (None, WHITE), lgrp.neighbours, True), wl)
+g = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+allsem = identify_semeais(g)
+[ g.dump(x) for x in allsem ]
+ga = goban(view=allsem[3]); ga.dump()
+g = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+allsem = identify_semeais(g)
+[ g.dump(x) for x in allsem ]
+ga = goban(view=allsem[3]); ga.dump()
+outside_liberties(ga)
+ga = goban(view=allsem[0]); ga.dump()
+ga.dump(area(ga.black))
+ga.dump(area(ga.black)+ga.black)
+st = status(group(ga, ga.intersections.itervalues()), maxdepth=5)
+st
+estimate_score(ga)
+ga.dump()
+ga.go_back(100)
+ga.dump()
+estimate_score(ga)
+ga.add_stone(ga.g2, WHITE)
+estimate_score(ga)
+ga.add_stone(ga.h1, WHITE)
+estimate_score(ga)
+ga.dump()
+st = shape_tree()
+from sandbox import gm_shapes
+st.from_strings(gm_shapes['aji'][0])
+st.from_strings(*gm_shapes['aji'][0])
+st.from_strings(*gm_shapes['aji'])
+st.from_strings(('f!.',), 'liberty')
+st.from_strings(('f!', ' .'), 'liberty')
+ga.dump()*
+ga.dump()
+ga.go_back(2)
+ga.dump()
+ga.go_back(2)
+ga.dump()
+ga.go_back(2)
+ga.go_back(100)
+ga.dump()
+ga.remove_stone(ga.g2)
+ga.remove_stone(ga.h1)
+ga.add_stone(ga.h2, BLACK)
+ga.dump()
+st.match_all(ga)
+st
+st = shape_tree()
+st
+st.from_strings(('f!.',), 'liberty')
+st.from_strings(('f!', ' .'), 'liberty')
+st
+st.match_all(ga)
+[ b for a,b,c in st.match_all(ga) ]
+[ b for a,b,c in st.match_all(ga)['w'] ]
+set((b for a,b,c in st.match_all(ga)['w']))
+g = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+ga = goban(view=allsem[3]); ga.dump()
+allsem = identify_semeais(g)
+ga = goban(view=allsem[3]); ga.dump()[B
+ga = goban(view=allsem[3]); ga.dump()
+st = shape_tree()
+st.from_strings(('f!.',), 'liberty')
+st.from_strings(('f!', ' .'), 'liberty')
+ga = goban(view=allsem[2]); ga.dump()
+set((b for a,b,c in st.match_all(ga)['w']))
+st
+sta = status(group(ga, ga.intersections.itervalues()), maxdepth=5)
+g = goban('../STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf')
+allsem = identify_semeais(g)
+ga = goban(view=allsem[2]); ga.dump()
+sta = status(group(ga, ga.intersections.itervalues()), maxdepth=5)
+sta
+ga.dump()
+ga.go_forward()
+ga.dump()
+ga.next_variation()
+ga.dump()
+'c' > '0'
+ord('c')
+ord('0')
+sys.exit(0)
+g.dump()
+g=goban('../sgf/p31.sgf')
+g.dump()
+g.go_back(20)
+g.dump()
+g.go_back(2)
+g.dump()
+g.go_back(2)
+g.dump()
+g.go_back(2)
+g.dump()
+g.go_back(2)
+g.dump()
+g.go_back(2)
+g.dump()
+g.go_back(2)
+g.dump()
+shicho_works
+shicho_works(g.n4.group)
+g=goban('../sgf/p31.sgf')
+g.go_back(30)
+g.dump()
+g=goban('../sgf/p31.sgf')
+g.go_back(36)
+g.dump()
+g.go_forward()
+g.dump()
+g.go_forward()
+g.dump()
+shicho_works(g.n4.group)
+help(WHITE)
+help('WHITE')
+WHITE
+g=goban('../sgf/p31.sgf')
+g.go_back(34)
+g.dump()
+shicho_works(g.n4.group)
+g.dump(g.n4.group)
+g=goban('../sgf/p31.sgf')
+g.dump(g.n4.group)
+g.go_back(34)
+g.dump(g.n4.group)
+shicho_works(g.n4.group)
+sys.exit(0)
+g.dump(g.n4.group)
+g=goban('../sgf/p31.sgf')
+g.go_back(34)
+g.dump(g.n4.group)
+shicho_works(g.n4.group)
+sys.exit(0)
+g=goban('../sgf/p31.sgf')
+g.go_back(34)
+shicho_works(g.n4.group)
+g=goban('../sgf/p31.sgf')
+g.go_back(34)
+shicho_works(g.n4.group)
+g=goban('../sgf/p31.sgf')
+g.go_back(34)
+shicho_works(g.n4.group)
+g=goban('../sgf/p31.sgf')
+g.go_back(34)
+shicho_works(g.n4.group)
+g.dump([g.o5])
+shicho_works(g.n4.group)
+g.go_back()
+shicho_works(g.n4.group)
+sys.exit(0)
+g=goban('../sgf/p31.sgf')
+shicho_works(g.n4.group)
+g.go_back(34)
+shicho_works(g.n4.group)
+g=goban('../sgf/p31.sgf')
+g.go_back(34)
+shicho_works(g.n4.group)
+g=goban('../sgf/p31.sgf')
+g.go_back(34)
+shicho_works(g.n4.group)
+g.dump()
+g.go_forward(); g.dump()
+g.go_back(4)
+g.dump()
+g.go_back(2)
+g.dump()
+g.go_forward(); g.dump()
+g.next_variation(); g.dump()
+g.go_forward(); g.dump()
+g.next_variation(); g.dump()
+g.go_forward(); g.dump()
+g.next_variation(); g.dump()
+g.go_forward(); g.dump()
+g.next_variation(); g.dump()
+g.go_back(); g.gump()
+g.go_back(); g.dump()
+g.go_forward(); g.dump()
+g.next_variation(); g.dump()
+g.go_forward(); g.dump()
+g.next_variation(); g.dump()
+g.go_back(); g.dump()
+g.next_variation(); g.dump()
+g.go_back(); g.dump()
+g.go_forward(); g.dump()
+g.next_variation(); g.dump()
+shicho_works(g.n4.group)
+g=goban('../sgf/p31.sgf')
+g.go_back(34)
+shicho_works(g.n4.group)

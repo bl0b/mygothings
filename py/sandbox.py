@@ -16,6 +16,36 @@ from direction import *
 from shape import *
 from explorer import *
 
+from itertools import izip
+
+gm_shapes = {
+    'threat': ( # bad aji
+        ('center', ('s!', 'fs'), 'cut'),
+    ),
+    'aji': ( # good aji
+        ('center', ('f!.',), 'liberty'),
+        ('center', ('f!', ' .'), 'liberty'),
+    ),
+    'eye_shapes': tuple(),
+}
+
+
+def outside_liberties(G):
+    outslib = lambda libs: filter(lambda lgrp: reduce(lambda a, b: a and b.color in (None, WHITE), lgrp.neighbours, True), cnx(libs))
+    return { BLACK: outslib(G.black.liberties), WHITE: outslib(G.white.liberties) }
+
+
+
+def gen_move_semeai(g, col):
+    # 
+    pass
+
+
+
+def goban_from_strings(strlist):
+    size = max(len(strlist), reduce(lambda a, b: a+max(len(b)-a, 0), strlist, len(strlist)))
+    ret = goban(size)
+    #for x, s in
 
 
 def fuzzy_2(x):
@@ -28,6 +58,9 @@ def fuzzy_2(x):
 
 
         
+def identify_semeais(G):
+    faito = group_union(G, (c for c in G.contexts if not c.eyes or len(c.eyes)==1 and len(min(c.eyes))<3))
+    return cnx(area(faito)+faito)
 
 
 def field_diff(g, col):
@@ -126,12 +159,12 @@ def influence_field(g):
 def influence(g):
     f = influence_field(g)
     ret = {
-        'B': group(g),
-        'W': group(g),
-        'Z': group(g),
-        'E': group(g),
-        'CW': group(g),
-        'CB': group(g),
+        'B': group(g), # only black
+        'W': group(g), # only white
+        'Z': group(g), # zero
+        'E': group(g), # empty
+        'CW': group(g), # conflict, more white than black
+        'CB': group(g), # conflict, more black than white
     }
     for i in g.intersections.values():
         x = f[i]
@@ -176,6 +209,70 @@ def toggle_color(c):
         return c
 
 
+def i_can_play_there(i, col):
+    icpt = {
+        None: lambda x: True,
+        col: lambda x: len(x.group.liberties)>1,
+        toggle_color(col): lambda x: len(x.group.liberties)==1
+    }
+
+    return i.color is None and reduce(lambda a, b: a or icpt[b.color](b), i.neighbours, False)
+
+
+
+
+def status(A, color=None, maxdepth=10):
+    if color is None:
+        return { BLACK:status(A, BLACK), WHITE:status(A, WHITE) }
+    G = A.grid
+    exp = G.fork()
+    colP = color
+    colO = color is BLACK and WHITE or BLACK
+    player = lambda: group(G, (G.context_by_group[s.group] for s in A if s.color is colP))
+    opponent = lambda: group(G, (G.context_by_group[s.group] for s in A if s.color is colO))
+    aji = shape_tree()
+    aji.from_strings(('f!',), None)
+    aji.from_strings(('s!.',), None)
+    aji.from_strings(('s!',' .'), None)
+    def ms(col):
+        #print "ms", col
+        if col is None:
+            return []
+        #return filter(lambda x: i_can_play_there(x, col), A)
+        return set((b for a,b,c in aji.match_all(ga)[col]))
+
+    msP = lambda: ms(colP)
+    msO = lambda: ms(colO)
+
+    def evP():
+        # return (player_is_alive, opponent_is_alive)
+        #G.dump(A)
+        pia = None
+        oia = None
+        p = player()
+        pm = msP()
+        if not (p and pm):
+            pia = False
+        pe = p.eyes
+        pia = pia or len(pe)>=2
+        o = opponent()
+        om = msO()
+        if not (o and om):
+            oia = False
+        po = o.eyes
+        oia = oia or len(po)>=2
+        if pia or oia:
+            return (pia, oia)
+        return explorer.CONTINUE
+        #return (len(pe)>=2 or len(o)==0 or len(opponent().liberties)==1) and True or explorer.CONTINUE
+    combP = lambda l: reduce(lambda a, b: a and b, l, True)
+    combO = lambda l: reduce(lambda a, b: a or b, l, False)
+    ret = explorer(G, maxdepth=maxdepth).explore(colP, colO, msP, msO, combP, combO, evP, evP)
+    #victim.grid.delete_position(exp)
+    return ret, exp
+
+
+
 def is_capturable(victim):
     "brute-force check of at least one possibility to capture the victim group, limited to groups under 10 liberties."
     victim = min(victim.group)
@@ -207,13 +304,6 @@ def is_capturable(victim):
 
 
 # TODO potential eyespace is filter(x is surrounded by self color or by liberties that are surrounded by self.color or by liberties, area)
-def detect_eyes(grp):
-    return set((
-            i.group for i in connex(area(grp))
-                    if  len(set((n.color for n in i.neighbours)))==1
-                    and reduce(lambda a, b: a and len(b.liberties)>1, i.surrounding_groups)
-           ))
-
 
 def estimate_eyespace(grp):
     A=area(grp.fuzzy_group)+grp.fuzzy_group

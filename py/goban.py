@@ -9,7 +9,7 @@ from utils import *
 from grid import *
 
 from properties import *
-
+import itertools
 
 
 
@@ -44,48 +44,59 @@ def feed(self, gametree, aftermove=lambda g : None) :
     def gen_curs(cursor) :
         def _gen() :
             try :
+                yield cursor.node
                 while not cursor.atEnd :
-                    yield cursor.node
-                    cursor.next()
+                    yield cursor.next()
             except GameTreeEndError :
                 pass
         return _gen
     def getcolor(node):
         return node.has_key('W') and 'W' or node.has_key('B') and 'B' or None
+    def sgf2xy(s):
+        ret = tuple(itertools.imap(lambda x : ord(x)-ord('a'), s))
+        print s, ret
+        return ret
+
     colors = { 'W':WHITE, 'B':BLACK }
     cursor = gen_curs(gametree.mainline().cursor())
     for node in cursor() :
+        #print str(node)
         if node.has_key('SZ'):
-            #print str(node['SZ'])
-            szstr = str(node['SZ'])
-            size = int(szstr[szstr.find('[')+1:-1])
+            size = int(node['SZ'][0])
             self.init(size)
-        else:
-            col = getcolor(node)
-            if col is not None:
-                xy = str(node[col])[2:4]
-                x, y = map(lambda x : ord(x)-ord('a'), list(xy))
-                print coord(self, x, y),
-                if x==y and x>=self.size:
-                    self.add_pass()
-                else:
-                    #print "new stone", colors[col], coord(self, x, y)
-                    self.add_stone(self.intersections[coord(self, x, y).xy], colors[col])
-                self.commit_position()
-                aftermove(self)
+        col = getcolor(node)
+        if col:
+            x, y = sgf2xy(node[col][0])
+            print coord(self, x, y),
+            if x==y and x>=self.size:
+                self.add_pass()
+            else:
+                #print "new stone", colors[col], coord(self, x, y)
+                self.add_stone(self.intersections[coord(self, x, y).xy], colors[col])
+            self.commit_position()
+            aftermove(self)
+        for c,col in (('AB', BLACK), ('AW', WHITE), ('AE', None)):
+            if node.has_key(c):
+                #print str(node[c]), node[c], dir(node[c])
+                for s in node[c]:
+                    self.add_stone(self[sgf2xy(s)], col)
 
 
 
 class goban(grid_system):
-    def __init__(self, size=None):
-        grid_system.__init__(self, type(size) is int and size or None)
+    def __init__(self, size=None, view=None):
+        grid_system.__init__(self, type(size) is not str and size or None, view)
         if type(size) is str:
             self.feed(SGFParser(open(size).read()).parse()[0].mainline())
-    def init(self, size, handicap=0, komi=6.5):
+    def __init(self, cont, arg, handicap=0, komi=6.5):
         self.prisoners = { BLACK:0, WHITE:0 }
         self.active_ko = None
         self.komi = komi
-        grid_system.init(self, size)
+        cont(self, arg)
+    def init(self, size, handicap=0, komi=6.5):
+        self.__init(grid_system.init, size, handicap, komi)
+    def init_view(self, view, handicap=0, komi=6.5):
+        self.__init(grid_system.init_view, view, handicap, komi)
     def copy(self):
         g = grid_system.copy(self, goban)
         g.prisoners = self.prisoners.copy()
@@ -97,7 +108,8 @@ class goban(grid_system):
             if i.color is not None or i.active_ko:
                 return False
             if not i.liberties:
-                # Check if that stone would capture something OR connects to at least one group that has more than one liberty
+                # Check if that stone would capture something OR connects to at least
+                # one group that has more than one liberty
                 return reduce(lambda a, b:
                               a
                               or
@@ -198,8 +210,11 @@ class goban(grid_system):
         rows.reverse()
         rows += [ u"Prisoners : White(%i) Black(%i)"%(self.prisoners[WHITE], self.prisoners[BLACK]) ]
         for x, y in iterate_coords(self.size):
-            i = self.intersections[coord(self, x, y).xy]
-            rows[y] += ' '+i.prettyprint(i in hilite)
+            try:
+                i = self.intersections[coord(self, x, y).xy]
+                rows[y] += ' '+i.prettyprint(i in hilite)
+            except KeyError, ke:
+                rows[y] += term.BOARD+'  '
         return (term.NORMAL+u'\n').join(rows)
 
     def hilitevec(self, hilite=[]):
@@ -247,6 +262,12 @@ class goban(grid_system):
         return ret
     fuzzy_groups = cached_property(_fuzzy_groups)
     contexts = cached_property(toplevel_contexts)
+    context_by_group = cached_property(lambda self: dict((
+             (v, k) for k, vlist in self.groups_by_context.iteritems()
+                    for v in vlist)))
+    groups_by_context = cached_property(lambda self: dict((
+             (grp, set((s.group for s in grp))) for grp in self.contexts)))
+    eyes = cached_property(detect_eyes)
     # hack getattribute to retrieve an intersection more easily.
     # with g = goban(),
     # g['s15'] can be written g.s15

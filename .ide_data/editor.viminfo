@@ -8,21 +8,52 @@
 # hlsearch on (H) or off (h):
 ~h
 # Dernier motif de recherche  :
-~Msle0/\<n2\>
+~Msle0~/\<hs_col\>
 
 # Dernier motif de recherche Substitue  :
-~MSle0~&^
+~MSle0&is not None 
 
 # Dernières chaînes de substitution :
-$#
+$
 
 # Historique ligne de commande (chronologie décroissante) :
 :w
-:49
+:162
+:q
+:tabnew
 :SaveSession editor
+:288
+:s
+:s/is not None //
+:s/is not None//
+:s/= \(.\)/= \1 and \1
+:s/if \(.\)/if \1 is not None and \1
+:'<,'>s/W/S/g
+:'<,'>s/W/N/g
+:'<,'>s/W/E
+:'<,'>s/W/E/g
+:s/W/E/g
+:s/W/S/g
+:s/W/N/g
+:vsplit py/explorer.py
+:edit py/utils.py
+:edit py/explorer.py
+:210
+:edit py/colorterm.py
+:vsplit
+:set !autoindent
+:set autoindent false
+:set autoindent 0
+:set autoindent
+:set autoindent !
+:set autoindent off
+:set autoindent no
+:set autoindent!
+:s/group/neighbours
+:24
+:49
 :35
 :'<,'>s/^/#
-:s
 :s/grp/victim
 :s/grp.victim
 :174
@@ -36,28 +67,37 @@ $#
 :split py/sandbox.py
 :176
 :W
-:180
-:s/car/x
-:edit py/shape.py
-:s/xy/yx/g
-:218
-:205
-:split py/grid.py
-:edit py/sandbox.py
-:s/intersection/union/g
-:s/intersection/difference/g
-:split
-:q
-:a
-:s/\(\w\+\).add/ret['\1'].add
-:'<,'>s
-:s/\(\w\+\) = \(.*\)/'\1': \2,
-:split .ide_data/sandbox.pyhistory
-:s/return/yield
-:x
-:214
 
 # Historique chaîne de recherche (chronologie décroissante) :
+? \<hs_col\>
+?/return set((no
+? \<shape_from_strings\>
+? \<copy_view\>
+? \<init_view\>
+?/view
+? is not None 
+? is not None
+? = \(.\)
+? if \(.\)
+? W
+?/hilite
+?/priso
+? ):
+? \<self\>
+? \<crawl\>
+?/print
+?/craw
+?/min(self).co
+?/Ille
+?/Illr
+? \<opponent\>
+?/group
+?/G
+?/contexts
+? \<connex\>
+? \<area\>
+? \<detect_eyes\>
+?/area
 ? ^
 ? \<n2\>
 ?/delete_p
@@ -79,25 +119,6 @@ $#
 ?/y,c, st
 ? car
 ? \<grid_item_set\>
-? \<group\>
-?/group(grid)
-?/\<set\>
-?/grid_item
-?/surround
-?/neighbouring
-? \<nth_neighbours_iter\>
-? \<direction\>
-? \<nth_neighbour_iter\>
-? intersection
-?/class gr
-?/intersec
-?/x
-? \(\w\+\).add
-? \(\w\+\) = \(.*\)
-? \<flt\>
-? return
-?/n2_exc
-?/group
 
 # Historique expression (chronologie décroissante) :
 
@@ -107,424 +128,572 @@ $#
 
 # Registres :
 "0	LINE	0
-	        print f, grp
+	    aji.from_strings(('s!.',), None)
 ""1	LINE	0
-	            yield n2
+	hs_col = {
+	    SC_ANY: SC_ANY,
+	    SC_SELF: SC_SELF,
+	    SC_FOE: SC_FOE,
+	    SC_EMPTY: SC_EMPTY
+	}
 "2	LINE	0
-	    grp = grp.group
+	SC_EMPTY_HOTSPOT='!'
 "3	LINE	0
-	        print f, grp
+	SC_FOE_HOTSPOT='F'
 "4	LINE	0
-	            n2_exc.update(n2_exc.neighbours)
+	SC_SELF_HOTSPOT='S'
 "5	LINE	0
-	        yield n2
+	}
 "6	LINE	0
-	        yield self.neighbours
+	    SC_EMPTY:False
 "7	LINE	0
-	        elif n==1:
+	    SC_FOE:False,
 "8	LINE	0
-	            return self
+	    SC_SELF:False,
 "9	LINE	0
-	        if n==0:
+	    SC_SELF_HOTSPOT:True,
 "d	LINE	0
 	    if s[shape_X]>0:
 "-	CHAR	0
-	)
+	]
 
 # Marques dans le fichier :
-'0  38  0  ~/bl0b_dev/mygothings/py/sandbox.py
-'1  36  0  ~/bl0b_dev/mygothings/py/sandbox.py
-'2  222  0  ~/bl0b_dev/mygothings/py/shape.py
-'3  235  0  ~/bl0b_dev/mygothings/py/shape.py
-'4  155  0  ~/bl0b_dev/mygothings/py/shape.py
-'5  324  0  ~/bl0b_dev/mygothings/py/grid.py
-'6  324  0  ~/bl0b_dev/mygothings/py/grid.py
-'7  325  0  ~/bl0b_dev/mygothings/py/grid.py
-'8  141  0  ~/bl0b_dev/mygothings/py/sandbox.py
-'9  277  13  ~/bl0b_dev/mygothings/py/sandbox.py
+'0  197  0  ~/bl0b_dev/mygothings/py/sandbox.py
+'1  236  0  ~/bl0b_dev/mygothings/py/sandbox.py
+'2  409  0  ~/bl0b_dev/mygothings/py/grid.py
+'3  82  0  ~/bl0b_dev/mygothings/py/utils.py
+'4  239  0  ~/bl0b_dev/mygothings/py/sandbox.py
+'5  240  0  ~/bl0b_dev/mygothings/py/sandbox.py
+'6  253  0  ~/bl0b_dev/mygothings/py/sandbox.py
+'7  83  0  ~/bl0b_dev/mygothings/py/utils.py
+'8  99  0  ~/bl0b_dev/mygothings/py/utils.py
 
 # Liste de sauts (le plus récent en premier) :
--'  38  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  197  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  1  0  ~/bl0b_dev/mygothings/py/explorer.py
+-'  236  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  31  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  409  0  ~/bl0b_dev/mygothings/py/grid.py
+-'  418  29  ~/bl0b_dev/mygothings/py/grid.py
 -'  1  0  ~/bl0b_dev/mygothings/py/shape.py
--'  36  0  ~/bl0b_dev/mygothings/py/sandbox.py
--'  33  8  ~/bl0b_dev/mygothings/py/sandbox.py
--'  39  8  ~/bl0b_dev/mygothings/py/sandbox.py
--'  260  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  82  0  ~/bl0b_dev/mygothings/py/utils.py
+-'  2  128  ~/bl0b_dev/mygothings/py/utils.py
+-'  29  8  ~/bl0b_dev/mygothings/py/explorer.py
+-'  33  9  ~/bl0b_dev/mygothings/py/explorer.py
+-'  24  17  ~/bl0b_dev/mygothings/py/explorer.py
+-'  291  72  ~/bl0b_dev/mygothings/py/grid.py
+-'  239  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  240  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  253  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  83  0  ~/bl0b_dev/mygothings/py/utils.py
+-'  1  0  ~/bl0b_dev/mygothings/py/utils.py
+-'  216  18  ~/bl0b_dev/mygothings/py/shape.py
+-'  99  0  ~/bl0b_dev/mygothings/py/utils.py
+-'  263  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  249  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  267  8  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  270  70  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  268  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  232  11  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  60  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  64  1  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  138  1  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  56  51  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  53  4  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  82  0  ~/bl0b_dev/mygothings/py/goban.py
+-'  56  50  ~/bl0b_dev/mygothings/py/goban.py
+-'  410  0  ~/bl0b_dev/mygothings/py/grid.py
+-'  421  33  ~/bl0b_dev/mygothings/py/grid.py
+-'  405  4  ~/bl0b_dev/mygothings/py/grid.py
+-'  7  0  ~/bl0b_dev/mygothings/py/grid.py
+-'  8  0  ~/bl0b_dev/mygothings/py/grid.py
+-'  425  22  ~/bl0b_dev/mygothings/py/grid.py
+-'  432  18  ~/bl0b_dev/mygothings/py/grid.py
+-'  430  42  ~/bl0b_dev/mygothings/py/grid.py
+-'  429  24  ~/bl0b_dev/mygothings/py/grid.py
+-'  349  0  ~/bl0b_dev/mygothings/py/grid.py
+-'  334  21  ~/bl0b_dev/mygothings/py/grid.py
+-'  74  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  72  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  69  8  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  75  8  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  353  0  ~/bl0b_dev/mygothings/py/sandbox.py
 -'  1  0  ~/bl0b_dev/mygothings/py/sandbox.py
--'  250  99  ~/bl0b_dev/mygothings/py/sandbox.py
--'  242  15  ~/bl0b_dev/mygothings/py/sandbox.py
--'  240  11  ~/bl0b_dev/mygothings/py/sandbox.py
--'  239  15  ~/bl0b_dev/mygothings/py/sandbox.py
--'  256  25  ~/bl0b_dev/mygothings/py/sandbox.py
--'  255  84  ~/bl0b_dev/mygothings/py/sandbox.py
--'  218  4  ~/bl0b_dev/mygothings/py/sandbox.py
--'  213  0  ~/bl0b_dev/mygothings/py/sandbox.py
--'  215  13  ~/bl0b_dev/mygothings/py/sandbox.py
--'  226  17  ~/bl0b_dev/mygothings/py/sandbox.py
--'  251  39  ~/bl0b_dev/mygothings/py/sandbox.py
--'  153  17  ~/bl0b_dev/mygothings/py/sandbox.py
--'  266  8  ~/bl0b_dev/mygothings/py/sandbox.py
--'  55  30  ~/bl0b_dev/mygothings/py/sandbox.py
--'  142  102  ~/bl0b_dev/mygothings/py/sandbox.py
--'  134  17  ~/bl0b_dev/mygothings/py/sandbox.py
--'  222  0  ~/bl0b_dev/mygothings/py/shape.py
--'  229  26  ~/bl0b_dev/mygothings/py/shape.py
--'  205  22  ~/bl0b_dev/mygothings/py/shape.py
--'  214  31  ~/bl0b_dev/mygothings/py/shape.py
--'  208  12  ~/bl0b_dev/mygothings/py/shape.py
--'  209  42  ~/bl0b_dev/mygothings/py/shape.py
--'  220  29  ~/bl0b_dev/mygothings/py/shape.py
--'  219  41  ~/bl0b_dev/mygothings/py/shape.py
--'  218  26  ~/bl0b_dev/mygothings/py/shape.py
--'  202  0  ~/bl0b_dev/mygothings/py/shape.py
--'  221  21  ~/bl0b_dev/mygothings/py/shape.py
--'  213  20  ~/bl0b_dev/mygothings/py/shape.py
--'  34  0  ~/bl0b_dev/mygothings/py/sandbox.py
--'  37  8  ~/bl0b_dev/mygothings/py/sandbox.py
--'  258  0  ~/bl0b_dev/mygothings/py/sandbox.py
--'  248  99  ~/bl0b_dev/mygothings/py/sandbox.py
--'  238  11  ~/bl0b_dev/mygothings/py/sandbox.py
--'  237  15  ~/bl0b_dev/mygothings/py/sandbox.py
--'  254  25  ~/bl0b_dev/mygothings/py/sandbox.py
--'  253  84  ~/bl0b_dev/mygothings/py/sandbox.py
--'  216  4  ~/bl0b_dev/mygothings/py/sandbox.py
--'  211  0  ~/bl0b_dev/mygothings/py/sandbox.py
--'  224  17  ~/bl0b_dev/mygothings/py/sandbox.py
--'  249  39  ~/bl0b_dev/mygothings/py/sandbox.py
--'  151  17  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  343  99  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  335  15  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  333  11  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  80  0  ~/bl0b_dev/mygothings/py/goban.py
+-'  386  0  ~/bl0b_dev/mygothings/py/grid.py
+-'  387  33  ~/bl0b_dev/mygothings/py/grid.py
+-'  384  4  ~/bl0b_dev/mygothings/py/grid.py
+-'  391  22  ~/bl0b_dev/mygothings/py/grid.py
+-'  398  18  ~/bl0b_dev/mygothings/py/grid.py
+-'  396  42  ~/bl0b_dev/mygothings/py/grid.py
+-'  395  24  ~/bl0b_dev/mygothings/py/grid.py
+-'  328  0  ~/bl0b_dev/mygothings/py/grid.py
+-'  313  21  ~/bl0b_dev/mygothings/py/grid.py
+-'  71  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  66  8  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  332  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  322  99  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  314  15  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  312  11  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  352  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  342  99  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  334  15  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  227  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  228  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  220  11  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  326  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  316  99  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  308  15  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  306  11  ~/bl0b_dev/mygothings/py/sandbox.py
 -'  264  8  ~/bl0b_dev/mygothings/py/sandbox.py
--'  53  30  ~/bl0b_dev/mygothings/py/sandbox.py
--'  140  102  ~/bl0b_dev/mygothings/py/sandbox.py
--'  132  17  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  266  70  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  265  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  349  0  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  339  99  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  331  15  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  329  11  ~/bl0b_dev/mygothings/py/sandbox.py
+-'  98  0  ~/bl0b_dev/mygothings/py/utils.py
+-'  82  0  ~/bl0b_dev/mygothings/py/utils.py
+-'  2  128  ~/bl0b_dev/mygothings/py/utils.py
+-'  26  8  ~/bl0b_dev/mygothings/py/explorer.py
+-'  30  9  ~/bl0b_dev/mygothings/py/explorer.py
 
 # Historique des marques dans les fichiers (les plus récentes en premier) :
 
 > ~/bl0b_dev/mygothings/py/sandbox.py
-	"	38	0
-	^	38	9
-	.	38	8
-	+	218	0
-	+	230	0
-	+	218	27
-	+	218	19
-	+	222	27
-	+	218	13
-	+	230	26
-	+	230	31
-	+	220	38
-	+	222	3
-	+	230	7
-	+	230	11
-	+	230	15
-	+	230	0
-	+	222	30
-	+	224	24
-	+	218	27
-	+	218	0
-	+	224	20
-	+	218	33
-	+	225	15
-	+	220	39
-	+	221	24
-	+	225	91
-	+	227	23
-	+	226	29
-	+	237	23
-	+	238	42
-	+	235	30
-	+	259	4
-	+	260	0
-	+	239	0
-	+	246	15
-	+	259	0
-	+	258	0
-	+	250	96
-	+	234	27
-	+	258	0
-	+	250	144
-	+	250	0
-	+	250	10
-	+	251	19
-	+	250	0
-	+	252	17
-	+	254	58
+	"	197	0
+	^	166	57
+	.	166	57
+	+	243	0
+	+	212	26
+	+	216	21
+	+	215	8
+	+	241	17
+	+	237	13
+	+	241	54
+	+	243	0
+	+	245	17
+	+	244	0
+	+	245	24
+	+	267	0
 	+	253	0
-	+	254	46
-	+	255	31
-	+	211	27
-	+	213	0
-	+	213	0
-	+	218	0
-	+	255	18
-	+	255	35
-	+	239	15
-	+	240	11
-	+	242	15
-	+	215	0
-	+	216	0
-	+	256	4
-	+	250	127
-	+	218	75
-	+	223	45
-	+	227	33
-	+	228	39
-	+	227	17
-	+	228	0
-	+	229	20
-	+	228	38
-	+	250	139
-	+	260	0
-	+	233	29
-	+	228	8
-	+	223	16
-	+	225	98
-	+	39	0
-	+	38	0
-	+	37	14
-	+	38	15
-	+	37	18
-	+	38	18
+	+	258	0
+	+	262	0
+	+	267	0
+	+	259	17
+	+	253	15
+	+	254	23
+	+	260	21
+	+	261	22
+	+	267	21
+	+	251	18
+	+	255	16
+	+	262	0
+	+	256	0
+	+	257	30
+	+	254	20
+	+	260	20
+	+	262	0
+	+	261	22
+	+	250	17
+	+	251	17
+	+	262	19
+	+	263	30
+	+	270	49
+	+	249	15
+	+	266	35
+	+	264	21
+	+	224	36
+	+	270	38
+	+	250	18
+	+	251	18
+	+	250	17
+	+	251	16
+	+	240	20
+	+	239	0
+	+	238	22
+	+	266	0
+	+	267	8
+	+	238	8
+	+	249	8
+	+	44	0
+	+	42	0
+	+	32	0
+	+	34	109
+	+	34	22
+	+	34	120
+	+	34	24
+	+	34	133
+	+	35	82
+	+	33	23
 	+	33	0
-	+	36	12
-	+	33	39
-	+	34	16
-	+	33	4
-	+	35	10
-	+	33	4
-	+	34	4
-	+	41	18
-	+	33	43
-	+	41	23
-	+	33	18
-	+	33	38
-	+	41	18
-	+	30	21
+	+	33	23
+	+	32	0
 	+	33	0
-	+	49	28
-	+	37	8
-	+	38	8
+	+	39	28
+	+	40	6
+	+	41	7
+	+	30	0
+	+	29	19
+	+	23	27
+	+	22	11
+	+	25	12
+	+	27	28
+	+	23	18
+	+	27	18
+	+	22	24
+	+	25	22
+	+	29	25
+	+	27	23
+	+	26	0
+	+	27	29
+	+	241	61
+	+	242	54
+	+	236	6
+	+	233	7
+	+	236	34
+	+	234	0
+	+	236	25
+	+	235	0
+	+	242	37
+	+	236	30
+	+	162	29
+	+	163	34
+	+	164	28
+	+	165	29
+	+	166	35
+	+	167	56
+	+	166	57
 
 > ~/bl0b_dev/mygothings/py/grid.py
-	"	281	23
-	^	281	24
-	.	281	23
-	+	323	12
-	+	323	0
-	+	323	28
-	+	323	43
-	+	323	19
-	+	323	0
-	+	308	0
-	+	323	0
-	+	308	38
-	+	323	0
-	+	323	16
-	+	323	0
-	+	308	0
-	+	323	0
-	+	323	0
-	+	323	0
-	+	323	0
-	+	308	0
-	+	323	12
-	+	323	30
-	+	323	0
-	+	323	0
-	+	308	0
-	+	323	12
-	+	323	139
-	+	323	0
-	+	323	28
-	+	323	75
-	+	300	87
-	+	323	105
-	+	303	64
-	+	323	0
-	+	323	0
-	+	323	0
-	+	323	68
-	+	317	20
-	+	323	0
-	+	317	85
-	+	317	0
-	+	321	0
-	+	317	20
-	+	317	28
-	+	321	0
-	+	321	12
-	+	322	0
-	+	324	0
-	+	215	58
-	+	215	60
-	+	320	43
-	+	321	12
-	+	317	18
-	+	321	12
-	+	317	54
-	+	321	0
-	+	320	0
-	+	434	8
-	+	321	0
-	+	319	0
-	+	308	39
-	+	317	89
-	+	308	0
-	+	309	65
-	+	317	41
-	+	312	87
-	+	314	24
-	+	310	34
-	+	309	35
-	+	311	33
-	+	316	22
-	+	317	0
-	+	320	28
-	+	308	19
-	+	317	12
-	+	318	20
-	+	306	20
-	+	305	16
-	+	307	23
-	+	272	18
-	+	291	0
-	+	290	0
-	+	242	0
-	+	267	26
-	+	268	0
-	+	277	15
-	+	277	0
-	+	278	0
-	+	288	8
-	+	278	12
-	+	267	78
-	+	280	17
-	+	283	28
-	+	280	18
-	+	282	0
-	+	283	39
-	+	280	67
-	+	288	0
-	+	284	0
-	+	289	0
-	+	278	0
-	+	281	23
+	"	182	4
+	^	420	50
+	.	420	49
+	+	303	4
+	+	40	0
+	+	40	0
+	+	2	131
+	+	13	4
+	+	14	0
+	+	13	4
+	+	14	4
+	+	16	18
+	+	28	0
+	+	24	12
+	+	20	39
+	+	24	21
+	+	26	43
+	+	25	32
+	+	22	28
+	+	27	20
+	+	18	11
+	+	28	13
+	+	20	40
+	+	2	102
+	+	291	72
+	+	414	62
+	+	418	33
+	+	418	39
+	+	408	31
+	+	409	9
+	+	414	20
+	+	404	42
+	+	409	9
+	+	407	26
+	+	404	37
+	+	407	23
+	+	408	36
+	+	404	0
+	+	412	0
+	+	406	0
+	+	404	42
+	+	407	27
+	+	406	28
+	+	408	30
+	+	414	61
+	+	418	0
+	+	413	0
+	+	115	30
+	+	115	10
+	+	106	0
+	+	109	0
+	+	114	0
+	+	115	0
+	+	115	41
+	+	114	0
+	+	114	0
+	+	114	27
+	+	114	0
+	+	115	0
+	+	115	0
+	+	116	13
+	+	132	11
+	+	118	61
+	+	133	32
+	+	132	0
+	+	133	0
+	+	132	0
+	+	121	0
+	+	120	0
+	+	119	0
+	+	120	0
+	+	121	0
+	+	122	0
+	+	132	38
+	+	134	38
+	+	129	0
+	+	126	0
+	+	123	0
+	+	126	0
+	+	129	0
+	+	132	0
+	+	135	46
+	+	123	0
+	+	126	0
+	+	129	0
+	+	132	0
+	+	119	0
+	+	120	0
+	+	121	0
+	+	122	0
+	+	123	0
+	+	126	0
+	+	129	0
+	+	132	11
+	+	129	11
+	+	126	11
+	+	123	11
+	+	414	94
+	+	417	31
+	+	416	48
+	+	417	58
+	+	414	79
+	+	420	49
 
 > ~/bl0b_dev/mygothings/py/shape.py
-	"	222	17
-	^	221	76
-	.	221	75
-	+	220	20
-	+	220	0
-	+	220	0
-	+	220	8
-	+	220	0
-	+	219	0
-	+	203	117
-	+	202	4
-	+	203	98
-	+	220	8
-	+	220	8
-	+	220	20
-	+	221	20
-	+	220	38
-	+	221	35
-	+	222	17
-	+	221	34
-	+	205	0
-	+	205	35
-	+	218	33
-	+	202	17
-	+	202	119
-	+	203	118
-	+	203	17
-	+	220	43
-	+	221	43
-	+	218	40
+	"	251	0
+	^	149	0
+	.	176	0
+	+	207	26
+	+	228	25
+	+	202	37
+	+	213	27
+	+	214	29
+	+	215	29
+	+	205	23
+	+	207	28
+	+	205	25
+	+	207	32
+	+	208	39
+	+	199	22
 	+	208	0
-	+	218	0
-	+	218	0
-	+	218	21
-	+	218	0
-	+	219	0
-	+	205	0
-	+	204	0
-	+	205	15
-	+	220	20
-	+	221	20
-	+	201	0
-	+	218	26
-	+	220	0
-	+	220	35
-	+	220	27
-	+	205	0
-	+	205	29
-	+	220	33
-	+	220	44
-	+	221	43
-	+	208	32
-	+	213	35
-	+	205	24
-	+	208	32
-	+	213	37
-	+	218	33
-	+	218	26
-	+	221	20
-	+	220	49
-	+	221	49
-	+	218	39
-	+	220	0
-	+	209	0
-	+	229	76
-	+	234	26
-	+	218	0
-	+	213	0
-	+	213	19
-	+	213	0
-	+	208	27
-	+	220	57
-	+	221	57
-	+	214	53
-	+	208	43
-	+	205	30
-	+	213	26
-	+	234	25
-	+	208	37
-	+	219	27
-	+	220	29
-	+	221	29
-	+	211	23
-	+	213	28
-	+	211	25
-	+	213	32
-	+	214	39
-	+	205	22
-	+	214	0
-	+	205	0
-	+	212	34
-	+	213	25
-	+	214	57
-	+	229	37
-	+	212	21
-	+	224	35
-	+	228	23
-	+	229	3
-	+	231	32
-	+	227	40
-	+	219	66
-	+	220	75
-	+	221	75
+	+	199	0
+	+	206	34
+	+	207	25
+	+	208	57
+	+	223	37
+	+	206	21
+	+	218	35
+	+	222	23
+	+	223	3
+	+	225	32
+	+	221	40
+	+	213	66
+	+	214	75
+	+	215	75
+	+	70	31
+	+	39	0
+	+	267	1
+	+	266	24
+	+	266	31
+	+	266	16
+	+	188	4
+	+	266	26
+	+	267	1
+	+	277	1
+	+	272	41
+	+	274	43
+	+	276	65
+	+	272	48
+	+	274	55
+	+	275	34
+	+	272	61
+	+	276	7
+	+	273	60
+	+	276	65
+	+	276	65
+	+	277	0
+	+	269	17
+	+	271	33
+	+	270	14
+	+	271	3
+	+	272	3
+	+	273	3
+	+	274	3
+	+	275	3
+	+	276	3
+	+	277	6
+	+	278	13
+	+	280	0
+	+	279	0
+	+	243	0
+	+	281	0
+	+	279	14
+	+	237	0
+	+	151	15
+	+	152	13
+	+	178	20
+	+	186	33
+	+	178	17
+	+	188	0
+	+	189	0
+	+	190	34
+	+	189	50
+	+	176	0
+	+	176	0
+	+	149	12
+	+	150	11
+	+	179	28
+	+	189	66
+	+	182	37
+	+	183	0
+	+	179	26
+	+	191	37
+	+	184	52
+	+	227	21
+	+	231	71
+	+	162	20
+	+	163	60
+	+	174	75
+	+	170	87
+	+	172	18
+	+	173	17
+	+	197	67
+	+	139	42
+	+	142	66
+	+	139	66
+	+	189	34
+	+	176	0
 
 > ~/bl0b_dev/mygothings/py/goban.py
-	"	179	34
-	.	236	0
+	"	220	15
+	^	217	37
+	.	217	36
 	+	46	0
 	+	50	0
 	+	51	0
-	+	170	0
-	+	179	0
+	+	182	0
 	+	191	0
-	+	231	0
-	+	236	0
+	+	203	0
+	+	246	0
+	+	251	0
+	+	78	74
+	+	80	65
+	+	79	20
+	+	68	18
+	+	79	20
+	+	78	30
+	+	54	77
+	+	67	0
+	+	79	16
+	+	78	0
+	+	63	0
+	+	47	0
+	+	49	38
+	+	50	0
+	+	55	7
+	+	78	0
+	+	79	0
+	+	80	0
+	+	59	0
+	+	56	0
+	+	56	14
+	+	55	13
+	+	56	49
+	+	69	35
+	+	56	17
+	+	56	0
+	+	56	47
+	+	65	15
+	+	66	0
+	+	65	0
+	+	69	37
+	+	82	46
+	+	80	16
+	+	82	23
+	+	63	9
+	+	82	40
+	+	56	0
+	+	57	0
+	+	56	13
+	+	58	15
+	+	56	65
+	+	12	16
+	+	85	0
+	+	270	38
+	+	85	0
+	+	270	0
+	+	265	126
+	+	266	232
+	+	266	15
+	+	265	51
+	+	266	73
+	+	266	40
+	+	266	124
+	+	266	73
+	+	266	156
+	+	269	50
+	+	269	50
+	+	269	50
+	+	266	73
+	+	266	1
+	+	269	1
+	+	267	19
+	+	266	8
+	+	269	9
+	+	266	17
+	+	112	17
+	+	74	0
+	+	87	42
+	+	88	72
+	+	91	52
+	+	95	22
+	+	91	23
+	+	99	63
+	+	97	53
+	+	91	52
+	+	97	20
+	+	99	46
+	+	213	15
+	+	214	3
+	+	215	57
+	+	217	36
+
+> ~/bl0b_dev/mygothings/py/explorer.py
+	"	33	29
+	^	35	4
+	.	35	3
+	+	36	20
+	+	25	19
+	+	26	3
+	+	27	7
+	+	30	27
+	+	29	63
+	+	1	28
+	+	29	20
+	+	5	39
+	+	7	31
+	+	14	76
+	+	18	22
+	+	8	22
+	+	15	48
+	+	16	52
+	+	35	50
+	+	34	42
+	+	35	3
 
 > ~/bl0b_dev/mygothings/NERD_tree_1
 	"	4	0
@@ -561,17 +730,86 @@ $#
 	+	1	0
 	+	1	0
 	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+
+> ~/bl0b_dev/mygothings/NERD_tree_2
+	"	12	7
+	.	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
 
 > ~/bl0b_dev/mygothings/py/utils.py
-	"	15	25
-	^	15	26
-	.	15	25
+	"	82	0
+	^	83	9
+	.	83	8
 	+	23	0
 	+	2	19
 	+	2	120
 	+	5	20
 	+	14	0
 	+	15	25
+	+	100	0
+	+	100	0
+	+	68	0
+	+	73	0
+	+	81	3
+	+	68	12
+	+	2	129
+	+	68	0
+	+	71	37
+	+	73	3
+	+	77	3
+	+	71	16
+	+	81	3
+	+	81	7
+	+	81	3
+	+	82	7
+	+	84	3
+	+	85	7
+	+	86	24
+	+	98	0
+	+	75	19
+	+	98	21
+	+	81	0
+	+	73	0
+	+	79	18
+	+	90	34
+	+	96	25
+	+	99	0
+	+	72	16
+	+	78	18
+	+	79	3
+	+	76	17
+	+	80	26
+	+	88	0
+	+	91	0
+	+	94	0
+	+	97	0
+	+	83	8
+
+> ~/bl0b_dev/mygothings/py/colorterm.py
+	"	14	1
 
 > ~/bl0b_dev/mygothings/.ide_data/sandbox.pyhistory
 	"	697	0

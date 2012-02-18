@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__all__ = ( 'xzip', 'iterate_box', 'iterate_coords', 'WHITE', 'BLACK', 'HOSHI', 'KO', 'term', 'cached_property', 'chrono' )
+__all__ = ( 'xzip', 'iterate_box', 'iterate_coords', 'WHITE', 'BLACK', 'HOSHI', 'KO', 'term', 'cached_property', 'chrono', 'crawl' )
 
 from colorterm import *
 from time import time
@@ -63,4 +63,37 @@ class cached_property(property):
 			x.ref[self] = x.grid.current.data
 		property.__init__(self, _g, fset is not None and _s or None)
 		#property.__init__(self, fget, fset)
+
+
+import pygame
+from pygame.locals import *
+
+def crawl(G, root, hl = lambda g: None):
+    pygame.init()
+    done = False
+    backup = G.current
+    G.current = root
+    refresh = True
+    while not done:
+        if refresh:
+            G.dump(hl(G))
+            refresh = False
+        pygame.event.pump()
+        keys = pygame.key.get_pressed()
+        #print keys, '\r',
+        if keys[K_ESCAPE]:
+            done = True
+        elif keys[K_UP]:
+            G.next_variation()
+            refresh = True
+        elif keys[K_DOWN]:
+            G.previous_variation()
+            refresh = True
+        elif keys[K_LEFT]:
+            G.go_back()
+            refresh = True
+        elif keys[K_RIGHT]:
+            G.go_forward()
+            refresh = True
+    G.current = backup
 

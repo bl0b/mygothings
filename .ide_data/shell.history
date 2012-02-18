@@ -14,3 +14,24 @@ ls sgf/
 git commit -a
 grep coord\( py/*.py
 vim README.md 
+ls
+ls STS_RV/
+cd STS_RV/
+ls
+ls regression/
+ls regression/Sgf_test_files/
+less README 
+cd ../3rd_party/
+lsd
+ls
+tar tvzf gomill-0.5.tar.gz 
+tar xzf gomill-0.5.tar.gz 
+cd gomill-0.5/
+ls
+python setup.py install
+sudo python setup.py install
+cd ../..
+ls
+ls STS_RV/regression/Sgf_test_files/Class01eProblems/_semeai_Ce_033.sgf 
+dict(((k, v) for k, vlist in ((grp, set((s.group for s in grp))) for grp in
+ls sgf/

@@ -1,5 +1,5 @@
 " ~/bl0b_dev/mygothings/.ide_data/editor.vim: Vim session script.
-" Created by ~/.vim/autoload/xolox/session.vim on 19 juin 2011 at 20:09:28.
+" Created by ~/.vim/autoload/xolox/session.vim on 02 juillet 2011 at 23:16:06.
 " Open this file in Vim and run :source % to restore your session.
 
 set guioptions=batgirl
@@ -25,9 +25,10 @@ badd +1 py/sandbox.py
 badd +182 py/grid.py
 badd +1 py/shape.py
 badd +243 py/goban.py
+badd +1 py/explorer.py
 silent! argdel *
-set lines=70 columns=140
-edit py/shape.py
+set lines=70 columns=156
+edit py/explorer.py
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
@@ -36,6 +37,10 @@ wincmd w
 wincmd _ | wincmd |
 split
 1wincmd k
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
 wincmd w
 wincmd _ | wincmd |
 vsplit
@@ -49,15 +54,17 @@ set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 13 + 70) / 140)
-exe '2resize ' . ((&lines * 7 + 35) / 70)
-exe 'vert 2resize ' . ((&columns * 126 + 70) / 140)
-exe '3resize ' . ((&lines * 1 + 35) / 70)
-exe 'vert 3resize ' . ((&columns * 79 + 70) / 140)
-exe '4resize ' . ((&lines * 58 + 35) / 70)
-exe 'vert 4resize ' . ((&columns * 79 + 70) / 140)
-exe '5resize ' . ((&lines * 60 + 35) / 70)
-exe 'vert 5resize ' . ((&columns * 46 + 70) / 140)
+exe 'vert 1resize ' . ((&columns * 1 + 78) / 156)
+exe '2resize ' . ((&lines * 22 + 35) / 70)
+exe 'vert 2resize ' . ((&columns * 56 + 78) / 156)
+exe '3resize ' . ((&lines * 22 + 35) / 70)
+exe 'vert 3resize ' . ((&columns * 97 + 78) / 156)
+exe '4resize ' . ((&lines * 1 + 35) / 70)
+exe 'vert 4resize ' . ((&columns * 90 + 78) / 156)
+exe '5resize ' . ((&lines * 43 + 35) / 70)
+exe 'vert 5resize ' . ((&columns * 90 + 78) / 156)
+exe '6resize ' . ((&lines * 45 + 35) / 70)
+exe 'vert 6resize ' . ((&columns * 63 + 78) / 156)
 argglobal
 enew
 file NERD_tree_1
@@ -80,12 +87,30 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 222 - ((5 * winheight(0) + 3) / 7)
+let s:l = 35 - ((15 * winheight(0) + 11) / 22)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-222
-normal! 017l
+35
+normal! 03l
+wincmd w
+argglobal
+edit py/shape.py
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 257 - ((0 * winheight(0) + 11) / 22)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+257
+normal! 016l
 wincmd w
 argglobal
 edit py/goban.py
@@ -98,12 +123,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 179 - ((0 * winheight(0) + 0) / 1)
+let s:l = 217 - ((0 * winheight(0) + 0) / 1)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-179
-normal! 034l
+217
+normal! 036l
 wincmd w
 argglobal
 edit py/grid.py
@@ -116,12 +141,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 284 - ((29 * winheight(0) + 29) / 58)
+let s:l = 420 - ((29 * winheight(0) + 21) / 43)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-284
-normal! 013l
+420
+normal! 049l
 wincmd w
 argglobal
 edit py/sandbox.py
@@ -134,23 +159,25 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 36 - ((27 * winheight(0) + 30) / 60)
+let s:l = 236 - ((24 * winheight(0) + 22) / 45)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-36
-normal! 018l
+236
+normal! 030l
 wincmd w
-5wincmd w
-exe 'vert 1resize ' . ((&columns * 13 + 70) / 140)
-exe '2resize ' . ((&lines * 7 + 35) / 70)
-exe 'vert 2resize ' . ((&columns * 126 + 70) / 140)
-exe '3resize ' . ((&lines * 1 + 35) / 70)
-exe 'vert 3resize ' . ((&columns * 79 + 70) / 140)
-exe '4resize ' . ((&lines * 58 + 35) / 70)
-exe 'vert 4resize ' . ((&columns * 79 + 70) / 140)
-exe '5resize ' . ((&lines * 60 + 35) / 70)
-exe 'vert 5resize ' . ((&columns * 46 + 70) / 140)
+6wincmd w
+exe 'vert 1resize ' . ((&columns * 1 + 78) / 156)
+exe '2resize ' . ((&lines * 22 + 35) / 70)
+exe 'vert 2resize ' . ((&columns * 56 + 78) / 156)
+exe '3resize ' . ((&lines * 22 + 35) / 70)
+exe 'vert 3resize ' . ((&columns * 97 + 78) / 156)
+exe '4resize ' . ((&lines * 1 + 35) / 70)
+exe 'vert 4resize ' . ((&columns * 90 + 78) / 156)
+exe '5resize ' . ((&lines * 43 + 35) / 70)
+exe 'vert 5resize ' . ((&columns * 90 + 78) / 156)
+exe '6resize ' . ((&lines * 45 + 35) / 70)
+exe 'vert 6resize ' . ((&columns * 63 + 78) / 156)
 tabnext 1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
@@ -168,8 +195,8 @@ tabnext 1
 1wincmd w
 bwipeout
 NERDTree ~/bl0b_dev/mygothings
-1resize 68|vert 1resize 13|2resize 7|vert 2resize 126|3resize 1|vert 3resize 79|4resize 58|vert 4resize 79|5resize 60|vert 5resize 46|
+1resize 68|vert 1resize 1|2resize 22|vert 2resize 56|3resize 22|vert 3resize 97|4resize 1|vert 4resize 90|5resize 43|vert 5resize 90|6resize 45|vert 6resize 63|
 tabnext 1
-5wincmd w
+6wincmd w
 
 " vim: ft=vim ro nowrap smc=128

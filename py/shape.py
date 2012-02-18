@@ -67,7 +67,7 @@ def a_in_b(a, b):
     return True
 
 
-def a_is_b(a, b):
+def a_is_b(a, b): # very useful!
     return a==b
 
 
@@ -136,19 +136,20 @@ plus = lambda x: x
 
 
 def xy(fx, fy):
-    return lambda x, y, c='?', h=False: (fx(x), fy(y), c, h)
+    return lambda x, y, c='?', h=False, m=0: (fx(x), fy(y), c, h, m)
 
 def yx(fx, fy):
-    return lambda x, y, c='?', h=False: (fy(y), fx(x), c, h)
+    return lambda x, y, c='?', h=False, m=0: (fy(y), fx(x), c, h, m)
 
 SC_SELF='s'
 SC_EMPTY='.'
 SC_FOE='f'
 SC_ANY='?'
 SC_UNUSED=' '
-SC_SELF_HOTSPOT='S'
-SC_FOE_HOTSPOT='F'
-SC_EMPTY_HOTSPOT='!'
+SC_NOTSELF='S'
+SC_NOTFOE='F'
+SC_NOTEMPTY='*'
+SC_HOTSPOT='!'
 
 
 transpose = (
@@ -158,49 +159,42 @@ transpose = (
 
 def normalize_coords(s):
     s = sorted(s)
-    x0, y0, c, h = s[0]
-    return tuple(((x-x0, y-y0, c, h) for x, y, c, h in s))
+    x0, y0, c, h, mgl = s[0]
+    return tuple(((x-x0, y-y0, c, h, mgl) for x, y, c, h, mgl in s))
 
 def shape_rel_coords(s, colconv = lambda c: SC_ANY, hotspots=set()):
     s0 = min(s)
     if type(s0) is intersection:
         x0 = s0.c.x
         y0 = s0.c.y
-        return normalize_coords(((i.c.x-x0, i.c.y-y0, colconv(i.color), i in hotspots) for i in s))
+        return normalize_coords(((i.c.x-x0, i.c.y-y0, colconv(i.color), i in hotspots, 0) for i in s))
     elif type(s0) is tuple:
-        x0, y0, c, h = s0 
-        return normalize_coords(((x-x0, y-y0, c, h) for x, y, c, h in s))
+        x0 = s0[0]
+        y0 = s0[1]
+        return normalize_coords(((x-x0, y-y0, c, h, mgl) for x, y, c, h, mgl in s))
 
-hs_flag = {
-    SC_ANY: True,
-    SC_EMPTY_HOTSPOT:True,
-    SC_FOE_HOTSPOT:True,
-    SC_SELF_HOTSPOT:True,
-    SC_SELF:False,
-    SC_FOE:False,
-    SC_EMPTY:False
-}
-hs_col = {
-    SC_ANY: SC_ANY,
-    SC_EMPTY_HOTSPOT: SC_EMPTY,
-    SC_FOE_HOTSPOT: SC_FOE,
-    SC_SELF_HOTSPOT: SC_SELF,
-    SC_SELF: SC_SELF,
-    SC_FOE: SC_FOE,
-    SC_EMPTY: SC_EMPTY
-}
 def shape_from_strings(strlist):
     def gen_shape():
+        hotspot = False
+        min_group_libs = 0
         for y, s in xzip(xrange(len(strlist)), strlist):
             for x, c in xzip(xrange(len(s)), s):
+                if c>='0' and c<='9':
+                    min_group_libs *= 10
+                    min_group_libs += ord(c)-ord('0')
+                if c is SC_HOTSPOT:
+                    hotspot = True
+                    continue
                 if c is not SC_UNUSED:
-                    yield (x, y, hs_col[c], hs_flag[c])
+                    yield (x, y, c, hotspot, min_group_libs)
+                    hotspot = False
+                    min_group_libs = 0
     return normalize_coords(gen_shape())
 
 def all_rel_shapes(s):
     src = shape_rel_coords(s)
     ret = set()
-    return set((normalize_coords((T(x, y, c, h) for x, y, c, h in src)) for T in transpose))
+    return set((normalize_coords((T(x, y, c, h, m) for x, y, c, h, m in src)) for T in transpose))
 
 class shape_tree(dict):
     match_calls = 0
@@ -230,11 +224,11 @@ class shape_tree(dict):
         shape_tree.match_calls += 1
         if self.payload:
             results.add((group(g, grp), group(g, hsgrp), self.payload))
-        for (x,y,c,h), st in self.iteritems():
+        for (x,y,c,h,mgl), st in self.iteritems():
             try:
                 coord = (x+x0, y+y0)
                 i, gc = gcol[coord]
-                if (c, gc) in cc:
+                if (c, gc) in cc and (mgl==0 or len(i.group.liberties)>=mgl):
                     tmp=(i,)
                     st.__match(g, gcol, x0, y0, cc, grp+tmp, h and hsgrp+tmp or hsgrp, results)
                 #print i, x, y, c, st, h
@@ -267,3 +261,21 @@ class shape_tree(dict):
         for a in ars:
             self.from_shape(a, payload)
 
+
+aji_shapes = (
+    (('sf', 'f!'), 'cut'),
+)
+
+nakade_shapes = {
+    'center': (
+        # those apply to empty regions
+        (('fsf', 's!s', ' s '), ('false_eye', 'alive_if_other_eyes')),
+        (('sfs', 'f!f', 'f.f'), ('throw-in', 'reduce_eyespace')),
+        (('ssss ', 's.!.s', 'ssss '), ('three', 'unsettled')),
+        (('ssss ', 's.!.s', ' ssss'), ('three', 'unsettled')),
+        ((' ssss ', 's.!!.s', ' ssss '), ('four_in_a_row', 'alive')),
+    ),
+    'side': (
+        (('',), 'todo')
+    )
+}
